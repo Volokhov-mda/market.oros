@@ -1,0 +1,33 @@
+.button {
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding-bottom: 0.5rem;
+  user-select: none;
+}
+
+.button::after {
+  content: "";
+  width: 100%;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  background: var(--accent-color);
+  display: block;
+}
+
+.text {
+  flex-shrink: 0;
+  margin-right: 0.5rem;
+}
+
+.icon {
+  width: 0.75rem;
+  height: 0.75rem;
+  transition: transform var(--transition-duration);
+}
+
+.button:hover .icon {
+  transform: translateX(2.5px);
+}

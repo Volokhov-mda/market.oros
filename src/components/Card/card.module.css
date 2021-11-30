@@ -1,0 +1,15 @@
+.card {
+  background: rgba(255, 255, 255, 0.1);
+  border: calc(var(--border-width) * 2) solid rgba(255, 255, 255, 0.2);
+  height: 100%;
+  width: 100%;
+}
+
+.gradient {
+  border-image-slice: 1;
+  border-image-source: linear-gradient(
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.5) 20%,
+    var(--accent-color) 100%
+  );
+}

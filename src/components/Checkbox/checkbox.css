@@ -1,0 +1,54 @@
+.wrapper {
+  display: block;
+  cursor: pointer;
+  user-select: none;
+  width: 1.75rem;
+  height: 1.75rem;
+}
+
+.input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.mark {
+  height: 100%;
+  width: 100%;
+  border: var(--border-width) solid #fff;
+  transition-property: background-color, border-color;
+  transition-duration: var(--transition-duration);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.input:checked ~ .mark {
+  background-color: var(--accent-color);
+  border-color: var(--accent-darker-color);
+}
+
+.mark:after {
+  content: "";
+  opacity: 0;
+  margin-top: -3px;
+  width: 8px;
+  height: 14px;
+  border: solid #fff;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+  transition: opacity var(--transition-duration);
+}
+
+.input:checked ~ .mark:after {
+  opacity: 1;
+}
+
+@media screen and (max-width: 500px) {
+  .wrapper {
+    width: 2rem;
+    height: 2rem;
+  }
+}

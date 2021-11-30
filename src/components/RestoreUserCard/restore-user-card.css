@@ -1,0 +1,9 @@
+.card {
+  opacity: 0.6;
+  transition: opacity var(--transition-duration);
+}
+
+.card:hover,
+.card:focus-within {
+  opacity: 1;
+}

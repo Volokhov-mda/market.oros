@@ -1,0 +1,57 @@
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+html,
+button,
+input,
+select {
+  font-size: var(--font-size);
+  border-radius: 0;
+}
+
+body {
+  overflow-x: hidden;
+  background: var(--gradient);
+}
+
+body,
+button,
+input,
+select {
+  font-family: var(--font-family);
+  line-height: 1.2;
+  color: #fff;
+}
+
+textarea,
+input[type="text"],
+input[type="button"],
+input[type="submit"] {
+  -webkit-appearance: none;
+  border-radius: 0;
+}
+
+h2 {
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+strong {
+  font-weight: 700;
+}
+
+.notyf__message {
+  font-size: 0.75rem;
+}
+
+@media screen and (max-width: 500px) {
+  html,
+  input,
+  button,
+  select {
+    font-size: calc(var(--font-size) / 1.2);
+  }
+}

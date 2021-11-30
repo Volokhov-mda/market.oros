@@ -1,0 +1,47 @@
+.card {
+  display: grid;
+}
+
+.controls {
+  position: absolute;
+  bottom: calc(-1 * var(--border-width));
+  left: calc(-1 * var(--border-width));
+  width: calc(100% + 2 * var(--border-width));
+}
+
+.thumbnailWrapper {
+  position: relative;
+}
+
+.thumbnailWrapper::after {
+  content: "";
+  display: block;
+  padding-bottom: 100%;
+}
+
+.thumbnail {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  position: absolute;
+}
+
+.price {
+  font-size: 2rem;
+  color: var(--accent-color);
+  font-weight: 600;
+}
+
+.info {
+  padding: 1rem;
+  display: grid;
+  grid-gap: 1rem;
+}
+
+.name {
+  font-size: 1.25rem;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  word-break: break-all;
+}

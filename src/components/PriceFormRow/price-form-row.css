@@ -1,0 +1,18 @@
+.row {
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: calc(50% - 0.5rem) 1fr 1fr;
+}
+
+.value {
+  display: grid;
+  grid-template-columns: auto max-content;
+  align-items: center;
+  grid-gap: 1rem;
+}
+
+@media screen and (max-width: 1000px) {
+  .row {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,16 @@
+.form {
+  display: grid;
+  grid-gap: 1rem;
+}
+
+.buttons {
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+@media screen and (max-width: 1000px) {
+  .form {
+    grid-gap: 2rem;
+  }
+}

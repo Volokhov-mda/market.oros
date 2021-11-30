@@ -1,0 +1,36 @@
+.card {
+  position: relative;
+}
+
+.buttonsGroup {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  bottom: 0;
+  overflow: hidden;
+}
+
+.leftButtons {
+  left: 0;
+  border-top-right-radius: var(--border-radius);
+}
+
+.rightButtons {
+  right: 0;
+  border-top-left-radius: var(--border-radius);
+}
+
+.flags {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: .75rem;
+  border-bottom-left-radius: var(--border-radius);
+  overflow: hidden;
+}
+
+.flag {
+  vertical-align: top;
+  height: .75rem;
+  width: 1rem;
+}

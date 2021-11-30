@@ -14,7 +14,7 @@ const LogoutButton = () => {
   const [user, setUser] = useAtom(userAtom);
 
   const onClick = async () => {
-    const isConfirmed = await showConfirm("Do you want to log out?");
+    const isConfirmed = await showConfirm("Вы действительно хотите выйти?");
     if (!isConfirmed) return;
 
     setUser(null);
@@ -24,7 +24,7 @@ const LogoutButton = () => {
 
   return (
     <button className={styles.button} onClick={onClick}>
-      {user && <span className={styles.name}>{user.name}</span>}
+      {user && <span className={styles.name}>{user.isAdmin ? "Выход" : user.name}</span>}
       <div className={styles.icons}>
         <img src={exit} alt="" className={styles.icon} />
         <img src={arrow} alt="" className={styles.arrow} />

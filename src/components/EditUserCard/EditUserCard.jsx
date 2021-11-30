@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import FlatButton from "../FlatButton/FlatButton";
 import UserCard from "../UserCard/UserCard";
 
-const EditUserCard = ({ user, onEdit, onBan }) => {
+const EditUserCard = ({ user, onEdit, onBan, gradient }) => {
   const { register, handleSubmit } = useForm({
     defaultValues: { name: user?.name, password: user?.password },
   });
@@ -13,6 +13,7 @@ const EditUserCard = ({ user, onEdit, onBan }) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <UserCard
+        gradient={gradient}
         nameProps={register("name")}
         passwordProps={register("password")}
       >

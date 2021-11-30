@@ -2,7 +2,8 @@
   width: 100%;
   border: var(--border-width) solid #fff;
   padding: 0.75rem;
-  font-weight: 600;
+  font-size: .8333rem;
+  font-weight: bold;
   transition-property: background-color, transform, color, border-color;
   transition-duration: var(--transition-duration);
 }

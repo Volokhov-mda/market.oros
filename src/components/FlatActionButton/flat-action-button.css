@@ -1,0 +1,15 @@
+.button {
+    display: grid;
+    grid-template-columns: max-content auto;
+    user-select: none;
+    padding: .333rem .5rem;
+}
+
+.button:hover {
+    filter: brightness(110%);
+}
+
+.icon {
+    height: 1rem;
+    width: 1rem;
+}

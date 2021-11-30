@@ -3,6 +3,7 @@ import { route } from "preact-router";
 
 import Link from "../../components/Link/Link";
 import LoginFormContainer from "../../components/LoginFormContainer/LoginFormContainer";
+import MarketInfo from "../../components/MarketInfo/MarketInfo";
 
 import { userAtom } from "../../data/atoms";
 
@@ -20,11 +21,7 @@ const Home = () => {
       <LoginFormContainer />
 
       <footer className={styles.footer}>
-        If you forgot your password, email
-        <br />
-        <Link href="mailto:password@orosdigital.agency" className={styles.link}>
-          password@orosdigital.agency
-        </Link>
+        <MarketInfo />
       </footer>
     </div>
   );

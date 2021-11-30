@@ -1,8 +1,10 @@
 .button {
-  display: grid;
+  /* display: grid;
   grid-template-columns: max-content auto;
   align-items: center;
-  user-select: none;
+  user-select: none; */
+  display: flex;
+  align-items: center;
 }
 
 .icon {
@@ -10,7 +12,7 @@
 }
 
 .name {
-  margin-right: 0.5rem;
+  margin-right: 0.25rem;
 }
 
 .icons {

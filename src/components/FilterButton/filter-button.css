@@ -1,0 +1,31 @@
+.filter {
+    display: flex;
+    align-items: center;
+
+    font-size: .666rem;
+
+    cursor: pointer;
+}
+
+.imgWrapper {
+    margin-left: .5rem;
+    width: 1rem;
+    height: 1rem;
+    transition: var(--transition-duration);
+}
+
+.chevron {
+    width: 1rem;
+    height: 1rem;
+    
+    transform: rotate(0deg);
+    transition: var(--transition-duration);
+}
+
+.open {
+    transform: rotate(-180deg);
+}
+
+.filter:hover .imgWrapper {
+    transform: translateX(2px);
+}

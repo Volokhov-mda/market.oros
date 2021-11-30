@@ -3,23 +3,26 @@ import { useAtom } from "jotai";
 import { useMemo } from "preact/hooks";
 import { useQuery } from "react-fetching-library";
 
+// import { fetchCategories } from "../../api/actions";
 import { fetchUsers } from "../../api/actions";
 import { userAtom } from "../../data/atoms";
 
 import categorizeUsers from "../../helpers/categorize-users";
 
-import UsersDashboard from "../../components/UsersDashboard/UsersDashboard";
 import Header from "../../components/Header/Header";
+import PageWrapper from "../../components/PageWrapper/PageWrapper";
+import CategoriesGrid from "../../components/CategoriesGrid/CategoriesGrid";
 
-const Users = () => {
+const Categories = () => {
   const [currentUser] = useAtom(userAtom);
+  // const { query, payload: users, error, loading } = useQuery(fetchCategories);
   const { query, payload: users, error, loading } = useQuery(fetchUsers);
 
   if (currentUser && !currentUser.isAdmin) {
     return route("/", true);
   }
 
-  const categorizedUsers = useMemo(() => {
+  const categories = useMemo(() => {
     if (!Array.isArray(users)) return null;
     return categorizeUsers(users, (user) => user._id !== currentUser._id);
   }, [users]);
@@ -28,14 +31,17 @@ const Users = () => {
     <>
       <Header />
 
-      {error && <>Во время загрузки пользователей произошла ошибка.</>}
-      {loading && <>Загрузка пользователей...</>}
+      <PageWrapper title="Категории">
 
-      {categorizedUsers && (
-        <UsersDashboard users={categorizedUsers} onUpdate={query} />
-      )}
+        {error && <>Во время загрузки категорий произошла ошибка.</>}
+        {loading && <>Загрузка категорий...</>}
+
+        {categories && (
+          <CategoriesGrid categories={categories} onUpdate={query} />
+        )}
+      </PageWrapper>
     </>
   );
 };
 
-export default Users;
+export default Categories;

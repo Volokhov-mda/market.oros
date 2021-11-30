@@ -3,6 +3,7 @@ import Img from "react-image-fade-in";
 import clsx from "clsx";
 
 import Card from "../Card/Card";
+import CardFlat from "../CardFlat/CardFlat";
 import IconButton from "../IconButton/IconButton";
 
 import burger from "../../assets/icons/burger.svg";
@@ -11,7 +12,7 @@ import styles from "./reorder-card.css";
 
 const ReorderCard = forwardRef(
   ({ onDelete, influencer, className, ...props }, ref) => (
-    <Card className={clsx(styles.card, className)} {...props} ref={ref}>
+    <CardFlat className={clsx(styles.card, className)} {...props} ref={ref}>
       <div className={styles.info}>
         {onDelete && (
           <IconButton
@@ -31,7 +32,7 @@ const ReorderCard = forwardRef(
       </div>
 
       <img src={burger} alt="" className={clsx(styles.action, styles.burger)} />
-    </Card>
+    </CardFlat>
   )
 );
 

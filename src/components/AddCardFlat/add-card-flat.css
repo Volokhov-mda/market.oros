@@ -1,0 +1,27 @@
+.button {
+    width: 100%;
+    height: 4.5rem;
+    transition: transform var(--transition-duration);
+    user-select: none;
+}
+
+.button:active {
+    transform: translateY(2px);
+}
+
+.icon {
+    height: 100%;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 2rem;
+    font-weight: normal;
+
+    transition: transform var(--transition-duration);
+}
+
+.button:hover .icon {
+    transform: scale(1.05);
+  }

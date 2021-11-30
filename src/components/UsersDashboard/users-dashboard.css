@@ -10,8 +10,4 @@
   .grid {
     grid-template-columns: 1fr;
   }
-
-  .topGrid {
-    grid-gap: 2rem;
-  }
 }

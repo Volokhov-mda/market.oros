@@ -1,0 +1,19 @@
+.grid {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.users {
+  grid-gap: 2rem;
+}
+
+@media screen and (max-width: 1000px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

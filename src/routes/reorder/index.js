@@ -11,18 +11,22 @@ import {
 
 import NotyfContext from "../../contexts/notyf";
 import useContextButton from "../../hooks/use-context-button";
+import useContextArchiveButton from "../../hooks/use-context-archive-button";
 import { userAtom } from "../../data/atoms";
 
 import Header from "../../components/Header/Header";
 import ReorderList from "../../components/ReorderList/ReorderList";
 import Link from "../../components/Link/Link";
+import MarketControlls from "../../components/MarketControlls/MarketControlls";
+
+import styles from "./style.css";
 
 const Reorder = () => {
   const [currentUser] = useAtom(userAtom);
   const notyf = useContext(NotyfContext);
   const [influencers, setInfluencers] = useState(null);
 
-  if (currentUser && !currentUser.isAdmin) {
+  if (currentUser && !(currentUser.isAdmin || currentUser.isModerator)) {
     return route("/", true);
   }
 
@@ -48,7 +52,8 @@ const Reorder = () => {
     route("/market");
   };
 
-  useContextButton(<Link onClick={onSave}>Сохранить</Link>);
+  useContextButton(<Link className={styles.active} onClick={onSave}>Сохранить</Link>);
+  useContextArchiveButton(<Link href="/archive" onClick={onSave}>Архив</Link>);
 
   return (
     <>
@@ -57,11 +62,14 @@ const Reorder = () => {
       {!influencers && <>Загрузка инфлюенсеров...</>}
 
       {influencers && (
-        <ReorderList
-          influencers={influencers}
-          setInfluencers={setInfluencers}
-          onUpdate={fetchInfluencers}
-        />
+        <>
+          <MarketControlls />
+          <ReorderList
+            influencers={influencers}
+            setInfluencers={setInfluencers}
+            onUpdate={fetchInfluencers}
+          />
+        </>
       )}
     </>
   );

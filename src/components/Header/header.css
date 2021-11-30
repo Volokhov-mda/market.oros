@@ -18,7 +18,12 @@
   margin-right: 1.5rem;
 }
 
-@media screen and (max-width: 700px) {
+.links > .active {
+  font-weight: bold;;
+  color: var(--accent-color);
+}
+
+/* @media screen and (max-width: 700px) {
   .header {
     flex-direction: column;
     justify-content: center;
@@ -32,6 +37,24 @@
 @media screen and (max-width: 500px) {
   .links {
     flex-direction: column;
+  }
+
+  .links > *:not(:last-child) {
+    margin-right: 0;
+    margin-bottom: 0.75rem;
+  }
+} */
+
+@media screen and (max-width: 1000px) {
+  .header {
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .links {
+    margin-top: 1rem;
+    flex-direction: column;
+    justify-content: center;
   }
 
   .links > *:not(:last-child) {

@@ -1,0 +1,75 @@
+.card {
+  display: flex;
+  max-height: 4.5rem;
+}
+
+.thumbnailWrapper {
+  flex-shrink: 0;
+  position: relative;
+  left: 0;
+  top: 0;
+  width: var(--thumbnail-size);
+  height: var(--thumbnail-size);
+}
+
+.thumbnailWrapper::after {
+  content: "";
+  display: block;
+  padding-bottom: 100%;
+}
+
+.thumbnail {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  position: absolute;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: .5rem;
+  max-width: calc(100% - var(--thumbnail-size));
+  max-height: 4.5rem;
+}
+
+.infoWithoutPrice {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.priceContainer {
+  /* position: absolute;
+  bottom: .4rem; */
+  padding-right: .5rem;
+  font-size: .666rem;
+}
+
+.price {
+  color: var(--accent-color);
+  font-weight: 600;
+}
+
+.followers {
+  font-size: .5833rem;
+  line-height: .8333rem;
+}
+
+.linkContainer {
+  margin-top: .25rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.name {
+  vertical-align: top;
+  font-size: .8333rem;
+  line-height: .8333rem;
+  text-decoration: none;
+  font-weight: 600;
+  word-break: break-all;
+}

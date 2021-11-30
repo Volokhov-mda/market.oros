@@ -5,10 +5,10 @@ import Input from "../Input/Input";
 
 import styles from "./user-card.css";
 
-const UserCard = ({ children, nameProps, passwordProps, className }) => (
-  <Card className={clsx(styles.card, className)}>
-    <Input placeholder="Имя" {...nameProps} />
-    <Input placeholder="Пароль" {...passwordProps} />
+const UserCard = ({ children, nameProps, passwordProps, className, gradient, namePlaceholder }) => (
+  <Card gradient={gradient} className={clsx(styles.card, className)}>
+    {nameProps && <Input placeholder={namePlaceholder ? namePlaceholder : "Имя"} {...nameProps} />}
+    {passwordProps && <Input placeholder="Пароль" {...passwordProps} />}
     {children && <div className={styles.buttons}>{children}</div>}
   </Card>
 );

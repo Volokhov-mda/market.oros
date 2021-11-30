@@ -1,4 +1,7 @@
+import { useAtom } from "jotai";
 import { useFieldArray, useForm } from "react-hook-form";
+
+import { prevScrollPageState } from "../../data/atoms";
 
 import FlatButton from "../FlatButton/FlatButton";
 import Input from "../Input/Input";
@@ -7,7 +10,17 @@ import PriceFormRow from "../PriceFormRow/PriceFormRow";
 import styles from "./prices-form.css";
 
 const PricesForm = ({ onSubmit, defaultValues }) => {
-  const goBack = () => history.back();
+  const [scrollState, setScrollState] = useAtom(prevScrollPageState);
+
+  const goBack = () => {
+    if (scrollState) {
+      history.pushState({ elementId: scrollState.elementId }, "", scrollState.url);
+      setScrollState(undefined);
+      history.go();
+    } else {
+      history.back();
+    }
+  }
 
   const { handleSubmit, register, control } = useForm({ defaultValues });
   const { fields } = useFieldArray({ control, name: "prices" });

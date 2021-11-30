@@ -13,10 +13,14 @@ import NotyfContext from "../../contexts/notyf";
 
 import PricesForm from "../PricesForm/PricesForm";
 import Card from "../Card/Card";
+import { useAtom } from "jotai";
+
+import { prevScrollPageState } from "../../data/atoms";
 
 import styles from "./prices-form-container.css";
 
 const PricesFormContainer = ({ defaultValues }) => {
+  const [scrollState, setScrollState] = useAtom(prevScrollPageState);
   const notyf = useContext(NotyfContext);
 
   const { mutate: addInfluencer } = useMutation(addInfluencerAction);
@@ -46,7 +50,14 @@ const PricesFormContainer = ({ defaultValues }) => {
     }
 
     notyf.success("Информация сохранена");
-    route("/market");
+    // route("/market");
+    if (scrollState) {
+      history.pushState({ scrollY: scrollState.scrollY }, "", scrollState.url);
+      setScrollState(undefined);
+      history.go();
+    } else {
+      history.back();
+    }
   };
 
   return (

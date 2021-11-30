@@ -36,7 +36,7 @@ input[type="submit"] {
 
 h2 {
   font-weight: 700;
-  font-size: 1.25rem;
+  font-size: 1rem; /* 1.25rem*/
 }
 
 strong {
@@ -47,11 +47,21 @@ strong {
   font-size: 0.75rem;
 }
 
-@media screen and (max-width: 500px) {
+
+@media screen and (max-width: 1000px) { /* 500px */
   html,
   input,
   button,
   select {
-    font-size: calc(var(--font-size) / 1.2);
+    font-size: calc(var(--font-size) / 1.5);
+  }
+}
+
+@media screen and (max-width: 500px) { 
+  html,
+  input,
+  button,
+  select {
+    font-size: calc(var(--font-size) / 1.5); /* 1.2 */
   }
 }

@@ -1,7 +1,6 @@
 import { trackPromise } from "react-promise-tracker";
 import { useContext } from "preact/hooks";
 import { useMutation } from "react-fetching-library";
-import { useAtom } from "jotai";
 import clsx from "clsx";
 
 import {
@@ -12,19 +11,18 @@ import {
 } from "../../api/actions";
 
 import NotyfContext from "../../contexts/notyf";
-import { userAtom } from "../../data/atoms";
 
 import EditUserCard from "../EditUserCard/EditUserCard";
 import RestoreUserCard from "../RestoreUserCard/RestoreUserCard";
 import CreateUserCard from "../CreateUserCard/CreateUserCard";
 import TitledGrid from "../TitledGrid/TitledGrid";
 import Grid from "../Grid/Grid";
+import GridContainer from "../GridContainer/GridContainer";
 
 import styles from "./users-dashboard.css";
 
 const UsersDashboard = ({ users, onUpdate }) => {
   const notyf = useContext(NotyfContext);
-  const [currentUser] = useAtom(userAtom);
 
   const { mutate: banUser } = useMutation(banUserAction);
   const { mutate: restoreUser } = useMutation(restoreUserAction);
@@ -52,13 +50,13 @@ const UsersDashboard = ({ users, onUpdate }) => {
     performMutation(createUser, [data], "Пользователь создан");
 
   return (
-    <Grid className={styles.users}>
+    <GridContainer gridGap={"2rem"}>
+      {/* <TitledGrid title="Ваш аккаунт">
+        <EditUserCard gradient onEdit={onEdit} user={currentUser} />
+      </TitledGrid> */}
       <Grid className={clsx(styles.grid, styles.topGrid)}>
-        <TitledGrid title="Ваш аккаунт">
-          <EditUserCard onEdit={onEdit} user={currentUser} />
-        </TitledGrid>
         <TitledGrid title="Новый аккаунт">
-          <CreateUserCard onCreate={onCreate} />
+          <CreateUserCard gradient onCreate={onCreate} />
         </TitledGrid>
       </Grid>
 
@@ -66,6 +64,7 @@ const UsersDashboard = ({ users, onUpdate }) => {
         {users.active.length === 0 && <>Нет активных пользователей.</>}
         {users.active.map((user) => (
           <EditUserCard
+            gradient
             user={user}
             key={user._id}
             onBan={onBan}
@@ -74,13 +73,13 @@ const UsersDashboard = ({ users, onUpdate }) => {
         ))}
       </TitledGrid>
 
-      <TitledGrid title="Архивные" className={styles.grid}>
+      <TitledGrid title="Забаненные" className={styles.grid}>
         {users.archived.length === 0 && <>Нет архивных пользователей.</>}
         {users.archived.map((user) => (
-          <RestoreUserCard user={user} key={user._id} onRestore={onRestore} />
+          <RestoreUserCard gradient user={user} key={user._id} onRestore={onRestore} />
         ))}
       </TitledGrid>
-    </Grid>
+    </GridContainer>
   );
 };
 

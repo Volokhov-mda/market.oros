@@ -7,6 +7,9 @@ import ButtonCard from "../ButtonCard/ButtonCard";
 import { userAtom } from "../../data/atoms";
 
 import styles from "./prices-grid.css";
+import PriceCardAdmin from "../PriceCardAdmin/PriceCardAdmin";
+import PriceCardUser from "../PriceCardUser/PriceCardUser";
+import AddCardFlat from "../AddCardFlat/AddCardFlat";
 
 const PricesGrid = ({ prices, onEdit, onDelete }) => {
   const [user] = useAtom(userAtom);
@@ -19,18 +22,31 @@ const PricesGrid = ({ prices, onEdit, onDelete }) => {
         <div className={styles.error}>There are no prices at the moment.</div>
       )}
 
-      {prices.map((price) => (
-        <PriceCard
-          {...price}
-          key={price._id}
-          onEdit={onEdit}
-          onDelete={onDelete}
-        />
-      ))}
-
-      {user?.isAdmin && (
-        <ButtonCard type="add" value="Добавить инфлюенсера" onClick={onAdd} />
+      {/* <ButtonCard type="add" value="Добавить инфлюенсера" onClick={onAdd} /> */}
+      {(user?.isAdmin || user?.isModerator) && (
+        <AddCardFlat onClick={onAdd} />
       )}
+
+      {prices.map((price, i) => (
+        (user.isAdmin || user.isModerator) ? (
+          <PriceCardAdmin
+            {...price}
+            key={price._id}
+            id={i}
+            onEdit={onEdit}
+            onDelete={onDelete}
+            onArchive={() => { console.log("Archived", price); }}
+          />
+        ) : (
+          <PriceCardUser
+            {...price}
+            key={price._id}
+            onEdit={onEdit}
+            onDelete={onDelete}
+            flags={["ru", "ge", "cz"]}
+          />
+        )
+      ))}
     </div>
   );
 };

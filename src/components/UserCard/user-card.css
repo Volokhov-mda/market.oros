@@ -1,7 +1,7 @@
 .card {
-  padding: 1rem;
+  padding: .75rem 1.25rem .75rem .92rem;
   display: grid;
-  grid-gap: 1rem;
+  grid-gap: .5rem;
 }
 
 .buttons {

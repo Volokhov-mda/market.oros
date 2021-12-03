@@ -1,4 +1,5 @@
 import clsx from "clsx";
+
 import styles from "./modal-window.css";
 
 const ModalWindow = ({ isShow, hide, children }) => {

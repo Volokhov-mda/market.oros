@@ -1,0 +1,146 @@
+  #wrapper {
+    position: relative;
+  }
+  
+  .container {
+    position: relative;
+  
+    margin: -1rem;
+    padding: 1rem;
+  
+    height: 100%;
+  
+    overflow: hidden;
+  }
+  
+  .grid,
+  #gridShortened {
+    display: grid;
+    grid-gap: 1rem;
+    grid-auto-rows: 1fr;
+    transition: calc(var(--transition-duration) * 2);
+  }
+  
+  .grid > *,
+  #gridShortened > * {
+    transition: calc(var(--transition-duration) * 2);
+  }
+  
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  #gridShortened {
+    grid-template-columns: repeat(2, 1fr);
+  
+    padding: 1rem;
+    
+    width: 66%;
+  
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+  
+  @media screen and (min-width: 1151px) {
+    .grid.shortening > *:nth-child(3n) {
+      opacity: 0;
+      pointer-events: none;
+    }
+    
+    #gridShortened.shortening {
+      opacity: 1;
+      pointer-events: all;
+      transform: translateX(calc(100% * 34/66)); /* Proportion: to move 60%-width element up to the right border, you need to move 40% of its length to the right side. */
+    }
+    
+    .grid.shortening > *:not(:nth-child(3n)) {
+      opacity: 0;
+      transform: translateX(calc(100% + 1rem));
+    }
+  }
+  
+  @media screen and (min-width: 1001px) and (max-width: 1150px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  
+    #gridShortened {
+      width: calc(50% - .5rem);
+      grid-template-columns: 1fr;
+    }
+  
+    .grid.shortening > *:nth-child(3n) {
+      opacity: 0;
+      pointer-events: none;
+    }
+  
+    
+    .grid.shortening > *:not(:nth-child(3n)) {
+      opacity: 1;
+      transform: none;
+    }
+  
+    .grid.shortening > *:nth-child(2n) {
+      opacity: 0;
+      pointer-events: none;
+    }
+    
+    #gridShortened.shortening {
+      opacity: 1;
+      pointer-events: all;
+      transform: translateX(calc(100% + 1rem));
+    }
+    
+    .grid.shortening > *:not(:nth-child(2n)) {
+      opacity: 0;
+      transform: translateX(calc(100% + 1rem));
+    }
+  }
+  
+  @media screen and (min-width: 501px) and (max-width: 1000px) {
+    .grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  
+    #gridShortened {
+      width: 66%;
+      grid-template-columns: repeat(2, 1fr);
+    }
+  
+    .grid.shortening .cardWrapper:nth-child(3n) {
+      opacity: 0;
+      pointer-events: none;
+    }
+    
+    #gridShortened.shortening {
+      opacity: 1;
+      pointer-events: all;
+      transform: translateX(calc(100% * 34/66)); /* Proportion: to move 60%-width element up to the right border, you need to move 40% of its length to the right side. */
+    }
+    
+    .grid.shortening .cardWrapper:not(:nth-child(3n)) {
+      opacity: 0;
+      transform: translateX(calc(100% + 1rem));
+    }
+  }
+  
+  @media screen and (max-width: 500px) {
+    .grid {
+      grid-template-columns: 1fr;
+      margin: 0 0 0 auto;
+      width: 100%;
+    }
+  
+    .grid.shortening {
+      width: 50%;
+    }
+  
+    #gridShortened {
+      grid-template-columns: 1fr;
+      display: none;
+    }
+  }
+  

@@ -1,7 +1,7 @@
 .button {
     width: 100%;
     height: 4.5rem;
-    transition: transform var(--transition-duration);
+    transition: var(--transition-duration);
     user-select: none;
 }
 
@@ -19,7 +19,7 @@
     font-size: 2rem;
     font-weight: normal;
 
-    transition: transform var(--transition-duration);
+    transition: var(--transition-duration);
 }
 
 .button:hover .icon {

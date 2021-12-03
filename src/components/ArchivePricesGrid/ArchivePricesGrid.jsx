@@ -1,6 +1,7 @@
 import { useAtom } from "jotai";
 
 import { userAtom } from "../../data/atoms";
+import FlexibleGrid from "../FlexibleGrid/FlexibleGrid";
 
 import PriceCardArchive from "../PriceCardArchive/PriceCardArchive";
 
@@ -10,7 +11,7 @@ const ArchivePricesGrid = ({ prices, onEdit, onDelete }) => {
   const [user] = useAtom(userAtom);
 
   return (
-    <div className={styles.grid}>
+    <FlexibleGrid>
       {!prices.length && !user?.isAdmin && (
         <div className={styles.error}>There are no prices at the moment.</div>
       )}
@@ -25,7 +26,7 @@ const ArchivePricesGrid = ({ prices, onEdit, onDelete }) => {
           onRestore={() => { console.log("Restored", price); }}
         />
       ))}
-    </div>
+    </FlexibleGrid>
   );
 };
 

@@ -1,0 +1,60 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+    
+    padding: .25rem 0;
+    
+    cursor: pointer;
+  }
+  
+  .input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+  
+  .mark {
+    position: relative;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    
+    width: .75rem;
+    height: .75rem;
+    
+    margin-right: .333rem;
+    border: 1px solid #fff;
+    border-radius: 2px;
+    
+    transition-property: background-color, border-color;
+    transition-duration: var(--transition-duration);
+
+    user-select: none;
+  }
+  
+  .input:checked ~ .mark {
+    /* background-color: var(--accent-color); */
+    /* border-color: var(--accent-darker-color); */
+  }
+  
+  .mark .check {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    opacity: 0;
+    margin-top: -3px;
+    border-radius: 2px;
+    width: calc(.75rem - 1px);
+    height: calc(.75rem - 1px);
+    /* transform: rotate(45deg); */
+    transition: opacity var(--transition-duration);
+  }
+  
+  .input:checked ~ .mark .check {
+    opacity: 1;
+  }
+  

@@ -1,15 +1,17 @@
 import { useAtom } from "jotai";
 import { route } from "preact-router";
 
-import PriceCard from "../PriceCard/PriceCard";
-import ButtonCard from "../ButtonCard/ButtonCard";
+// import PriceCard from "../PriceCard/PriceCard";
+// import ButtonCard from "../ButtonCard/ButtonCard";
 
 import { userAtom } from "../../data/atoms";
 
-import styles from "./prices-grid.css";
 import PriceCardAdmin from "../PriceCardAdmin/PriceCardAdmin";
 import PriceCardUser from "../PriceCardUser/PriceCardUser";
 import AddCardFlat from "../AddCardFlat/AddCardFlat";
+import FlexibleGrid from "../FlexibleGrid/FlexibleGrid";
+
+import styles from "./prices-grid.css";
 
 const PricesGrid = ({ prices, onEdit, onDelete }) => {
   const [user] = useAtom(userAtom);
@@ -17,12 +19,11 @@ const PricesGrid = ({ prices, onEdit, onDelete }) => {
   const onAdd = () => route("/prices/add");
 
   return (
-    <div className={styles.grid}>
+    <FlexibleGrid>
       {!prices.length && !user?.isAdmin && (
         <div className={styles.error}>There are no prices at the moment.</div>
       )}
 
-      {/* <ButtonCard type="add" value="Добавить инфлюенсера" onClick={onAdd} /> */}
       {(user?.isAdmin || user?.isModerator) && (
         <AddCardFlat onClick={onAdd} />
       )}
@@ -31,8 +32,8 @@ const PricesGrid = ({ prices, onEdit, onDelete }) => {
         (user.isAdmin || user.isModerator) ? (
           <PriceCardAdmin
             {...price}
-            key={price._id}
             id={i}
+            key={i}
             onEdit={onEdit}
             onDelete={onDelete}
             onArchive={() => { console.log("Archived", price); }}
@@ -40,14 +41,14 @@ const PricesGrid = ({ prices, onEdit, onDelete }) => {
         ) : (
           <PriceCardUser
             {...price}
-            key={price._id}
+            key={i}
             onEdit={onEdit}
             onDelete={onDelete}
             flags={["ru", "ge", "cz"]}
           />
         )
       ))}
-    </div>
+    </FlexibleGrid>
   );
 };
 

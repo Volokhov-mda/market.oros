@@ -1,7 +1,6 @@
 import { useAtom } from "jotai";
 import { route } from "preact-router";
 
-import Link from "../../components/Link/Link";
 import LoginFormContainer from "../../components/LoginFormContainer/LoginFormContainer";
 import MarketInfo from "../../components/MarketInfo/MarketInfo";
 

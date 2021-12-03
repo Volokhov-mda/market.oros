@@ -3,6 +3,7 @@ import { useAtom } from "jotai";
 
 import { contextButtonAtom, contextArchiveButtonAtom, gridShortened } from "../../data/atoms";
 import FilterButton from "../FilterButton/FilterButton";
+import FiltersMarket from "../FiltersMarket/FiltersMarket";
 
 import styles from "./market-controlls.css";
 

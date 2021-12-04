@@ -27,8 +27,8 @@
     height: .75rem;
     
     margin-right: .333rem;
-    border: 1px solid #fff;
-    border-radius: 2px;
+    border: var(--light-border-width) solid #fff;
+    border-radius: var(--light-border-radius);
     
     transition-property: background-color, border-color;
     transition-duration: var(--transition-duration);

@@ -31,61 +31,61 @@ const FiltersMarket = ({ show }) => {
         console.log(data);
     }
 
-    console.log(register("name"));
-
     return (
-        <form className={styles.wrapper} onSubmit={handleSubmit(onSubmit)}>
-            <CardFlat id="filters" className={clsx(styles.container, show && styles.show)}>
-                <FiltersTab
-                    title={"Категория"}
-                    onClick={() => openTab(0)}
-                    isOpened={0 === active}
-                >
-                    {cats.map((cat, i) => (
-                        <FiltersCheckbox
-                            key={i}
-                            {...register(cat.title)}
-                        >
-                            {cat.title}
-                        </FiltersCheckbox>
-                    ))}
-                </FiltersTab>
-                <FiltersTab
-                    title={"Стоимость"}
-                    onClick={() => openTab(1)}
-                    isOpened={1 === active}
-                >
-                    <FiltersDiapazonInputs
-                        placeholderLeft="$0"
-                        placeholderRight="$10000"
-                    />
-                </FiltersTab>
-                <FiltersTab
-                    title={"Аудитория"}
-                    onClick={() => openTab(2)}
-                    isOpened={2 === active}
-                >
-                    <FiltersDiapazonInputs
-                        placeholderLeft="0"
-                        placeholderRight="20000"
-                    />
-                </FiltersTab>
-                <FiltersTab
-                    title={"Страна"}
-                    onClick={() => openTab(3)}
-                    isOpened={3 === active}
-                >
-                    {countries.map((country, i) => (
-                        <FiltersCheckbox
-                            key={i}
-                            {...register(country.title)}
-                        >
-                            {country.title}
-                        </FiltersCheckbox>
-                    ))}
-                </FiltersTab>
-            </CardFlat>
-        </form>
+        <div className={styles.wrapper}>
+            <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+                <CardFlat id="filters" className={clsx(styles.container, show && styles.show)}>
+                    <FiltersTab
+                        title={"Категория"}
+                        onClick={() => openTab(0)}
+                        isOpened={0 === active}
+                    >
+                        {cats.map((cat, i) => (
+                            <FiltersCheckbox
+                                key={i}
+                                {...register(cat.title)}
+                            >
+                                {cat.title}
+                            </FiltersCheckbox>
+                        ))}
+                    </FiltersTab>
+                    <FiltersTab
+                        title={"Стоимость"}
+                        onClick={() => openTab(1)}
+                        isOpened={1 === active}
+                    >
+                        <FiltersDiapazonInputs
+                            placeholderLeft="$0"
+                            placeholderRight="$10000"
+                        />
+                    </FiltersTab>
+                    <FiltersTab
+                        title={"Аудитория"}
+                        onClick={() => openTab(2)}
+                        isOpened={2 === active}
+                    >
+                        <FiltersDiapazonInputs
+                            placeholderLeft="0"
+                            placeholderRight="20000"
+                        />
+                    </FiltersTab>
+                    <FiltersTab
+                        title={"Страна"}
+                        onClick={() => openTab(3)}
+                        isOpened={3 === active}
+                    >
+                        {countries.map((country, i) => (
+                            <FiltersCheckbox
+                                key={i}
+                                {...register(country.title)}
+                            >
+                                {country.title}
+                            </FiltersCheckbox>
+                        ))}
+                    </FiltersTab>
+                </CardFlat>
+            </form>
+        </div>
     );
 }
 

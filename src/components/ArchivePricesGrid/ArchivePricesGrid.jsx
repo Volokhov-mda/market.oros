@@ -1,7 +1,7 @@
 import { useAtom } from "jotai";
 
 import { userAtom } from "../../data/atoms";
-import FlexibleGrid from "../FlexibleGrid/FlexibleGrid";
+import FlexibleGrid from "../ShortableGrid/ShortableGrid";
 
 import PriceCardArchive from "../PriceCardArchive/PriceCardArchive";
 

@@ -3,18 +3,21 @@
 
     margin-top: 1rem;
     
-    height: calc(100% + 2rem); /* According to padding of .app block */
-    width: 100%;
+    height: 100%;
+    width: var(--width);
+    max-width: var(--max-width);
 
     pointer-events: none;
     z-index: 1;
 }
 
-.container {
+.form {
     position: sticky;
     top: 1rem;
     left: 0;
+}
 
+.container {
     display: flex;
     flex-direction: column;
 
@@ -22,7 +25,7 @@
     border-radius: var(--border-radius);
 
     height: unset;
-    width: 12rem;
+    width: 13rem;
 
     opacity: 0;
     pointer-events: none;
@@ -37,13 +40,13 @@
 
 @media screen and (max-width: 1150px) {
     .container {
-        width: calc(50% - .5rem);
+        width: calc(50%);
     }
 }
 
 @media screen and (max-width: 1000px) {
     .container {
-        width: calc(33% - .5rem);
+        width: calc(33%);
     }
 }
 

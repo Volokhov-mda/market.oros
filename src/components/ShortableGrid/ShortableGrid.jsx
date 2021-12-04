@@ -6,9 +6,9 @@ import { gridShortened } from "../../data/atoms";
 
 import FiltersMarket from "../FiltersMarket/FiltersMarket";
 
-import styles from "./flexible-grid.css";
+import styles from "./shortable-grid.css";
 
-const FlexibleGrid = ({ children }) => {
+const ShortableGrid = ({ children }) => {
     const [isGridShortened] = useAtom(gridShortened);
 
     useEffect(() => {
@@ -28,15 +28,18 @@ const FlexibleGrid = ({ children }) => {
         <div id={styles.pricesWrapper}>
             <FiltersMarket show={isGridShortened} />
             <div className={styles.container}>
-                <div className={clsx(styles.grid, isGridShortened && styles.shortening)}>
+                <div id={styles.grid} className={isGridShortened && styles.shortening}>
                     {children}
                 </div>
                 <div id={styles.gridShortened} className={isGridShortened && styles.shortening}>
                     {children}
                 </div>
             </div>
+            <div style={{ height: 250, width: 150, background: "red" }}>
+                aasd
+            </div>
         </div>
     );
 }
 
-export default FlexibleGrid;
+export default ShortableGrid;

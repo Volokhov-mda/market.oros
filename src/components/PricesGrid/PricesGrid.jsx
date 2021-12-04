@@ -9,7 +9,7 @@ import { userAtom } from "../../data/atoms";
 import PriceCardAdmin from "../PriceCardAdmin/PriceCardAdmin";
 import PriceCardUser from "../PriceCardUser/PriceCardUser";
 import AddCardFlat from "../AddCardFlat/AddCardFlat";
-import FlexibleGrid from "../FlexibleGrid/FlexibleGrid";
+import FlexibleGrid from "../ShortableGrid/ShortableGrid";
 
 import styles from "./prices-grid.css";
 

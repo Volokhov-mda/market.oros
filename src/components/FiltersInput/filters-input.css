@@ -1,6 +1,6 @@
 .input {
-    border: 1px solid #fff;
-    border-radius: 2px;
+    border: var(--light-border-width) solid #fff;
+    border-radius: var(--light-border-radius);
 
     width: 3.5rem;
     height: 1.5rem;
@@ -24,7 +24,7 @@
 @media screen and (max-width: 500px) {
     .input {
         width: 2.5rem;
-        
+
         font-size: .5rem;
     }
 }

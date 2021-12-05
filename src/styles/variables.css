@@ -24,3 +24,9 @@
 
   --thumbnail-size: 4.5rem;
 }
+
+@media screen and (max-width: 500px) {
+  :root {
+    --sorting-button-background-color: #544850;
+  }
+}

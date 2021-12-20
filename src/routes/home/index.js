@@ -1,26 +1,33 @@
-import { useAtom } from "jotai";
-import { route } from "preact-router";
+import { useEffect, useState } from "preact/hooks";
+import { useQuery } from "react-fetching-library";
+import { trackPromise } from "react-promise-tracker";
+
+import { fetchStatsAction } from "../../api/actions";
 
 import LoginFormContainer from "../../components/LoginFormContainer/LoginFormContainer";
 import MarketInfo from "../../components/MarketInfo/MarketInfo";
 
-import { userAtom } from "../../data/atoms";
-
 import styles from "./style.css";
 
 const Home = () => {
-  const [user] = useAtom(userAtom);
+  const [stats, setStats] = useState(null);
+  const { query } = useQuery(fetchStatsAction, false);
 
-  if (user?.isActive) {
-    return route("/market", true);
+  const fetchStats = async () => {
+    const { payload, error } = await query();
+    if (error) return;
+
+    setStats(payload);
   }
+
+  useEffect(() => { trackPromise(fetchStats()); }, [])
 
   return (
     <div className={styles.wrapper}>
       <LoginFormContainer />
 
       <footer className={styles.footer}>
-        <MarketInfo />
+        <MarketInfo numOfInfluencers={stats ? stats.influencers : "..."} numOfAudience={stats ? stats.audience : "..."} />
       </footer>
     </div>
   );

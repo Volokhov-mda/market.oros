@@ -8,7 +8,7 @@ import styles from "./filters-tab.css";
 const FiltersTab = ({ title, content, onClick, isOpened, children }) => {
     return (
         <div className={styles.tabContainer}>
-            <button className={styles.tab} onClick={onClick}>
+            <button className={styles.tab} onClick={onClick} type="button">
                 <div>
                     {title}
                 </div>

@@ -1,19 +1,10 @@
-import { useEffect } from "preact/hooks";
 import { useForm } from "react-hook-form";
 
 import FlatButton from "../FlatButton/FlatButton";
 import UserCard from "../UserCard/UserCard";
 
-import generatePassword from "../../helpers/generate-password";
-
 const CreateCategoryCard = ({ onCreate, onCancel, gradient }) => {
-  const { register, handleSubmit, watch, setValue, reset } = useForm();
-  const name = watch("name");
-
-  useEffect(() => {
-    if (!name) return setValue("password", "");
-    setValue("password", generatePassword(name));
-  }, [name]);
+  const { register, handleSubmit, reset } = useForm();
 
   const onSubmit = (data) => {
     onCreate(data);
@@ -30,8 +21,7 @@ const CreateCategoryCard = ({ onCreate, onCancel, gradient }) => {
         {onCreate && (
           <FlatButton
             accent
-            onClick={onCreate}
-            type="button"
+            type="submit"
           >
             Создать
           </FlatButton>

@@ -1,6 +1,7 @@
 import clsx from "clsx";
-import { useState } from "preact/hooks";
-import { useForm } from "react-hook-form";
+import { useEffect, useState } from "preact/hooks";
+
+import countries from "../../data/countries";
 
 import CardFlat from "../CardFlat/CardFlat";
 import FiltersCheckbox from "../FiltersCheckbox/FiltersCheckbox";
@@ -9,43 +10,40 @@ import FiltersTab from "../FiltersTab/FiltersTab";
 
 import styles from "./filters-market.css";
 
-const cats = [
-    { title: 'Аниме' },
-    { title: 'Онимэ' },
-    { title: 'Анимешник' },
-];
-const countries = [
-    { title: 'Россия' },
-    { title: 'РФ' },
-    { title: 'Российская Федерация' },
-    { title: 'Русь' },
-];
-
-const FiltersMarket = ({ show }) => {
+const FiltersMarket = ({ show, register, onSubmit, handleSubmit, filterValues }) => {
     const [active, setActive] = useState(null);
-    const { register, handleSubmit, watch, setValue, reset } = useForm();
+    const [countriesLabeled, setCountriesLabeled] = useState(null);
 
     const openTab = (i) => setActive(i === active ? -1 : i);
 
-    const onSubmit = (data) => {
-        console.log(data);
-    }
+    useEffect(() => {
+        setCountriesLabeled(filterValues?.countries && filterValues?.countries
+            .map((c) => {
+                const countryFound = countries.find((cL) => cL.code.toLowerCase() === c);
+                countryFound.code = countryFound.code.toLocaleLowerCase();
+                return countryFound;
+            })
+            .sort((a, b) => (a.label < b.label) ? -1 : 1)
+        );
+    }, [filterValues, filterValues?.countries]);
 
     return (
         <div className={styles.wrapper}>
-            <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+            <form className={styles.form} onChange={handleSubmit(onSubmit)}>
                 <CardFlat id="filters" className={clsx(styles.container, show && styles.show)}>
                     <FiltersTab
                         title={"Категория"}
                         onClick={() => openTab(0)}
                         isOpened={0 === active}
                     >
-                        {cats.map((cat, i) => (
+                        {!filterValues?.categories?.length && <div className={styles.notification}>Категории отсутсвуют</div>}
+                        {filterValues?.categories && filterValues.categories.map((cat, i) => (
                             <FiltersCheckbox
                                 key={i}
-                                {...register(cat.title)}
+                                value={cat.name}
+                                {...register("category")}
                             >
-                                {cat.title}
+                                {cat.name}
                             </FiltersCheckbox>
                         ))}
                     </FiltersTab>
@@ -55,8 +53,12 @@ const FiltersMarket = ({ show }) => {
                         isOpened={1 === active}
                     >
                         <FiltersDiapazonInputs
-                            placeholderLeft="$0"
-                            placeholderRight="$10000"
+                            from={filterValues?.priceLimits ? filterValues.priceLimits.min : "0"}
+                            to={filterValues?.priceLimits ? filterValues.priceLimits.max : "0"}
+                            placeholderLeft={filterValues?.priceLimits ? `$${filterValues.priceLimits.min}` : "0"}
+                            placeholderRight={filterValues?.priceLimits ? `$${filterValues.priceLimits.max}` : "0"}
+                            leftRegister={register("costFrom")}
+                            rightRegister={register("costTo")}
                         />
                     </FiltersTab>
                     <FiltersTab
@@ -65,8 +67,12 @@ const FiltersMarket = ({ show }) => {
                         isOpened={2 === active}
                     >
                         <FiltersDiapazonInputs
-                            placeholderLeft="0"
-                            placeholderRight="20000"
+                            from={filterValues?.audienceLimits ? filterValues.audienceLimits.min : "0"}
+                            to={filterValues?.audienceLimits ? filterValues.audienceLimits.max : "0"}
+                            placeholderLeft={filterValues?.audienceLimits ? filterValues.audienceLimits.min : "0"}
+                            placeholderRight={filterValues?.audienceLimits ? filterValues.audienceLimits.max : "0"}
+                            leftRegister={register("audienceFrom")}
+                            rightRegister={register("audienceTo")}
                         />
                     </FiltersTab>
                     <FiltersTab
@@ -74,12 +80,14 @@ const FiltersMarket = ({ show }) => {
                         onClick={() => openTab(3)}
                         isOpened={3 === active}
                     >
-                        {countries.map((country, i) => (
+                        {!countriesLabeled?.length && <div className={styles.notification}>Страны отсутсвуют</div>}
+                        {countriesLabeled && countriesLabeled.map((country, i) => (
                             <FiltersCheckbox
                                 key={i}
-                                {...register(country.title)}
+                                value={country.code}
+                                {...register("country")}
                             >
-                                {country.title}
+                                {country.label}
                             </FiltersCheckbox>
                         ))}
                     </FiltersTab>

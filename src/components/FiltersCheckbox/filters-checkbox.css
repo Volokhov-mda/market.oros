@@ -58,3 +58,8 @@
     opacity: 1;
   }
   
+  @media screen and (max-width: 500px) {
+    .mark {
+      margin-right: .5rem;
+    }
+  }

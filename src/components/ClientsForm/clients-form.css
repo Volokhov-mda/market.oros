@@ -1,0 +1,78 @@
+.form {
+  display: grid;
+  grid-gap: 1.5rem;
+}
+
+.gridSection {
+  display: grid;
+  grid-gap: .5rem;
+}
+
+.gridSectionUserInfo {
+  display: grid;
+  grid-gap: 1.5rem;
+}
+
+.inputs {
+  display: grid;
+  grid-gap: 1.25rem;
+}
+
+.nicknameWrapper {
+  display: grid;
+  grid-gap: .666rem;
+  grid-template-columns: calc(50% - 0.5rem) 1fr;
+}
+
+.showPriceWrapper {
+  display: grid;
+  grid-gap: .666rem;
+  grid-template-columns: calc(50% - 0.5rem) 1fr;
+}
+
+.showPrice {
+  width: 100%;
+  justify-content: space-between;
+}
+
+.categoriesWrapper {
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.rowsTitle {
+  font-size: .8333rem;
+  font-weight: normal;
+}
+
+.buttons {
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.opaquePlaceholder::placeholder {
+  color: #fff;
+}
+
+.centeredPlaceholder::placeholder {
+  text-align: center;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+@media screen and (max-width: 1000px) {
+  .form {
+    grid-gap: 2rem;
+  }
+
+  .gridSection {
+    grid-gap: 1.5rem;
+  }
+}
+@media screen and (max-width: 500px) {
+  .showPriceWrapper {
+    grid-template-columns: 1fr;
+  }
+}

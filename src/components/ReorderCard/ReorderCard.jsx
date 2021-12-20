@@ -23,7 +23,7 @@ const ReorderCard = forwardRef(
         )}
 
         <Img
-          src={influencer.thumbnail}
+          src={influencer.meta.avatar.thumbnail}
           alt={influencer.nickname}
           className={styles.thumbnail}
         />

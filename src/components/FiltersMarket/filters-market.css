@@ -38,6 +38,10 @@
     pointer-events: auto;
 }
 
+.notification {
+    font-size: .55rem;
+}
+
 @media screen and (max-width: 1150px) {
     .container {
         width: calc(50%);

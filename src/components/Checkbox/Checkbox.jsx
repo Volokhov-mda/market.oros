@@ -1,11 +1,12 @@
+import clsx from "clsx";
 import { forwardRef } from "preact/compat";
 
 import styles from "./checkbox.css";
 
-const Checkbox = forwardRef(({ children, ...props }, ref) => (
-  <label className={styles.wrapper}>
+const Checkbox = forwardRef(({ className, children, disabled, ...props }, ref) => (
+  <label className={clsx(styles.wrapper, className)}>
     {children}
-    <input type="checkbox" className={styles.input} {...props} ref={ref} />
+    <input type="checkbox" className={styles.input} {...props} ref={ref} disabled={disabled} />
     <span className={styles.mark} />
   </label>
 ));

@@ -1,14 +1,18 @@
+import rolesConfig from "../data/rolesConfig";
+
 const categorizeUsers = (users, filter) => {
-  const categorized = { active: [], archived: [] };
+  const categorized = { admin: [], managers: [], clients: [] };
 
   users.forEach((user) => {
     if (!user.hasOwnProperty("isActive")) return;
     if (filter && !filter(user)) return;
 
-    if (user.isActive) {
-      categorized.active.push(user);
+    if (user.role === rolesConfig.admin) {
+      categorized.admin.push(user);
+    } else if (user.role === rolesConfig.manager) {
+      categorized.managers.push(user);
     } else {
-      categorized.archived.push(user);
+      categorized.clients.push(user);
     }
   });
 

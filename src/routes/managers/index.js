@@ -1,29 +1,27 @@
-import { route } from "preact-router";
-import { useAtom } from "jotai";
 import { useMemo } from "preact/hooks";
 import { useQuery } from "react-fetching-library";
 
-import { fetchUsers } from "../../api/actions";
-import { userAtom } from "../../data/atoms";
+import { fetchArchiveUsers, fetchUsers } from "../../api/actions";
 
 import categorizeUsers from "../../helpers/categorize-users";
 
-import UsersDashboard from "../../components/UsersDashboard/UsersDashboard";
 import Header from "../../components/Header/Header";
 import PageWrapper from "../../components/PageWrapper/PageWrapper";
+import UsersManagersDashboard from "../../components/UsersManagersDashboard/UsersManagersDashboard";
 
 const Managers = () => {
-  const [currentUser] = useAtom(userAtom);
-  const { query, payload: users, error, loading } = useQuery(fetchUsers);
+  const { query: queryActive, payload: managersActive, errorActive, loadingActive } = useQuery(fetchUsers);
+  const { query: queryArchive, payload: managersArchive, errorArchive, loadingArchive } = useQuery(fetchArchiveUsers);
 
-  if (currentUser && !currentUser.isAdmin) {
-    return route("/", true);
-  }
-
-  const categorizedManagerUsers = useMemo(() => {
-    if (!Array.isArray(users)) return null;
-    return categorizeUsers(users, (user) => user._id !== currentUser._id);
-  }, [users]);
+  const categorizedUsersActive = useMemo(() => {
+    if (!Array.isArray(managersActive)) return null;
+    return categorizeUsers(managersActive);
+  }, [managersActive]);
+  
+  const categorizeUsersArchive = useMemo(() => {
+    if (!Array.isArray(managersArchive)) return null;
+    return categorizeUsers(managersArchive);
+  }, [managersArchive]);
 
   return (
     <>
@@ -31,11 +29,11 @@ const Managers = () => {
 
       <PageWrapper title="Менеджеры">
 
-        {error && <>Во время загрузки менеджеров произошла ошибка.</>}
-        {loading && <>Загрузка менеджеров...</>}
+        {(errorActive || errorArchive) && <>Во время загрузки менеджеров произошла ошибка.</>}
+        {(loadingActive || loadingArchive) && <>Загрузка менеджеров...</>}
 
-        {categorizedManagerUsers && (
-          <UsersDashboard users={categorizedManagerUsers} onUpdate={query} />
+        {(categorizedUsersActive && categorizeUsersArchive) && (
+          <UsersManagersDashboard usersActive={categorizedUsersActive.managers} usersArchive={categorizeUsersArchive.managers} onUpdateActive={queryActive} onUpdateArchive={queryArchive} />
         )}
       </PageWrapper>
     </>

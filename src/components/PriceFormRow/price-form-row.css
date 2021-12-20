@@ -1,7 +1,12 @@
 .row {
   display: grid;
-  grid-gap: 1rem;
-  grid-template-columns: calc(50% - 0.5rem) 1fr 1fr;
+  grid-gap: .666rem;
+  grid-template-columns: calc(50% - 0.5rem) 1fr;
+}
+
+.row input,
+.row select {
+  font-size: .8333rem;
 }
 
 .value {
@@ -9,6 +14,31 @@
   grid-template-columns: auto max-content;
   align-items: center;
   grid-gap: 1rem;
+}
+
+.priceInput {
+  color: #fff;
+  border-color: #fff;
+  
+  transition-property: border-color, color;
+  transition-duration: var(--transition-duration);
+}
+
+/* Cancelling prev style change */
+.priceInput:placeholder-shown,
+.priceInput:focus:placeholder-shown {
+  color: rgba(255, 255, 255, .3);
+  border-color: rgba(255, 255, 255, .3);
+}
+
+.priceInputDisabled,
+.priceInputDisabled:placeholder-shown {
+  color: rgba(255, 255, 255, .1);
+  border-color: rgba(255, 255, 255, .1);
+}
+
+.priceInput:focus:not(:placeholder-shown) {
+  border-color: #fff;
 }
 
 @media screen and (max-width: 1000px) {

@@ -1,26 +1,62 @@
 import clsx from "clsx";
+import { forwardRef } from "preact/compat";
 
-import arrow from "./../../assets/icons/arrow-sorting.svg";
+import ArrowSorting from "../SvgComponents/ArrowSorting/ArrowSorting";
 
 import styles from "./sorting-option.css";
 
-const SortingOption = ({ option, selected, orderable, setCurrOption, onChoose }) => {
-    return (
-        <button className={clsx(styles.option, !!selected && styles.selected)} onClick={() => { setCurrOption(option); onChoose() }} >
-            <span>{option.name}</span>
+const SortingOption = ({ option, isAscending, setIsAscending, selected, orderable, setCurrOption, onChoose, register, setValue }) => {
+    const { onChange: onChangeOrderBy, ...regOrderByParams } = register("orderby");
+    const { onChange: onChangeOrder, ...regOrderParams } = register("order");
 
-            {orderable && (
-                <div className={styles.order}>   
-                    <button className={styles.ascending} onClick={() => { console.log("ascending"); setCurrOption(option); onChoose() }}>
-                        <img src={arrow} alt="ascending" />
-                    </button>
-                    <button className={styles.descending} onClick={() => { console.log("descending"); setCurrOption(option); onChoose() }}>
-                        <img src={arrow} alt="descending" />
-                    </button>
-                </div>
-            )}
-        </button>
+    const onSelectOption = (isAscending) => { setIsAscending(isAscending); setCurrOption(option); onChoose(); }
+
+    return (
+        <>
+            <input
+                className={styles.radio}
+                type="radio"
+                id={option.value}
+                name="orderby"
+                value={option.value}
+                onClick={(e) => { setValue("order", "asc"); onChangeOrder(e); onSelectOption(true); }}
+                {...regOrderByParams}
+            />
+            <label for={orderable ? `${option.value}asc` : option.value} className={clsx(styles.option, !!selected && styles.selected)}>
+                <div className={styles.sibling} />
+                <span>{option.name}</span>
+
+                {orderable && (
+                    <div className={styles.order}>
+                        <label for={`${option.value}asc`} className={clsx(isAscending && styles.selectedOption, styles.ascending)}>
+                            <input
+                                className={styles.radio}
+                                type="radio"
+                                id={`${option.value}asc`}
+                                name="order"
+                                value="asc"
+                                onClick={(e) => { setValue("orderby", option.value); onChangeOrder(e); onSelectOption(true); }}
+                                {...regOrderParams}
+                            />
+                            <ArrowSorting />
+                        </label>
+                        <label for={`${option.value}desc`} className={clsx(!isAscending && styles.selectedOption, styles.descending)}>
+                            <input
+                                className={styles.radio}
+                                type="radio"
+                                id={`${option.value}desc`}
+                                name="order"
+                                value="desc"
+                                onClick={(e) => { setValue("orderby", option.value); onChangeOrder(e); onSelectOption(false); }}
+                                {...regOrderParams}
+                            />
+                            <ArrowSorting />
+                        </label>
+                    </div>
+                )}
+            </label>
+        </>
     );
-}
+};
 
 export default SortingOption;

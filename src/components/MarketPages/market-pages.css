@@ -1,0 +1,44 @@
+.wrapper {
+    display: flex;
+    justify-content: center;
+
+    margin-top: 1rem;
+
+    width: 100%;
+}
+
+.nums {
+    display: flex;
+    grid-column-gap: .5rem;
+}
+
+.nums > * {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    overflow: hidden;
+}
+
+.prevPage {
+    transform: rotate(180deg);
+}
+
+.prevPage img,
+.nextPage img {
+    transition-duration: var(--transition-duration);
+}
+
+.nextPage:hover img,
+.prevPage:hover img  {
+    transform: translateX(2px);
+}
+
+.icon {
+    width: 1rem;
+    height: 1rem;
+}
+
+.chevrons {
+    margin: 0 -.5rem;
+}

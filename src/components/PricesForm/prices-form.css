@@ -1,12 +1,55 @@
 .form {
   display: grid;
+  grid-gap: 1.5rem;
+}
+
+.gridSection {
+  display: grid;
+  grid-gap: .5rem;
+}
+
+.inputs {
+  display: grid;
   grid-gap: 1rem;
+}
+
+.nicknameWrapper {
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.countriesWrapper {
+  display: grid;
+  grid-gap: .666rem;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.categoriesWrapper {
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.rowsTitle {
+  font-size: .8333rem;
+  font-weight: normal;
 }
 
 .buttons {
   display: grid;
   grid-gap: 1rem;
   grid-template-columns: repeat(2, 1fr);
+}
+
+.opaquePlaceholder::placeholder {
+  color: #fff;
+}
+
+.centeredPlaceholder::placeholder {
+  text-align: center;
+  font-size: 1rem;
+  font-weight: bold;
 }
 
 @media screen and (max-width: 1000px) {

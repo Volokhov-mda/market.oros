@@ -1,0 +1,39 @@
+.noOption {
+    font-size: .75rem;
+}
+
+.option {
+    font-size: .75rem;
+
+
+    padding: .5rem !important;
+}
+
+.input {
+    display: block;
+
+    padding: 0 !important;
+    border: var(--border-width) solid #fff;
+    border-radius: 0 !important;
+    
+    width: 100%;
+
+    color: #fff !important;
+    
+    transition: border-color var(--transition-duration);
+  }
+
+  .label {
+      color: #fff;
+  }
+
+.flagIcon {
+    display: flex;
+    flex-shrink: 0;
+
+    margin-right: .5rem;
+
+    max-width: 1rem;
+    
+    font-size: 1rem;
+}

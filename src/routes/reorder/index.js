@@ -1,6 +1,5 @@
-import { useAtom } from "jotai";
 import { useContext, useEffect, useState } from "preact/hooks";
-import { useMutation, useQuery } from "react-fetching-library";
+import { useMutation, useParameterizedQuery, useQuery } from "react-fetching-library";
 import { trackPromise } from "react-promise-tracker";
 import { route } from "preact-router";
 
@@ -10,9 +9,8 @@ import {
 } from "../../api/actions";
 
 import NotyfContext from "../../contexts/notyf";
-import useContextButton from "../../hooks/use-context-button";
+import useContextReorderButton from "../../hooks/use-context-button";
 import useContextArchiveButton from "../../hooks/use-context-archive-button";
-import { userAtom } from "../../data/atoms";
 
 import Header from "../../components/Header/Header";
 import ReorderList from "../../components/ReorderList/ReorderList";
@@ -22,19 +20,17 @@ import MarketControlls from "../../components/MarketControlls/MarketControlls";
 import styles from "./style.css";
 
 const Reorder = () => {
-  const [currentUser] = useAtom(userAtom);
   const notyf = useContext(NotyfContext);
   const [influencers, setInfluencers] = useState(null);
 
-  if (currentUser && !(currentUser.isAdmin || currentUser.isModerator)) {
-    return route("/", true);
-  }
-
+  const { query: queryInfluencers } = useParameterizedQuery(fetchInfluencersAction, false);
   const { mutate: reorderInfluencers } = useMutation(reorderInfluencersAction);
-  const { query: queryInfluencers } = useQuery(fetchInfluencersAction, false);
 
   const fetchInfluencers = async () => {
-    const { payload, error } = await queryInfluencers();
+    const { payload, error } = await queryInfluencers({
+      orderby: "weight",
+      order: "asc",
+    });
     !error && setInfluencers(payload);
   };
 
@@ -52,8 +48,8 @@ const Reorder = () => {
     route("/market");
   };
 
-  useContextButton(<Link className={styles.active} onClick={onSave}>Сохранить</Link>);
-  useContextArchiveButton(<Link href="/archive" onClick={onSave}>Архив</Link>);
+  useContextReorderButton(<Link className={styles.active} onClick={onSave}>Сохранить</Link>);
+  useContextArchiveButton(<Link href="/archive?page=1" onClick={onSave}>Архив</Link>);
 
   return (
     <>

@@ -8,3 +8,9 @@
     font-size: .666rem;
     user-select: none;
 }
+
+@media screen and (max-width: 500px) {
+    .delimiter {
+        font-size: .5rem;
+    }
+}

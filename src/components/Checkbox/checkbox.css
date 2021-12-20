@@ -1,5 +1,6 @@
 .wrapper {
-  display: block;
+  display: flex;
+  align-items: center;
   cursor: pointer;
   user-select: none;
   width: 1.75rem;
@@ -15,19 +16,15 @@
 }
 
 .mark {
-  height: 100%;
-  width: 100%;
+  height: 2rem;
+  width: 2rem;
   border: var(--border-width) solid #fff;
   transition-property: background-color, border-color;
   transition-duration: var(--transition-duration);
   display: flex;
+  flex-shrink: 0;
   align-items: center;
   justify-content: center;
-}
-
-.input:checked ~ .mark {
-  background-color: var(--accent-color);
-  border-color: var(--accent-darker-color);
 }
 
 .mark:after {

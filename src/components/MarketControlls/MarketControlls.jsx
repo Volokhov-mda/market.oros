@@ -2,15 +2,17 @@ import clsx from "clsx";
 import { useAtom } from "jotai";
 import { useState } from "preact/hooks";
 
-import { contextButtonAtom, contextArchiveButtonAtom, gridShortened } from "../../data/atoms";
+import { contextReorderButtonAtom, contextArchiveButtonAtom, gridShortened, userAtom } from "../../data/atoms";
+import rolesConfig from "../../data/rolesConfig";
 
 import FilterButton from "../FilterButton/FilterButton";
 import SortingButton from "../SortingButton/SortingButton";
 
 import styles from "./market-controlls.css";
 
-const MarketControlls = () => {
-    const [contextButton] = useAtom(contextButtonAtom);
+const MarketControlls = ({ register, handleSubmit, onSubmit, setValue }) => {
+    const [currentUser] = useAtom(userAtom);
+    const [contextReorderButton] = useAtom(contextReorderButtonAtom);
     const [contextArchiveButton] = useAtom(contextArchiveButtonAtom);
     const [isGridShortened, setIsGridShortened] = useAtom(gridShortened);
     const [isSortingOpen, setIsSortingOpen] = useState(false);
@@ -18,13 +20,11 @@ const MarketControlls = () => {
 
     return (
         <div className={clsx(styles.container, isReorder && styles.reorderContainer)}>
-            <div className={clsx(styles.container2, isSortingOpen && styles.sorting)}>
-                {!isReorder && <FilterButton onFilterClick={() => { setIsGridShortened(!isGridShortened); }} />}
-                <div className={styles.right}>
-                    {contextButton}
-                    {contextArchiveButton}
-                    {!isReorder && <SortingButton isOpen={isSortingOpen} setIsOpen={setIsSortingOpen} className={styles.sortingButton} />}
-                </div>
+            {!isReorder && <FilterButton className={styles.filterButton} onFilterClick={() => { setIsGridShortened(!isGridShortened); }} />}
+            <div className={styles.right}>
+                {(currentUser.role <= rolesConfig.admin) && contextReorderButton}
+                {contextArchiveButton}
+                {!isReorder && <SortingButton isOpen={isSortingOpen} setIsOpen={setIsSortingOpen} register={register} handleSubmit={handleSubmit} onSubmit={onSubmit} setValue={setValue} />}
             </div>
         </div>
     )

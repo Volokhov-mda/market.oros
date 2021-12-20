@@ -34,7 +34,8 @@ const AdminDashboard = () => {
     return (
         <GridContainer>
             <TitledGrid title="Ваш аккаунт" className={styles.grid}>
-                <EditUserCard gradient onEdit={onEdit} user={currentUser} />
+                {!currentUser && <>Загрузка администратора...</>}
+                {currentUser && <EditUserCard showPassword onEdit={onEdit} user={currentUser} />}
             </TitledGrid>
         </GridContainer>
     );

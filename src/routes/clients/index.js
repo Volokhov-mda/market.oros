@@ -1,29 +1,27 @@
-import { route } from "preact-router";
-import { useAtom } from "jotai";
 import { useMemo } from "preact/hooks";
 import { useQuery } from "react-fetching-library";
 
-import { fetchUsers } from "../../api/actions";
-import { userAtom } from "../../data/atoms";
+import { fetchArchiveUsers, fetchUsers } from "../../api/actions";
 
 import categorizeUsers from "../../helpers/categorize-users";
 
-import UsersDashboard from "../../components/UsersDashboard/UsersDashboard";
+import UsersDashboard from "../../components/UsersClientsDashboard/UsersClientsDashboard";
 import Header from "../../components/Header/Header";
 import PageWrapper from "../../components/PageWrapper/PageWrapper";
 
 const Clients = () => {
-  const [currentUser] = useAtom(userAtom);
-  const { query, payload: users, error, loading } = useQuery(fetchUsers);
+  const { query: queryActive, payload: clientsActive, errorActive, loadingActive } = useQuery(fetchUsers);
+  const { query: queryArchive, payload: clientsArchive, errorArchive, loadingArchive } = useQuery(fetchArchiveUsers);
 
-  if (currentUser && !currentUser.isAdmin) {
-    return route("/", true);
-  }
-
-  const categorizedUsers = useMemo(() => {
-    if (!Array.isArray(users)) return null;
-    return categorizeUsers(users, (user) => user._id !== currentUser._id);
-  }, [users]);
+  const categorizedUsersActive = useMemo(() => {
+    if (!Array.isArray(clientsActive)) return null;
+    return categorizeUsers(clientsActive);
+  }, [clientsActive]);
+  
+  const categorizeUsersArchive = useMemo(() => {
+    if (!Array.isArray(clientsArchive)) return null;
+    return categorizeUsers(clientsArchive);
+  }, [clientsArchive]);
 
   return (
     <>
@@ -31,11 +29,11 @@ const Clients = () => {
 
       <PageWrapper title="Клиенты">
 
-        {error && <>Во время загрузки пользователей произошла ошибка.</>}
-        {loading && <>Загрузка пользователей...</>}
+        {(errorActive || errorArchive) && <>Во время загрузки пользователей произошла ошибка.</>}
+        {(loadingActive || loadingArchive) && <>Загрузка пользователей...</>}
 
-        {categorizedUsers && (
-          <UsersDashboard users={categorizedUsers} onUpdate={query} />
+        {(categorizedUsersActive && categorizeUsersArchive) && (
+          <UsersDashboard usersActive={categorizedUsersActive.clients} usersArchive={categorizeUsersArchive.clients} onUpdateActive={queryActive} onUpdateArchive={queryArchive} />
         )}
       </PageWrapper>
     </>

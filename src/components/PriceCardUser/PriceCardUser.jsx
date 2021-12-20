@@ -5,35 +5,41 @@ import UserCardFlat from "../UserCardFlat/UserCardFlat";
 
 import styles from "./price-card-user.css";
 
-const PriceCardUser = ({ influencer, value, title, flags }) => (
-  <UserCardFlat flags={flags} gradient className={styles.card}>
-    <div className={styles.thumbnailWrapper}>
-      {influencer.thumbnail && (
-        <Img
-          src={influencer.thumbnail}
-          alt={influencer.nickname}
-          className={styles.thumbnail}
-        />
-      )}
-    </div>
-    <div className={styles.info}>
-      <div className={!(value || title) && styles.infoWithoutPrice}>
-        <div className={styles.followers}>
-          {influencer.followers || "4 000 000 followers"}
-        </div>
-        <div className={styles.linkContainer}>
-          <Link external className={styles.name} href={influencer.link}>
-            @{influencer.nickname}
-          </Link>
-        </div>
+const PriceCardUser = ({ influencer, }) => {
+  const { influencer: inf, price } = influencer;
+  const showPrices = influencer.user.showPrices;
+
+  return (
+    <UserCardFlat flags={inf.countries} gradient className={styles.card}>
+      <div className={styles.thumbnailWrapper}>
+        {inf.meta.avatar.thumbnail && (
+          <Img
+            src={inf.meta.avatar.thumbnail}
+            alt={inf.nickname}
+            className={styles.thumbnail}
+          />
+        )}
       </div>
-      {(value || title) && (
-        <div className={styles.priceContainer}>
-          {value && <span className={styles.price}>{value}</span>} {title && <>for <span className={styles.title}>{title}</span></>}
+
+      <div className={styles.info}>
+        <div className={!(showPrices && price) && styles.infoWithoutPrice}>
+          <div className={styles.followers}>
+            {inf.meta.audience || "N/A"} followers
+          </div>
+          <div className={styles.linkContainer}>
+            <Link external className={styles.name} href={inf.link}>
+              @{inf.nickname}
+            </Link>
+          </div>
         </div>
-      )}
-    </div>
-  </UserCardFlat>
-);
+        {(showPrices && price) && (
+          <div className={styles.priceContainer}>
+            {price.amount && <span className={styles.price}>${price.amount}</span>} {price.description && <>for <span className={styles.title}>{price.description}</span></>}
+          </div>
+        )}
+      </div>
+    </UserCardFlat>
+  );
+}
 
 export default PriceCardUser;

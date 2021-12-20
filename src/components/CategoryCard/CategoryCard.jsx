@@ -1,26 +1,19 @@
-import { useForm } from "react-hook-form";
-
 import DeleteButton from "../DeleteButton/DeleteButton";
 import EditButton from "../EditButton/EditButton";
 import UserCardFlat from "../UserCardFlat/UserCardFlat";
 
 import styles from "./category-card.css";
 
-const CategoryCard = ({ category, onEdit, onDelete }) => {
-  const { register, handleSubmit } = useForm({
-    defaultValues: { name: category?.name, password: category?.password },
-  });
+const CategoryCard = ({ category, onEdit, onDelete, ...props }) => {
+  const editButton = onEdit && <EditButton onEdit={() => onEdit(category)} />
 
-  const onSubmit = (data) => onEdit({ ...category, ...data });
-
-  const editButton = <EditButton onEdit={onEdit ? () => onEdit(category) : undefined} />
-
-  const deleteButton = <DeleteButton onDelete={onDelete ? () => onDelete(category) : undefined} />
+  const deleteButton = onDelete && <DeleteButton onDelete={() => onDelete(category)} />
 
   return (
     <UserCardFlat
       leftButtons={[editButton]}
       rightButtons={[deleteButton]}
+      {...props}
     >
       <div className={styles.name}>{category.name}</div>
     </UserCardFlat>

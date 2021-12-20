@@ -1,4 +1,12 @@
+.radio {
+    position: absolute;
+    opacity: 0;
+    /* pointer-events: none; */
+}
+
 .option {
+    position: relative;
+    
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -22,33 +30,57 @@
     background-color: rgba(255, 255, 255, .2);
 }
 
+.option.selected .selectedOption svg {
+    stroke: var(--accent-color);
+    stroke-width: 3px;
+}
+
 .order {
     display: flex;
     align-items: center;
+
+    height: 100%;
 }
 
-.order button {
+.order label {
     display: flex;
     justify-content: center;
     align-items: center;
 
-    padding: .5rem .333rem;
+    height: 100%;
+
+    text-align: center;
 
     transition-property: transform;
     transition-duration: var(--transition-duration);
+    
+    z-index: 1;
 }
 
-.order button:hover {
+.order label:hover {
     transform: translateY(-1px);
 }
 
-.order img {
-    width: .666rem;
-    height: .666rem;
+.ascending, .descending {
+    width: 1.25rem;
+    height: 100%;
 }
 
-.descending img {
+.descending svg {
     transform: rotate(180deg);
+}
+
+.sibling {
+    position: absolute;
+    top: 0;
+    left: 0;
+    
+    width: 100%;
+    height: 100%;
+}
+
+.sibling:hover ~ .order .ascending {
+    transform: translateY(-1px);
 }
 
 @media screen and (max-width: 500px) {

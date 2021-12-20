@@ -1,10 +1,10 @@
 import { useAtom } from "jotai";
 import { useEffect } from "preact/hooks";
 
-import { contextButtonAtom } from "../data/atoms";
+import { contextReorderButtonAtom } from "../data/atoms";
 
-const useContextButton = (button) => {
-  const [, setContextButton] = useAtom(contextButtonAtom);
+const useContextReorderButton = (button) => {
+  const [, setContextButton] = useAtom(contextReorderButtonAtom);
 
   useEffect(() => {
     setContextButton(button);
@@ -12,4 +12,4 @@ const useContextButton = (button) => {
   }, [button]);
 };
 
-export default useContextButton;
+export default useContextReorderButton;

@@ -1,0 +1,18 @@
+.button {
+    min-width: 1.5rem;
+    height: 1.5rem;
+
+    font-size: .666rem;
+    
+    transition-duration: var(--transition-duration);
+    transition-property: transform;
+}
+
+.current {
+    border: 2px solid var(--accent-color);
+    border-radius: 8px;
+}
+
+.button:not(.current):hover {
+    transform: translateY(-1px);
+}

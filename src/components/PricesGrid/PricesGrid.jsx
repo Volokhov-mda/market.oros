@@ -9,46 +9,44 @@ import { userAtom } from "../../data/atoms";
 import PriceCardAdmin from "../PriceCardAdmin/PriceCardAdmin";
 import PriceCardUser from "../PriceCardUser/PriceCardUser";
 import AddCardFlat from "../AddCardFlat/AddCardFlat";
-import FlexibleGrid from "../ShortableGrid/ShortableGrid";
+import ShortableGrid from "../ShortableGrid/ShortableGrid";
 
 import styles from "./prices-grid.css";
+import rolesConfig from "../../data/rolesConfig";
 
-const PricesGrid = ({ prices, onEdit, onDelete }) => {
+const PricesGrid = ({ prices, onEdit, onDelete, onArchive, ...props }) => {
   const [user] = useAtom(userAtom);
 
   const onAdd = () => route("/prices/add");
 
   return (
-    <FlexibleGrid>
-      {!prices.length && !user?.isAdmin && (
+    <ShortableGrid {...props}>
+      {!prices.length && !(user.role <= rolesConfig.manager) && (
         <div className={styles.error}>There are no prices at the moment.</div>
       )}
 
-      {(user?.isAdmin || user?.isModerator) && (
+      {(user.role === rolesConfig.admin) && (
         <AddCardFlat onClick={onAdd} />
       )}
 
       {prices.map((price, i) => (
-        (user.isAdmin || user.isModerator) ? (
+        (user.role <= rolesConfig.manager) ? (
           <PriceCardAdmin
             {...price}
             id={i}
             key={i}
             onEdit={onEdit}
             onDelete={onDelete}
-            onArchive={() => { console.log("Archived", price); }}
+            onArchive={onArchive}
           />
         ) : (
           <PriceCardUser
             {...price}
             key={i}
-            onEdit={onEdit}
-            onDelete={onDelete}
-            flags={["ru", "ge", "cz"]}
           />
         )
       ))}
-    </FlexibleGrid>
+    </ShortableGrid>
   );
 };
 

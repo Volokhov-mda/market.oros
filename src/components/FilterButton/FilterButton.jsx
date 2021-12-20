@@ -5,7 +5,7 @@ import chevron from "./../../assets/icons/chevron-right.svg";
 
 import styles from "./filter-button.css";
 
-const FilterButton = ({ onFilterClick }) => {
+const FilterButton = ({ className, onFilterClick }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const handleFilterClick = () => {
@@ -14,7 +14,7 @@ const FilterButton = ({ onFilterClick }) => {
     }
 
     return (
-        <button onClick={handleFilterClick} className={styles.filter}>
+        <button onClick={handleFilterClick} className={clsx(className, styles.filter)}>
             <span>Filter</span>
             <div className={styles.imgWrapper}>
                 <img src={chevron} className={clsx(styles.chevron, isOpen && styles.open)} />

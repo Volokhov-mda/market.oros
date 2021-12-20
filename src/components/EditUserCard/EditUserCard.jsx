@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import FlatButton from "../FlatButton/FlatButton";
 import UserCard from "../UserCard/UserCard";
 
-const EditUserCard = ({ user, onEdit, onBan, gradient }) => {
+const EditUserCard = ({ user, className, onEdit, onBan, isNameReadOnly, showPassword }) => {
   const { register, handleSubmit } = useForm({
     defaultValues: { name: user?.name, password: user?.password },
   });
@@ -13,9 +13,9 @@ const EditUserCard = ({ user, onEdit, onBan, gradient }) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <UserCard
-        gradient={gradient}
-        nameProps={register("name")}
-        passwordProps={register("password")}
+        className={className}
+        nameProps={{ readOnly: isNameReadOnly, ...register("name") }}
+        passwordProps={showPassword && register("password")}
       >
         {onEdit && <FlatButton accent>Редактировать</FlatButton>}
 

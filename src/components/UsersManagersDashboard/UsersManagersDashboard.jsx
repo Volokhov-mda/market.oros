@@ -1,7 +1,6 @@
 import { trackPromise } from "react-promise-tracker";
 import { useContext } from "preact/hooks";
 import { useMutation } from "react-fetching-library";
-import clsx from "clsx";
 
 import {
   banUserAction,
@@ -12,16 +11,17 @@ import {
 
 import NotyfContext from "../../contexts/notyf";
 
+import rolesConfig from "../../data/rolesConfig";
+
 import EditUserCard from "../EditUserCard/EditUserCard";
 import RestoreUserCard from "../RestoreUserCard/RestoreUserCard";
 import CreateUserCard from "../CreateUserCard/CreateUserCard";
 import TitledGrid from "../TitledGrid/TitledGrid";
-import Grid from "../Grid/Grid";
 import GridContainer from "../GridContainer/GridContainer";
 
-import styles from "./users-dashboard.css";
+import styles from "./users-managers-dashboard.css";
 
-const UsersDashboard = ({ users, onUpdate }) => {
+const UsersManagersDashboard = ({ usersActive, usersArchive, onUpdateActive, onUpdateArchive }) => {
   const notyf = useContext(NotyfContext);
 
   const { mutate: banUser } = useMutation(banUserAction);
@@ -33,7 +33,8 @@ const UsersDashboard = ({ users, onUpdate }) => {
     const { error } = await trackPromise(func(...data));
     if (error) return;
 
-    await trackPromise(onUpdate());
+    await trackPromise(onUpdateActive());
+    await trackPromise(onUpdateArchive());
     notyf.success(message);
   };
 
@@ -50,21 +51,16 @@ const UsersDashboard = ({ users, onUpdate }) => {
     performMutation(createUser, [data], "Пользователь создан");
 
   return (
-    <GridContainer gridGap={"2rem"}>
-      {/* <TitledGrid title="Ваш аккаунт">
-        <EditUserCard gradient onEdit={onEdit} user={currentUser} />
-      </TitledGrid> */}
-      <Grid className={clsx(styles.grid, styles.topGrid)}>
-        <TitledGrid title="Новый аккаунт">
-          <CreateUserCard gradient onCreate={onCreate} />
-        </TitledGrid>
-      </Grid>
+    <GridContainer className={styles.grid} gridGap={"2rem"}>
+      <TitledGrid className={styles.grid} title="Новый аккаунт">
+        <CreateUserCard gradient onCreate={onCreate} role={rolesConfig.manager} />
+      </TitledGrid>
 
       <TitledGrid title="Активные" className={styles.grid}>
-        {users.active.length === 0 && <>Нет активных пользователей.</>}
-        {users.active.map((user) => (
+        {usersActive.length === 0 && <>Нет активных пользователей.</>}
+        {usersActive.map((user) => (
           <EditUserCard
-            gradient
+            showPassword
             user={user}
             key={user._id}
             onBan={onBan}
@@ -74,13 +70,13 @@ const UsersDashboard = ({ users, onUpdate }) => {
       </TitledGrid>
 
       <TitledGrid title="Забаненные" className={styles.grid}>
-        {users.archived.length === 0 && <>Нет архивных пользователей.</>}
-        {users.archived.map((user) => (
-          <RestoreUserCard gradient user={user} key={user._id} onRestore={onRestore} />
+        {usersArchive.length === 0 && <>Нет архивных пользователей.</>}
+        {usersArchive.map((user) => (
+          <RestoreUserCard showPassword user={user} key={user._id} onRestore={onRestore} />
         ))}
       </TitledGrid>
     </GridContainer>
   );
 };
 
-export default UsersDashboard;
+export default UsersManagersDashboard;

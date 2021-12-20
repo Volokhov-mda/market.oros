@@ -7,11 +7,11 @@ import PriceCardArchive from "../PriceCardArchive/PriceCardArchive";
 
 import styles from "./archive-prices-grid.css";
 
-const ArchivePricesGrid = ({ prices, onEdit, onDelete }) => {
+const ArchivePricesGrid = ({ prices, onEdit, onDelete, onRestore, ...props }) => {
   const [user] = useAtom(userAtom);
 
   return (
-    <FlexibleGrid>
+    <FlexibleGrid {...props}>
       {!prices.length && !user?.isAdmin && (
         <div className={styles.error}>There are no prices at the moment.</div>
       )}
@@ -23,7 +23,7 @@ const ArchivePricesGrid = ({ prices, onEdit, onDelete }) => {
           id={i}
           onEdit={onEdit}
           onDelete={onDelete}
-          onRestore={() => { console.log("Restored", price); }}
+          onRestore={onRestore}
         />
       ))}
     </FlexibleGrid>

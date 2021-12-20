@@ -1,10 +1,7 @@
-.container {
-    position: relative;
 
-    /* display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center; */
+/* Horizontal scrollbar with dropdown menu */
+/* .container {
+    position: relative;
 
     margin: -1rem 0 1rem; 
 
@@ -34,37 +31,52 @@
     height: 100%;
 
     overflow-x: scroll;
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
-}
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+} */
 
 /* Hide scrollbar for Chrome, Safari and Opera */
-.container2::-webkit-scrollbar {
+/* .container2::-webkit-scrollbar {
     display: none;
+} */
+
+.container {
+    position: relative;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    margin: -1rem 0 1rem; 
+
+    width: 100%;
+
+    font-size: .666rem;
+
+    overflow-y: visible;
+
+    white-space: nowrap;
 }
 
 .reorderContainer {
     justify-content: flex-end;
 }
 
-.right {
-    /* position: relative; */
-    /* padding-right: 7rem; */
-}
-
-.right > *:not(:last-child) {
+.right > *:not(:last-child),
+.filterButton {
     margin-right: 1rem;
-}
-
-.sortingButton {
-    /* position: absolute;
-    top: 50%;
-    transform: translateY(-50%); */
-    /* right: 0; */
 }
 
 @media screen and (max-width: 500px) {
     .container {
         height: 2.125rem;
+    }
+}
+
+@media screen and (max-width: 350px) {
+    .right > *:not(:last-child),
+    .filterButton {
+        margin-right: .5rem;
     }
 }

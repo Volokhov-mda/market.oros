@@ -8,7 +8,7 @@ const AddCardFlat = ({ type, className, ...props }) => {
     return (
         <button className={clsx(styles.button, className)} {...props}>
             <CardFlat className={styles.icon}>
-                    +
+                +
             </CardFlat>
         </button>
     );

@@ -2,11 +2,11 @@ import MarketStat from "../MarketStat/MarketStat";
 
 import styles from "./market-info.css";
 
-const MarketInfo = () => {
+const MarketInfo = ({ numOfInfluencers, numOfAudience }) => {
     return (
         <div className={styles.container}>
-            <MarketStat number={573} title="Influencers" />
-            <MarketStat number={120_000_000} title="Audience" />
+            <MarketStat number={numOfInfluencers} title="Influencers" />
+            <MarketStat number={numOfAudience} title="Audience" />
         </div>
     );
 }

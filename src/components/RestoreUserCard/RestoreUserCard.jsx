@@ -3,11 +3,10 @@ import UserCard from "../UserCard/UserCard";
 
 import styles from "./restore-user-card.css";
 
-const RestoreUserCard = ({ onRestore, user, gradient }) => (
+const RestoreUserCard = ({ onRestore, user, showPassword }) => (
   <UserCard
-    gradient={gradient}
     nameProps={{ readOnly: true, defaultValue: user.name }}
-    passwordProps={{ readOnly: true, defaultValue: user.password }}
+    passwordProps={showPassword && { readOnly: true, defaultValue: user.password }}
     className={styles.card}
   >
     {onRestore && (

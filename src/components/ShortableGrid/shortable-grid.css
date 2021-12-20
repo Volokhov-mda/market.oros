@@ -18,12 +18,14 @@
     display: grid;
     grid-gap: 1rem;
     grid-auto-rows: 1fr;
-    transition: calc(var(--transition-duration) * 2);
   }
   
+  #grid, 
+  #gridShortened,
   #grid > *,
   #gridShortened > * {
-    transition: calc(var(--transition-duration) * 2);
+    transition-property: transform, opacity, width, min-height;
+    transition-duration: calc(var(--transition-duration) * 2);
   }
   
   #grid {
@@ -33,7 +35,7 @@
   #gridShortened {
     grid-template-columns: repeat(2, 1fr);
   
-    padding: 1rem;
+    padding: 1rem 1rem 0 1rem;
     
     width: 66%;
   
@@ -132,6 +134,10 @@
       grid-template-columns: 1fr;
       margin: 0 0 0 auto;
       width: 100%;
+    }
+
+    .shorteningContainer {
+      min-height: 23rem;
     }
   
     #grid.shortening {

@@ -6,7 +6,7 @@ import UserCard from "../UserCard/UserCard";
 
 import generatePassword from "../../helpers/generate-password";
 
-const CreateUserCard = ({ onCreate, gradient }) => {
+const CreateUserCard = ({ onCreate, role }) => {
   const { register, handleSubmit, watch, setValue, reset } = useForm();
   const name = watch("name");
 
@@ -16,14 +16,16 @@ const CreateUserCard = ({ onCreate, gradient }) => {
   }, [name]);
 
   const onSubmit = (data) => {
-    onCreate(data);
+    onCreate({
+      ...data,
+      role
+    });
     reset();
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <UserCard
-        gradient={gradient}
         nameProps={register("name")}
         passwordProps={register("password")}
       >

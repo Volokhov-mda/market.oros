@@ -1,12 +1,14 @@
 import { trackPromise } from "react-promise-tracker";
 import { useState, useContext } from "preact/hooks";
 import { useMutation } from "react-fetching-library";
+import { useAtom } from "jotai";
+
+import { userAtom } from "../../data/atoms";
 
 import {
-    banUserAction,
-    restoreUserAction,
-    createUserAction,
-    editUserAction,
+    createCategoryAction,
+    deleteCategoryAction,
+    editCategoryAction,
 } from "../../api/actions";
 
 import NotyfContext from "../../contexts/notyf";
@@ -22,20 +24,25 @@ import AddCardFlat from "../AddCardFlat/AddCardFlat";
 import CreateCategoryCard from "../CreateCategoryCard/CreateCategoryCard";
 
 import styles from "./categories-grid.css";
+import rolesConfig from "../../data/rolesConfig";
 
 const CategoriesGrid = ({ categories, onUpdate }) => {
+    const [currentUser] = useAtom(userAtom);
+
     const [isEditing, setIsEditing] = useState(false);
     const [isCreating, setIsCreating] = useState(false);
     const [currCategory, setCurrCategory] = useState(null);
 
     const notyf = useContext(NotyfContext);
 
-    const { mutate: banUser } = useMutation(banUserAction);
-    const { mutate: restoreUser } = useMutation(restoreUserAction);
-    const { mutate: createUser } = useMutation(createUserAction);
-    const { mutate: editUser } = useMutation(editUserAction);
+    const { mutate: createCategory } = useMutation(createCategoryAction);
+    const { mutate: editCategory } = useMutation(editCategoryAction);
+    const { mutate: deleteCategory } = useMutation(deleteCategoryAction);
+
+    const validateCategoryName = (name) => !!name.match(/^[-a-zA-Z\u0410-\u044F\u0401\u0451_\d ]+$/g);
 
     const performMutation = async (func, data, message) => {
+
         const { error } = await trackPromise(func(...data));
         if (error) return;
 
@@ -43,26 +50,29 @@ const CategoriesGrid = ({ categories, onUpdate }) => {
         notyf.success(message);
     };
 
-    const onBan = async ({ _id }) => {
+    const onDelete = async ({ _id }) => {
         const isConfirmed = await showConfirm("Вы действительно хотите удалить категорию?");
         if (!isConfirmed) return;
 
-        performMutation(banUser, [_id], "Пользователь забанен");
+        performMutation(deleteCategory, [_id], "Категория удалена");
     }
 
-    const onEdit = (category) => {
-        setCurrCategory(category);
-        setIsEditing(true);
-        // performMutation(editUser, [_id, user], "Пользователь изменён");
+    const onEdit = ({ _id, ...data }) => {
+        if (!validateCategoryName(data.name)) {
+            notyf.error("Введено недоступное название категории");
+        } else {
+            performMutation(editCategory, [_id, data], "Категория изменена");
+        }
+        onCancel();
     }
-
-    const onRestore = ({ _id }) =>
-        performMutation(restoreUser, [_id], "Пользователь разбанен");
 
     const onCreate = (data) => {
-        setIsCreating(true);
-        console.log(data);
-        performMutation(createUser, [data], "Пользователь создан");
+        if (!validateCategoryName(data.name)) {
+            notyf.error("Введено недоступное название категории");
+        } else {
+            performMutation(createCategory, [data], "Категория создана");
+        }
+        onCancel();
     }
 
     const onCancel = () => {
@@ -92,23 +102,15 @@ const CategoriesGrid = ({ categories, onUpdate }) => {
                 )}
             </ModalWindow>
             <GridContainer>
-                {categories.length === 0 && <>Нет категорий.</>}
                 <Grid className={styles.grid}>
-                    <AddCardFlat onClick={onCreate} />
-                    {categories.active.map((category) => (
+                    <AddCardFlat onClick={() => setIsCreating(true)} />
+                    {categories.map((category) => (
                         <CategoryCard
                             category={category}
+                            className={styles.categoryCard}
                             key={category._id}
-                            onEdit={() => onEdit(category)}
-                            onDelete={onBan}
-                        />
-                    ))}
-                    {categories.archived.map((category) => (
-                        <CategoryCard
-                            category={category}
-                            key={category._id}
-                            onEdit={() => onEdit(category)}
-                            onDelete={onBan}
+                            onEdit={() => { setCurrCategory(category); setIsEditing(true); }}
+                            onDelete={(currentUser.role === rolesConfig.admin) && onDelete}
                         />
                     ))}
                 </Grid>

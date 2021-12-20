@@ -29,7 +29,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: .5rem;
+  padding: .75rem .5rem;
   max-width: calc(100% - var(--thumbnail-size));
   max-height: 4.5rem;
 }
@@ -59,7 +59,7 @@
 }
 
 .linkContainer {
-  margin-top: .25rem;
+  margin-top: .15rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -72,4 +72,12 @@
   text-decoration: none;
   font-weight: 600;
   word-break: break-all;
+}
+
+.followers,
+.linkContainer,
+.priceContainer {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

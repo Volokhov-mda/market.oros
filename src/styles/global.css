@@ -60,12 +60,3 @@ strong {
     font-size: calc(var(--font-size) / 1.5);
   }
 }
-
-@media screen and (max-width: 500px) { 
-  html,
-  input,
-  button,
-  select {
-    font-size: calc(var(--font-size) / 1.5); /* 1.2 */
-  }
-}

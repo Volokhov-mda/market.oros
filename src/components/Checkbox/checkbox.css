@@ -17,6 +17,7 @@
   height: 2rem;
   width: 2rem;
   border: var(--border-width) solid #fff;
+  margin-right: .666rem;
   transition-property: background-color, border-color;
   transition-duration: var(--transition-duration);
   display: flex;

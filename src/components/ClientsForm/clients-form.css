@@ -47,11 +47,8 @@
 }
 
 .showPrice {
-  display: grid;
+  display: flex;
   grid-template-columns: 1.333rem auto;
-  grid-gap: .666rem;
-  /* justify-content: start;
-  flex-direction: row-reverse; */
   
   width: 100%;
 
@@ -82,6 +79,7 @@
 }
 
 .rowsTitle {
+  display: flex;
   font-size: .8333rem;
   font-weight: bold;
 }

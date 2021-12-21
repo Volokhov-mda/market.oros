@@ -9,13 +9,13 @@
 
 .nums {
     display: flex;
-    grid-column-gap: .5rem;
 }
 
 .nums > * {
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 0 .25rem;
 
     overflow: hidden;
 }

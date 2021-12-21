@@ -35,20 +35,18 @@ const PricesFormContainer = ({ defaultValues }) => {
 
   const onSubmit = async ({ influencer, prices }) => {
     const isNewInfluencer = !influencer._id;
-    if (user.role === rolesConfig.admin) {
-      const redactedInfluencer = {
-        ...influencer,
-        countries: influencer.countries.filter(v => v !== ""),
-        categories: Array.isArray(influencer.categories) ? influencer.categories.filter(v => (v !== "" && v._id !== "")) : (influencer.categories === "" ? undefined : influencer.categories),
-      };
+    const redactedInfluencer = {
+      ...influencer,
+      countries: influencer.countries.filter(v => v !== ""),
+      categories: Array.isArray(influencer.categories) ? influencer.categories.filter(v => (v !== "" && v._id !== "")) : (influencer.categories === "" ? undefined : influencer.categories),
+    };
 
-      const { payload: newInfluencer, error } = redactedInfluencer._id
-        ? await trackPromise(editInfluencer(redactedInfluencer._id, redactedInfluencer))
-        : await trackPromise(addInfluencer({ ...redactedInfluencer, _id: undefined }));
+    const { payload: newInfluencer, error } = redactedInfluencer._id
+      ? await trackPromise(editInfluencer(redactedInfluencer._id, redactedInfluencer))
+      : await trackPromise(addInfluencer({ ...redactedInfluencer, _id: undefined }));
 
-      if (error) return;
-      influencer._id = newInfluencer._id;
-    }
+    if (error) return;
+    influencer._id = newInfluencer._id;
 
     const pricesMapped = prices
       .map((price) => ({ _id: price._id || undefined, isVisible: price.isVisible, user: price.user, influencer: influencer._id, price: price.price?.amount ? price.price : undefined }));

@@ -34,20 +34,20 @@ const PricesForm = ({ categories, onSubmit, defaultValues }) => {
       <div className={styles.inputs}>
         <div className={styles.gridSection}>
           <div className={styles.nicknameWrapper}>
-            <Input readOnly={user.role === rolesConfig.manager} placeholder="Никнейм" {...register("influencer.nickname")} />
+            <Input placeholder="Никнейм" {...register("influencer.nickname")} />
             <input type="hidden" {...register("influencer._id")} />
           </div>
 
           <div className={styles.countriesWrapper}>
-            <AutocompleteInputCountry readOnly={user.role === rolesConfig.manager} placeholder="Страна" {...register("influencer.countries[0]")} />
+            <AutocompleteInputCountry placeholder="Страна" {...register("influencer.countries[0]")} />
 
-            <AutocompleteInputCountry readOnly={user.role === rolesConfig.manager} className={clsx(styles.opaquePlaceholder, styles.centeredPlaceholder)} placeholder="+" {...register("influencer.countries[1]")} />
+            <AutocompleteInputCountry className={clsx(styles.opaquePlaceholder, styles.centeredPlaceholder)} placeholder="+" {...register("influencer.countries[1]")} />
 
-            <AutocompleteInputCountry readOnly={user.role === rolesConfig.manager} className={clsx(styles.opaquePlaceholder, styles.centeredPlaceholder)} placeholder="+" {...register("influencer.countries[2]")} />
+            <AutocompleteInputCountry className={clsx(styles.opaquePlaceholder, styles.centeredPlaceholder)} placeholder="+" {...register("influencer.countries[2]")} />
           </div>
 
           <div className={styles.categoriesWrapper}>
-            <Select disabled={user.role === rolesConfig.manager} placeholder="Выбор категории" {...register("influencer.categories[0]._id")}>
+            <Select placeholder="Выбор категории" {...register("influencer.categories[0]._id")}>
               {categories.map((category, i) => (
                 <option key={i} value={category._id}>{category.name}</option>
               ))}

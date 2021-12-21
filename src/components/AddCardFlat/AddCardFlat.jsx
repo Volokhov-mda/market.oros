@@ -6,11 +6,11 @@ import styles from "./add-card-flat.css";
 
 const AddCardFlat = ({ type, className, ...props }) => {
     return (
-        <button className={clsx(styles.button, className)} {...props}>
-            <CardFlat className={styles.icon}>
+        <CardFlat className={styles.icon}>
+            <button className={clsx(styles.button, className)} {...props}>
                 +
-            </CardFlat>
-        </button>
+            </button>
+        </CardFlat>
     );
 }
 

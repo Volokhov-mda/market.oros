@@ -10,7 +10,8 @@
 }
 
 .influencerInfo {
-  display: flex;
+  display: grid;
+  grid-template-columns: 2rem auto;
   align-items: center;
   grid-gap: .666rem;
 }
@@ -25,9 +26,10 @@
 }
 
 /* Cancelling prev style change */
-.nameInput.priceInputDisabled:focus,
+.priceInputDisabled:focus,
 .priceInput:placeholder-shown,
-.priceInput:focus:placeholder-shown {
+.priceInput:focus:placeholder-shown,
+.priceInput.disabled:focus {
   color: rgba(255, 255, 255, .4);
   border-color: rgba(255, 255, 255, .4);
 }
@@ -38,14 +40,13 @@
   border-color: rgba(255, 255, 255, .1);
 }
 
-.priceInput:focus:not(:placeholder-shown),
-.priceInput:focus:not(.disabled) {
-  border-color: #fff;
-}
-
 .disabled.priceInput {
   color: rgba(255, 255, 255, .1);
   border-color: rgba(255, 255, 255, .1);
+}
+
+.priceInput:not(.priceInputDisabled):focus {
+  border-color: #fff;
 }
 
 @media screen and (max-width: 1000px) {

@@ -2,11 +2,7 @@ import { useContext, useEffect, useState } from "preact/hooks";
 import { useMutation, useQuery } from "react-fetching-library";
 import { trackPromise } from "react-promise-tracker";
 import { route } from "preact-router";
-import { useAtom } from "jotai";
 import _ from "lodash";
-
-import { userAtom } from "../../data/atoms";
-import rolesConfig from "../../data/rolesConfig";
 
 import {
   addInfluencerAction,
@@ -23,7 +19,7 @@ import CardFlat from "../CardFlat/CardFlat";
 import styles from "./prices-form-container.css";
 
 const PricesFormContainer = ({ defaultValues }) => {
-  const [user] = useAtom(userAtom);
+
   const [categories, setCategories] = useState(null);
   const notyf = useContext(NotyfContext);
 

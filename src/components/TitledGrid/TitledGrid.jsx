@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import Grid from "../Grid/Grid";
 
 import styles from "./titled-grid.css";

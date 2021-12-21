@@ -49,8 +49,8 @@ const ClientsForm = ({ onSubmit, defaultValues }) => {
         <div className={styles.influencersWrapper}>
           <div className={styles.titledGridTwoColumns}>
             <div className={styles.columnsHeader}>
-              <div>Блоггеры</div>
-              <Checkbox className={clsx(styles.showPrice)} markClassName={styles.showPriceMark} {...{ disabled: user.role !== rolesConfig.admin, ...register("client.showPrices") }}>
+              <div className={styles.rowsTitle}>Блоггеры</div>
+              <Checkbox className={styles.showPrice} markClassName={styles.showPriceMark} {...{ disabled: user.role !== rolesConfig.admin, ...register("client.showPrices") }}>
                 Отображать цену
               </Checkbox>
             </div>

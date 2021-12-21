@@ -47,9 +47,11 @@
 }
 
 .showPrice {
-  justify-content: start;
-  flex-direction: row-reverse;
+  display: grid;
+  grid-template-columns: 1.333rem auto;
   grid-gap: .666rem;
+  /* justify-content: start;
+  flex-direction: row-reverse; */
   
   width: 100%;
 
@@ -81,7 +83,7 @@
 
 .rowsTitle {
   font-size: .8333rem;
-  font-weight: normal;
+  font-weight: bold;
 }
 
 .buttons {
@@ -110,12 +112,16 @@
   }
 
   .columnsHeader {
-    display: flex;
-    flex-direction: column-reverse;
-    align-items: flex-start;
-    
     grid-template-columns: none;
     grid-gap: 2rem;
+  }
+
+  .rowsTitle {
+    grid-row: 2;
+  }
+
+  .showPrice {
+    grid-row: 1;
   }
 }
 

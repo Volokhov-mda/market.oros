@@ -1,9 +1,6 @@
 import clsx from "clsx";
-import { useAtom } from "jotai";
 import { route } from "preact-router";
 import { useFieldArray, useForm } from "react-hook-form";
-import { userAtom } from "../../data/atoms";
-import rolesConfig from "../../data/rolesConfig";
 
 import AutocompleteInputCountry from "../AutocompleteInputCountry/AutocompleteInputCountry";
 
@@ -16,8 +13,6 @@ import TitledGrid from "../TitledGrid/TitledGrid";
 import styles from "./prices-form.css";
 
 const PricesForm = ({ categories, onSubmit, defaultValues }) => {
-  const [user] = useAtom(userAtom);
-
   const goBack = () => {
     if (history.length > 2) {
       history.back();
@@ -56,7 +51,7 @@ const PricesForm = ({ categories, onSubmit, defaultValues }) => {
         </div>
 
         <div className={styles.clientsWrapper}>
-          <TitledGrid gridGap={".5rem"} title="Архивированные" titleClassName={styles.rowsTitle} className={styles.gridSection}>
+          <TitledGrid gridGap={".5rem"} title="Активные" titleClassName={styles.rowsTitle} className={styles.gridSection}>
             {fields.map((field, index) => field.isActive && (
               <PriceFormRow key={field.id} index={index} register={register} checked={field.isVisible} />
             ))}

@@ -1,6 +1,5 @@
-import { useEffect, useMemo } from "preact/hooks";
-import { trackPromise } from "react-promise-tracker";
-import { useParameterizedQuery, useQuery } from "react-fetching-library";
+import { useMemo } from "preact/hooks";
+import { useQuery } from "react-fetching-library";
 
 import {
   fetchInfluencerAction,
@@ -14,39 +13,25 @@ import PricesFormContainer from "../../components/PricesFormContainer/PricesForm
 import rolesConfig from "../../data/rolesConfig";
 
 const EditPrices = ({ id }) => {
-  const { query: querySubscriptions, payload: subscriptions } = useQuery(fetchSubscriptions({ orderby: "weight" }));
-  const { query: queryInfluencer, payload: influencer } = useParameterizedQuery(fetchInfluencerAction);
-  const { query: queryUsers, payload: usersActive } = useQuery(fetchUsers, false);
-  const { query: queryArchiveUsers, payload: usersArchive } = useQuery(fetchArchiveUsers, false);
-
-  const fetchPrices = async () => {
-    let { error } = await trackPromise(querySubscriptions());
-    if (error) return;
-
-    error = await trackPromise(queryInfluencer(id)).error;
-    if (error) return;
-
-    error = await trackPromise(queryUsers()).error;
-    if (error) return;
-
-    error = await trackPromise(queryArchiveUsers()).error;
-    if (error) return;
-  };
-
-  useEffect(() => fetchPrices(), []);
+  const { payload: influencer, loading: loadingInfluencer, error: errorInfluencer } = useQuery(fetchInfluencerAction(id));
+  const { payload: subscriptions, loading: loadingSubscriptions, error: errorSubscriptions } = useQuery(fetchSubscriptions({ orderby: "weight" }));
+  const { payload: usersActive, loading: loadingActive, error: errorActive } = useQuery(fetchUsers);
+  const { payload: usersArchive, loading: loadingArchive, error: errorArchive } = useQuery(fetchArchiveUsers);
 
   if (!subscriptions || !influencer || !usersActive || !usersArchive) return <>Загрузка цен...</>;
+  if (errorSubscriptions || errorActive || errorArchive || errorInfluencer) return <>Во время загрузки пользователей произошла ошибка.</>;
 
   const defaultValues = useMemo(() => {
     const users = [...usersActive, ...usersArchive];
     const clients = users.filter((user) => user.role === rolesConfig.client);
     const subscriptionsFiltered = subscriptions.filter((price) => price.influencer._id === id).map((price) => ({
       _id: price._id,
+      isVisible: price.isVisible,
       user: price.user._id,
       name: price.user.name,
       isActive: price.user.isActive,
       price: price.price
-    })).map((subscription) => { subscription.isVisible = true; return subscription; });
+    }));
 
     const unpricedClients = clients.filter((user) => {
       const hasPrice = subscriptionsFiltered.find((subscription) => {
@@ -56,18 +41,20 @@ const EditPrices = ({ id }) => {
       return !hasPrice;
     });
 
-    const remainingPrices = unpricedClients.map((user) => ({ user: user._id, name: user.name, isActive: user.isActive }));
+    const pricesMapped = unpricedClients.map((user) => ({ user: user._id, name: user.name, isActive: user.isActive, isVisible: false, }));
 
     return {
       influencer,
-      prices: [...subscriptionsFiltered, ...remainingPrices],
+      prices: [...subscriptionsFiltered, ...pricesMapped],
     };
   }, [influencer, subscriptions]);
 
   return (
     <>
       <Header />
-      <PricesFormContainer defaultValues={defaultValues} />
+      {(errorSubscriptions || errorActive || errorArchive || errorInfluencer) && <>Во время загрузки пользователей произошла ошибка.</>}
+      {(loadingSubscriptions || loadingActive || loadingArchive || loadingInfluencer) && <>Загрузка пользователей...</>}
+      {(subscriptions && influencer && usersActive && usersArchive) && <PricesFormContainer defaultValues={defaultValues} />}
     </>
   );
 };

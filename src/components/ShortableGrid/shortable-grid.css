@@ -100,6 +100,10 @@
       opacity: 0;
       transform: translateX(calc(100% + 1rem));
     }
+
+    #pricesWrapper.shorteningWrapper {
+      min-height: 23rem;
+    }
   }
   
   @media screen and (min-width: 501px) and (max-width: 1000px) {
@@ -135,10 +139,6 @@
       margin: 0 0 0 auto;
       width: 100%;
     }
-
-    .shorteningContainer {
-      min-height: 23rem;
-    }
   
     #grid.shortening {
       width: 50%;
@@ -147,6 +147,10 @@
     #gridShortened {
       grid-template-columns: 1fr;
       display: none;
+    }
+
+    #pricesWrapper.shorteningWrapper {
+      min-height: 23rem;
     }
   }
   

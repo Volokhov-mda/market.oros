@@ -7,14 +7,14 @@ import Header from "../../components/Header/Header";
 import ClientsFormContainer from "../../components/ClientsFormContainer/ClientsFormContainer";
 
 const AddClietns = () => {
-  const { payload: influencersActive, loading: loadingActive, error: errorActive } = useQuery(fetchInfluencersAction({}));
-  const { payload: influencersArchive, loading: loadingArchive, error: errorArchive } = useQuery(fetchArchiveInfluencersAction({}));
+  const { payload: influencersActive, loading: loadingActive, error: errorActive } = useQuery(fetchInfluencersAction({ orderby: "weight" }));
+  const { payload: influencersArchive, loading: loadingArchive, error: errorArchive } = useQuery(fetchArchiveInfluencersAction({ orderby: "weight" }));
 
   if (!(influencersActive && influencersArchive)) return <>Загрузка блоггеров...</>;
 
   const defaultClients = useMemo(() => {
     const influencers = [...influencersActive, ...influencersArchive];
-    const influencersMapped = influencers.map((influencer) => ({ _id: influencer._id, isActive: influencer.isActive, nickname: influencer.nickname, isVisible: true }) );
+    const influencersMapped = influencers.map((influencer) => ({ influencer: influencer._id, isActive: influencer.isActive, nickname: influencer.nickname, isVisible: true }));
 
     return { influencers: influencersMapped };
   }, [influencersActive, influencersArchive]);

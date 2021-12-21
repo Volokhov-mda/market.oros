@@ -3,6 +3,7 @@ import { useMutation, useQuery } from "react-fetching-library";
 import { trackPromise } from "react-promise-tracker";
 import { route } from "preact-router";
 import { useAtom } from "jotai";
+import _ from "lodash";
 
 import { userAtom } from "../../data/atoms";
 import rolesConfig from "../../data/rolesConfig";
@@ -10,7 +11,6 @@ import rolesConfig from "../../data/rolesConfig";
 import {
   addInfluencerAction,
   addSubscriptionAction,
-  deleteSubscriptionAction,
   editInfluencerAction,
   editSubscriptionAction,
   fetchCategoriesAction,
@@ -31,11 +31,10 @@ const PricesFormContainer = ({ defaultValues }) => {
   const { mutate: editInfluencer } = useMutation(editInfluencerAction);
   const { mutate: addSubscription } = useMutation(addSubscriptionAction);
   const { mutate: editSubscription } = useMutation(editSubscriptionAction);
-  const { mutate: deleteSubscription } = useMutation(deleteSubscriptionAction);
   const { query } = useQuery(fetchCategoriesAction);
 
   const onSubmit = async ({ influencer, prices }) => {
-    console.log(influencer);
+    const isNewInfluencer = !influencer._id;
     if (user.role === rolesConfig.admin) {
       const redactedInfluencer = {
         ...influencer,
@@ -52,42 +51,26 @@ const PricesFormContainer = ({ defaultValues }) => {
     }
 
     const pricesMapped = prices
-      .filter((price) => (price.isVisible || (price.price.amount && !price.isVisible) || price._id))
-      .map((price) => ({ _id: price._id, isVisible: price.isVisible, user: price.user, influencer: influencer._id, price: price.price }));
+      .map((price) => ({ _id: price._id || undefined, isVisible: price.isVisible, user: price.user, influencer: influencer._id, price: price.price?.amount ? price.price : undefined }));
 
-    for (const price of pricesMapped) {
-      if (!price.price.amount && price.isVisible && price._id) {
-        let { error } = await trackPromise(deleteSubscription(price._id));
+    if (isNewInfluencer) {
+      const { error } = await trackPromise(addSubscription(pricesMapped));
+      if (error) return;
+    } else {
+      const pricesToEdit = pricesMapped
+        .filter((price, i) => (!price._id || !_.isEqual(price.price, defaultValues.prices[i].price) || price.isVisible !== defaultValues.prices[i].isVisible));
 
-        if (error) return;
-
-        price.price = (!price.price.amount || !price.isVisible) ? undefined : price.price;
-        price.isVisible = undefined;
-
-        error = (await trackPromise(addSubscription({ ...price, _id: undefined }))).error;
-        if (error) return;
-      } else if (!price.isVisible && price._id) {
-        const { error } = await trackPromise(deleteSubscription(price._id));
-        if (error) return;
-      } else {
-        price.price = (!price.price.amount || !price.isVisible) ? undefined : price.price;
-        price.isVisible = undefined;
-
+      for (const price of pricesToEdit) {
         const { error } = price._id
           ? await trackPromise(editSubscription(price._id, price))
-          : await trackPromise(addSubscription({ ...price, _id: undefined }));
-
+          : await trackPromise(addSubscription(price));
         if (error) return;
       }
     }
 
     notyf.success("Информация сохранена");
 
-    if (history.length > 2) {
-      history.back();
-    } else {
-      route("/market");
-    }
+    route("/market");
   };
 
   const fetchCategories = async () => {

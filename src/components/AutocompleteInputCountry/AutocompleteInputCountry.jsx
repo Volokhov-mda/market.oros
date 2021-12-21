@@ -11,7 +11,7 @@ import Input from '../Input/Input';
 
 import styles from "./autocomplete-input-country.css";
 
-const AutocompleteInputCountry = forwardRef(({ className, placeholder, ...props }, ref) => {
+const AutocompleteInputCountry = forwardRef(({ className, readOnly, placeholder, ...props }, ref) => {
     const [currCountryCode, setCurrCountryCode] = useState(null);
 
     return (
@@ -53,14 +53,15 @@ const AutocompleteInputCountry = forwardRef(({ className, placeholder, ...props 
                         <Input
                             className={clsx(className, classNameInputProps)}
                             placeholder={placeholder}
-                            onChange={(e) => { onChangeInputProps(e); onChangeRegister(e); }}
-                            onBlur={(e) => { onBlurInputProps(e); onBlurRegister(e); }}
-                            {...inputProps}
-                            {...registerProps}
+                            onChange={readOnly ? () => {} : (e) => { onChangeInputProps(e); onChangeRegister(e); }}
+                            onBlur={readOnly ? () => {} : (e) => { onBlurInputProps(e); onBlurRegister(e); }}
+                            {...(!readOnly && inputProps)}
+                            {...(!readOnly && registerProps)}
                             ref={mergedRef}
                             value={currCountryCode}
                             type="text"
                             autocomplete="new-password"
+                            readOnly={readOnly}
                         />
                     </div>
                 )

@@ -52,9 +52,6 @@ const App = () => {
     else if (e.url === "/market") {
       return route("/market?page=1");
     } 
-    else if (e.url.startsWith("/market")) {
-      console.log("hi", e.url);
-    }
     else if (e.url === "archive") {
       if (!(userTemp?.role <= rolesConfig.manager)) {
         return route("/", true);

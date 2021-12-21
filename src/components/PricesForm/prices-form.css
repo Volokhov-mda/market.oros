@@ -1,6 +1,6 @@
 .form {
   display: grid;
-  grid-gap: 1.5rem;
+  grid-gap: 2.75rem;
 }
 
 .gridSection {
@@ -10,7 +10,7 @@
 
 .inputs {
   display: grid;
-  grid-gap: 1rem;
+  grid-gap: 2rem;
 }
 
 .nicknameWrapper {
@@ -29,6 +29,11 @@
   display: grid;
   grid-gap: 1rem;
   grid-template-columns: repeat(2, 1fr);
+}
+
+.clientsWrapper {
+  display: grid;
+  grid-gap: 1.5rem;
 }
 
 .rowsTitle {

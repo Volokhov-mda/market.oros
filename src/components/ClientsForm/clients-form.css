@@ -1,6 +1,6 @@
 .form {
   display: grid;
-  grid-gap: 1.5rem;
+  grid-gap: 2.75rem;
 }
 
 .gridSection {
@@ -13,15 +13,31 @@
   grid-gap: 1.5rem;
 }
 
-.inputs {
+.influencersWrapper {
   display: grid;
-  grid-gap: 1.25rem;
+  grid-gap: 1.5rem;
 }
 
-.nicknameWrapper {
+.inputs {
   display: grid;
+  grid-gap: 2rem;
+}
+
+.nicknameWrapper,
+.columnsHeader {
+  display: grid;
+  align-items: center;
   grid-gap: .666rem;
   grid-template-columns: calc(50% - 0.5rem) 1fr;
+}
+
+.columnsHeader {
+  font-size: .8333rem;
+}
+
+.nicknameWrapperWithoutPassword {
+  grid-template-columns: 1fr;
+  grid-gap: .75rem;
 }
 
 .showPriceWrapper {
@@ -31,8 +47,30 @@
 }
 
 .showPrice {
+  justify-content: start;
+  flex-direction: row-reverse;
+  grid-gap: .666rem;
+  
   width: 100%;
-  justify-content: space-between;
+
+  font-size: .8333rem;
+}
+
+.showPriceMark {
+  width: 1.333rem;
+  height: 1.333rem;
+
+  border-width: 2px;
+}
+
+.showPriceMark:after {
+  width: 6px;
+  height: 11px;
+}
+
+.titledGridTwoColumns {
+  display: grid;
+  grid-gap: .5rem;
 }
 
 .categoriesWrapper {
@@ -70,7 +108,17 @@
   .gridSection {
     grid-gap: 1.5rem;
   }
+
+  .columnsHeader {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    
+    grid-template-columns: none;
+    grid-gap: 2rem;
+  }
 }
+
 @media screen and (max-width: 500px) {
   .showPriceWrapper {
     grid-template-columns: 1fr;

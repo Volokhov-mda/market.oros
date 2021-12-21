@@ -85,7 +85,6 @@ const Market = ({ page, scroll: scrollElement }) => {
   };
 
   const fetchAdminPrices = async () => {
-    console.log(params);
     const { payload, headers, error } = await fetchInfluencers(params);
 
     if (!error) {
@@ -155,21 +154,19 @@ const Market = ({ page, scroll: scrollElement }) => {
 
   useEffect(() => {
     if (prices && scrollElement) {
-      console.log("scroll");
       const target = document.getElementById(scrollElement);
       target?.scrollIntoView({ block: 'nearest', }); // behavior: 'smooth', 
     }
   }, [prices, scrollElement]);
 
   useEffect(() => {
-    if (currentUser && currPageIndex && scrollElement) {
-      return route(`/market?page=${currPageIndex + 1}&scroll=${scrollElement}`);
+    if (currentUser) {
+      return route(`/market?page=${currPageIndex + 1}${scrollElement ? `&scroll=${scrollElement}` : ""}`);
     }
   }, [currentUser, currPageIndex, scrollElement]);
 
   const onSubmit = (data) => {
     data.orderby = ((data.orderby === "meta.audience" || data.orderby === "weight") && currentUser.role === rolesConfig.client) ? `influencer.${data.orderby}` : data.orderby;
-    console.log(data);
     setParams(formatFilterParams(currPageIndex + 1, usersPerPage.current, data));
   }
 

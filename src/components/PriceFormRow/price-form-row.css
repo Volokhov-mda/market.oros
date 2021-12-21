@@ -9,13 +9,13 @@
   font-size: .8333rem;
 }
 
-.value {
-  display: grid;
-  grid-template-columns: auto max-content;
+.influencerInfo {
+  display: flex;
   align-items: center;
-  grid-gap: 1rem;
+  grid-gap: .666rem;
 }
 
+.nameInput,
 .priceInput {
   color: #fff;
   border-color: #fff;
@@ -25,6 +25,7 @@
 }
 
 /* Cancelling prev style change */
+.nameInput.priceInputDisabled:focus,
 .priceInput:placeholder-shown,
 .priceInput:focus:placeholder-shown {
   color: rgba(255, 255, 255, .3);

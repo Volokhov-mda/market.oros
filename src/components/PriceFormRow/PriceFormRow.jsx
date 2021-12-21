@@ -13,15 +13,15 @@ const PriceFormRow = ({ register, index, checked }) => {
     <div className={styles.row}>
       <input type="hidden" {...register(`${rowName}._id`)} />
 
-      <Input readOnly {...register(`${rowName}.name`)} />
-      <input type="hidden" {...register(`${rowName}._id`)} />
-
-      <div className={styles.value}>
-        <Input className={clsx(styles.priceInput, !isChecked && styles.priceInputDisabled)} placeholder=" " {...register(`${rowName}.price.amount`)} disabled={!isChecked} />
-        <input type="hidden" {...register(`${rowName}.price.currency`)} value="USD" />
-        <input type="hidden" {...register(`${rowName}.price.description`)} value="1 promo-post" />
+      <div className={styles.influencerInfo}>
         <Checkbox {...register(`${rowName}.isVisible`)} checked={isChecked} onClick={() => setIsChecked(!isChecked)} />
+        <Input className={clsx(styles.nameInput, !isChecked && styles.priceInputDisabled)} readOnly {...register(`${rowName}.name`)} />
+        <input type="hidden" {...register(`${rowName}._id`)} />
       </div>
+
+      <Input className={clsx(styles.priceInput, !isChecked && styles.priceInputDisabled)} placeholder=" " {...register(`${rowName}.price.amount`)} readOnly={!isChecked} />
+      <input type="hidden" {...register(`${rowName}.price.currency`)} value="USD" />
+      <input type="hidden" {...register(`${rowName}.price.description`)} value="1 promo-post" />
     </div>
   );
 };

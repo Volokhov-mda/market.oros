@@ -27,7 +27,7 @@ const ReorderList = ({ influencers, setInfluencers, onUpdate }) => {
   };
 
   const onDelete = async ({ _id, nickname }) => {
-    const message = `Do you want to delete @${nickname}?`;
+    const message = `Вы действительно хотите удалить @${nickname}?`;
     const isConfirmed = await showConfirm(message);
     if (!isConfirmed) return;
 

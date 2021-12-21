@@ -25,7 +25,7 @@ const ShortableGrid = ({ children, ...props }) => {
     }, [isGridShortened, children]);
 
     return (
-        <div id={styles.pricesWrapper}>
+        <div id={styles.pricesWrapper} className={isGridShortened && styles.shorteningWrapper}>
             <FiltersMarket show={isGridShortened} {...props} />
             <div className={clsx(styles.container, isGridShortened && styles.shorteningContainer)}>
                 <div id={styles.grid} className={isGridShortened && styles.shortening}>

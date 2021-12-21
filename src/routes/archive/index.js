@@ -136,7 +136,6 @@ const Archive = ({ page, scroll: scrollElement }) => {
   }, [prices, scrollElement]);
 
   const onSubmit = (data) => {
-    console.log(data);
     setParams(formatFilterParams(currPageIndex + 1, usersPerPage.current, data));
   }
 

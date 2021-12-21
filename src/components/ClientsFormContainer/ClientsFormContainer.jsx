@@ -3,6 +3,7 @@ import { useMutation, useQuery } from "react-fetching-library";
 import { trackPromise } from "react-promise-tracker";
 import { route } from "preact-router";
 import { useAtom } from "jotai";
+import _ from "lodash";
 
 import { userAtom } from "../../data/atoms";
 
@@ -10,7 +11,6 @@ import {
   addSubscriptionAction,
   createUserAction,
   editSubscriptionAction,
-  deleteSubscriptionAction,
   editUserAction,
   fetchCategoriesAction,
 } from "../../api/actions";
@@ -31,10 +31,10 @@ const ClientsFormContainer = ({ defaultValues }) => {
   const { mutate: editUser } = useMutation(editUserAction);
   const { mutate: addSubscription } = useMutation(addSubscriptionAction);
   const { mutate: editSubscription } = useMutation(editSubscriptionAction);
-  const { mutate: deleteSubscription } = useMutation(deleteSubscriptionAction);
   const { query } = useQuery(fetchCategoriesAction);
 
   const onSubmit = async ({ client, influencers }) => {
+    const isNewClient = !client._id;
     if (user.role === rolesConfig.admin) {
       client.role = 2;
       const { payload: newClient, error } = client._id
@@ -46,32 +46,21 @@ const ClientsFormContainer = ({ defaultValues }) => {
     }
 
     const influencersMapped = influencers
-      .filter((influencer) => (influencer.isVisible || (influencer.price.amount && !influencer.isVisible) || influencer._id))
-      .map((influencer) => ({ _id: influencer._id, isVisible: influencer.isVisible, influencer: influencer.influencer, user: client._id, price: influencer.price }));
+      .map((influencer) => ({ _id: influencer._id || undefined, isVisible: influencer.isVisible, influencer: influencer.influencer, user: client._id, price: influencer.price?.amount ? influencer.price : undefined }));
 
-    for (const influencer of influencersMapped) {
-      if (!influencer.price.amount && influencer.isVisible && influencer._id) {
-        let { error } = await trackPromise(deleteSubscription(influencer._id));
-        if (error) return;
+    if (isNewClient) {
+      const { error } = await trackPromise(addSubscription(influencersMapped));
+      if (error) return;
+    } else {
+      const influencersToEdit = influencersMapped
+        .filter((influencer, i) => (!influencer._id || !_.isEqual(influencer.price, defaultValues.influencers[i].price) || influencer.isVisible !== defaultValues.influencers[i].isVisible));
 
-        influencer.price = (!influencer.price.amount || !influencer.isVisible) ? undefined : influencer.price;
-        influencer.isVisible = undefined;
-
-        error = (await trackPromise(addSubscription({ ...influencer, _id: undefined }))).error;
-        if (error) return;
-      } else if (!influencer.isVisible && influencer._id) {
-        const { error } = await trackPromise(deleteSubscription(influencer._id));
-        if (error) return;
-      } else {
-        influencer.price = (!influencer.price.amount || !influencer.isVisible) ? undefined : influencer.price;
-        influencer.isVisible = undefined;
+      for (const influencer of influencersToEdit) {
         const { error } = influencer._id
           ? await trackPromise(editSubscription(influencer._id, influencer))
-          : await trackPromise(addSubscription({ ...influencer, _id: undefined }));
-
+          : await trackPromise(addSubscription(influencer));
         if (error) return;
       }
-
     }
 
     notyf.success("Информация сохранена");

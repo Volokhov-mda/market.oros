@@ -219,14 +219,6 @@ export const editSubscriptionAction = (id, data) => ({
   },
 });
 
-export const deleteSubscriptionAction = (id) => ({
-  method: "DELETE",
-  endpoint: `/subscriptions/${id}`,
-  config: {
-    needsToken: true,
-  },
-});
-
 export const banUserAction = (id) => ({
   method: "POST",
   endpoint: `/users/${id}/ban`,

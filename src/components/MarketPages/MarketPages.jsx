@@ -8,16 +8,19 @@ import MarketPageButton from "../MarketPageButton/MarketPageButton";
 
 import styles from "./market-pages.css";
 
-const MarketPages = ({ currPage, setCurrPage, usersPerPage, influencersCount }) => {
+const MarketPages = ({ currPage, setCurrPage, setTotalNumOfPages, usersPerPage, influencersCount }) => {
     const [numOfPages, setNumOfPages] = useState(undefined);
-
     const [numOfPagesShown, setNumOfPagesShown] = useState(document.body.clientWidth <= 500 ? 6 : 8);
 
     useEffect(() => {
         setNumOfPagesShown(document.body.clientWidth <= 500 ? 6 : 8);
     }, [document.body.clientWidth]);
 
-    useEffect(() => { setNumOfPages(Math.ceil(influencersCount / usersPerPage)) }, [influencersCount, usersPerPage]);
+    useEffect(() => {
+        const totalNumOfPages = Math.ceil(influencersCount / usersPerPage);
+        setNumOfPages(totalNumOfPages);
+        setTotalNumOfPages(totalNumOfPages);
+    }, [influencersCount, usersPerPage]);
 
     const setNewPage = (newPageNum) => {
         if (newPageNum < 0 || newPageNum > numOfPages - 1 || newPageNum === currPage) return;

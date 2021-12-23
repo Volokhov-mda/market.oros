@@ -43,6 +43,7 @@ const Market = ({ page, scroll: scrollElement }) => {
   const [currentUser] = useAtom(userAtom);
 
   const [currPageIndex, setCurrPageIndex] = useState(page ? (page - 1) : 0);
+  const [totalNumOfPages, setTotalNumOfPages] = useState(undefined);
   const [prices, setPrices] = useState(null);
   const [filterValues, setFilterValues] = useState(null);
   const [influencersCount, setInfluencersCount] = useState(null);
@@ -187,9 +188,15 @@ const Market = ({ page, scroll: scrollElement }) => {
     }
   }, [currentUser, currPageIndex, scrollElement]);
 
+  useEffect(() => {
+    if (totalNumOfPages < currPageIndex + 1) {
+      setCurrPageIndex(0);
+    }
+  }, [totalNumOfPages]);
+
   const onSubmit = (data) => {
     data.orderby = ((data.orderby === "meta.audience" || data.orderby === "weight") && currentUser.role === rolesConfig.client) ? `influencer.${data.orderby}` : data.orderby;
-    setParams(formatFilterParams(currPageIndex + 1, usersPerPage.current, data));
+    setParams(formatFilterParams((totalNumOfPages < currPageIndex + 1) ? 0 : currPageIndex + 1, usersPerPage.current, data));
   }
 
   return (
@@ -218,7 +225,7 @@ const Market = ({ page, scroll: scrollElement }) => {
             watch={watch}
             setValue={setValue}
           />
-          {influencersCount ? <MarketPages currPage={currPageIndex} setCurrPage={setCurrPageIndex} usersPerPage={usersPerPage.current} influencersCount={influencersCount} /> : null}
+          {influencersCount ? <MarketPages currPage={currPageIndex} setCurrPage={setCurrPageIndex} setTotalNumOfPages={setTotalNumOfPages} usersPerPage={usersPerPage.current} influencersCount={influencersCount} /> : null}
         </>
       )}
     </>

@@ -41,6 +41,7 @@ const Archive = ({ page, scroll: scrollElement }) => {
   const [currentUser] = useAtom(userAtom);
 
   const [currPageIndex, setCurrPageIndex] = useState(page ? (page - 1) : 0);
+  const [totalNumOfPages, setTotalNumOfPages] = useState(undefined);
   const [prices, setPrices] = useState(null);
   const [filterValues, setFilterValues] = useState(null);
   const [influencersCount, setInfluencersCount] = useState(null);
@@ -145,6 +146,12 @@ const Archive = ({ page, scroll: scrollElement }) => {
     }
   }, [currentUser, currPageIndex, scrollElement]);
 
+  useEffect(() => {
+    if (totalNumOfPages < currPageIndex + 1) {
+      setCurrPageIndex(0);
+    }
+  }, [totalNumOfPages]);
+
   const onSubmit = (data) => {
     setParams(formatFilterParams(currPageIndex + 1, usersPerPage, data));
   }
@@ -175,7 +182,7 @@ const Archive = ({ page, scroll: scrollElement }) => {
             watch={watch}
             setValue={setValue}
           />
-          {influencersCount ? <MarketPages currPage={currPageIndex} setCurrPage={setCurrPageIndex} usersPerPage={usersPerPage} influencersCount={influencersCount} /> : null}
+          {influencersCount ? <MarketPages currPage={currPageIndex} setCurrPage={setCurrPageIndex} setTotalNumOfPages={setTotalNumOfPages} usersPerPage={usersPerPage} influencersCount={influencersCount} /> : null}
         </>
       )}
     </>

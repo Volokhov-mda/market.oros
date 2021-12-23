@@ -6,6 +6,7 @@ import AutocompleteInputCountry from "../AutocompleteInputCountry/AutocompleteIn
 
 import FlatButton from "../FlatButton/FlatButton";
 import Input from "../Input/Input";
+import MultipleSelect from "../MultipleSelect/MultipleSelect";
 import PriceFormRow from "../PriceFormRow/PriceFormRow";
 import Select from "../Select/Select";
 import TitledGrid from "../TitledGrid/TitledGrid";
@@ -21,7 +22,8 @@ const PricesForm = ({ categories, onSubmit, defaultValues }) => {
     }
   }
 
-  const { handleSubmit, register, control } = useForm({ defaultValues });
+  const { handleSubmit, register, watch, getValues, control } = useForm({ defaultValues });
+  const categoriesSelected = getValues("influencer.categories");
   const { fields } = useFieldArray({ control, name: "prices" });
 
   return (
@@ -34,32 +36,28 @@ const PricesForm = ({ categories, onSubmit, defaultValues }) => {
           </div>
 
           <div className={styles.countriesWrapper}>
-            <AutocompleteInputCountry placeholder="Страна" {...register("influencer.countries[0]")} />
+            <AutocompleteInputCountry placeholder="Страна" {...register("influencer.countries[0]")} watch={watch} />
 
-            <AutocompleteInputCountry className={clsx(styles.opaquePlaceholder, styles.centeredPlaceholder)} placeholder="+" {...register("influencer.countries[1]")} />
+            <AutocompleteInputCountry className={clsx(styles.opaquePlaceholder, styles.centeredPlaceholder)} placeholder="+" {...register("influencer.countries[1]")} watch={watch} />
 
-            <AutocompleteInputCountry className={clsx(styles.opaquePlaceholder, styles.centeredPlaceholder)} placeholder="+" {...register("influencer.countries[2]")} />
+            <AutocompleteInputCountry className={clsx(styles.opaquePlaceholder, styles.centeredPlaceholder)} placeholder="+" {...register("influencer.countries[2]")} watch={watch} />
           </div>
 
           <div className={styles.categoriesWrapper}>
-            <Select placeholder="Выбор категории" {...register("influencer.categories[0]._id")}>
-              {categories.map((category, i) => (
-                <option key={i} value={category._id}>{category.name}</option>
-              ))}
-            </Select>
+            <MultipleSelect registerProps={register("influencer.categories")} values={categories} valuesSelected={categoriesSelected} />
           </div>
         </div>
 
         <div className={styles.clientsWrapper}>
           <TitledGrid gridGap={".5rem"} title="Активные" titleClassName={styles.rowsTitle} className={styles.gridSection}>
             {fields.map((field, index) => field.isActive && (
-              <PriceFormRow key={field.id} index={index} register={register} checked={field.isVisible} />
+              <PriceFormRow key={field.id} index={index} register={register} watch={watch} getValues={getValues} checked={field.isVisible} priceDisabled={!field.showPrices} />
             ))}
           </TitledGrid>
 
           <TitledGrid gridGap={".5rem"} title="Архивированные" titleClassName={styles.rowsTitle} className={styles.gridSection}>
             {fields.map((field, index) => !field.isActive && (
-              <PriceFormRow key={field.id} index={index} register={register} checked={field.isVisible} />
+              <PriceFormRow key={field.id} index={index} register={register} watch={watch} getValues={getValues} checked={field.isVisible} priceDisabled={!field.showPrices} />
             ))}
           </TitledGrid>
         </div>

@@ -21,7 +21,6 @@
     display: flex;
     flex-direction: column;
 
-    padding: .5rem 0;
     border-radius: var(--border-radius);
 
     height: unset;
@@ -30,12 +29,20 @@
     opacity: 0;
     pointer-events: none;
 
-    transition: opacity calc(var(--transition-duration) * 2);
+    transition-property: opacity;
+    transition-duration: var(--transition-duration);
 }
 
 .show {
     opacity: 1;
     pointer-events: auto;
+
+    transition-property: opacity;
+    transition-duration: calc(var(--transition-duration) * 2);
+}
+
+.filterTabs {
+    padding: .5rem 0;
 }
 
 .notification {

@@ -1,5 +1,8 @@
 import Img from "react-image-fade-in";
 
+import currencies from "../../data/currencies";
+import formatNumberSpaces from "../../helpers/formatNumberSpaces";
+
 import Link from "../Link/Link";
 import UserCardFlat from "../UserCardFlat/UserCardFlat";
 
@@ -34,7 +37,7 @@ const PriceCardUser = ({ influencer, }) => {
         </div>
         {(showPrices && price) && (
           <div className={styles.priceContainer}>
-            {price.amount && <span className={styles.price}>${price.amount}</span>} {price.description && <>for <span className={styles.title}>{price.description}</span></>}
+            {price.amount !== undefined && <span className={styles.price}>{currencies[price.currency]}{formatNumberSpaces(price.amount)}</span>} {price.description && <>for <span className={styles.title}>{price.description}</span></>}
           </div>
         )}
       </div>

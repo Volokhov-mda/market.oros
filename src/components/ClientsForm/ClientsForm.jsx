@@ -20,7 +20,7 @@ import styles from "./clients-form.css";
 
 const ClientsForm = ({ onSubmit, defaultValues }) => {
   const [user] = useAtom(userAtom);
-  const { handleSubmit, register, control, watch, setValue } = useForm({ defaultValues });
+  const { handleSubmit, register, control, watch, getValues, setValue } = useForm({ defaultValues });
   const { fields } = useFieldArray({ control, name: "influencers" });
 
   const goBack = () => route("/clients");
@@ -49,21 +49,21 @@ const ClientsForm = ({ onSubmit, defaultValues }) => {
         <div className={styles.influencersWrapper}>
           <div className={styles.titledGridTwoColumns}>
             <div className={styles.columnsHeader}>
-              <div className={styles.rowsTitle}>Блоггеры</div>
+              <div className={styles.rowsTitle}>{user.role === rolesConfig.admin ? "Влиятели" : "Блогеры"}</div>
               <Checkbox className={styles.showPrice} markClassName={styles.showPriceMark} {...{ disabled: user.role !== rolesConfig.admin, ...register("client.showPrices") }}>
                 Отображать цену
               </Checkbox>
             </div>
             <div className={styles.gridSection}>
               {fields.map((field, index) => field.isActive && (
-                <ClientFormRow key={field.id} index={index} register={register} checked={field.isVisible} disabled={!showPrices} />
+                <ClientFormRow key={field.id} index={index} register={register} watch={watch} getValues={getValues} checked={field.isVisible} disabled={!showPrices} />
               ))}
             </div>
           </div>
 
-          <TitledGrid gridGap={".5rem"} title="Архивные блоггеры" titleClassName={styles.rowsTitle} className={styles.gridSection}>
+          <TitledGrid gridGap={".5rem"} title={`Архивные ${user.role === rolesConfig.admin ? "влиятели" : "блогеры"}`} titleClassName={styles.rowsTitle} className={styles.gridSection}>
             {fields.map((field, index) => !field.isActive && (
-              <ClientFormRow key={field.id} index={index} register={register} checked={field.isVisible} disabled={!showPrices} />
+              <ClientFormRow key={field.id} index={index} register={register} watch={watch} getValues={getValues} checked={field.isVisible} disabled={!showPrices} />
             ))}
           </TitledGrid>
         </div>

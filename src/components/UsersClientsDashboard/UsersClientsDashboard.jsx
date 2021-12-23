@@ -23,7 +23,7 @@ import { route } from "preact-router";
 import rolesConfig from "../../data/rolesConfig";
 
 const UsersClientsDashboard = ({ usersActive, usersArchive, onUpdateActive, onUpdateArchive }) => {
-  const [user] = useAtom(userAtom)
+  const [currUser] = useAtom(userAtom)
 
   const notyf = useContext(NotyfContext);
 
@@ -53,7 +53,7 @@ const UsersClientsDashboard = ({ usersActive, usersArchive, onUpdateActive, onUp
 
   return (
     <GridContainer gridGap={"2rem"}>
-      {user.role === rolesConfig.admin && (
+      {currUser.role === rolesConfig.admin && (
         <TitledGrid title="Новый аккаунт" className={styles.topGrid}>
           <AddCardFlat onClick={onCreate} />
         </TitledGrid>
@@ -61,22 +61,26 @@ const UsersClientsDashboard = ({ usersActive, usersArchive, onUpdateActive, onUp
 
       <TitledGrid title="Активные" className={styles.grid}>
         {usersActive.length === 0 && <>Нет активных пользователей.</>}
-        {usersActive.map((user) => (
+        {currUser && usersActive.map((user) => (
           <EditUserCard
-            gradient
             isNameReadOnly
             user={user}
             key={user._id}
-            onBan={onBan}
             onEdit={onEdit}
+            onBan={currUser.role === rolesConfig.admin && onBan}
           />
         ))}
       </TitledGrid>
 
       <TitledGrid title="Забаненные" className={styles.grid}>
         {usersArchive.length === 0 && <>Нет архивных пользователей.</>}
-        {usersArchive.map((user) => (
-          <RestoreUserCard user={user} key={user._id} onRestore={onRestore} />
+        {currUser && usersArchive.map((user) => (
+          <RestoreUserCard
+            user={user}
+            key={user._id}
+            onEdit={onEdit}
+            onRestore={currUser.role === rolesConfig.admin && onRestore}
+          />
         ))}
       </TitledGrid>
     </GridContainer>

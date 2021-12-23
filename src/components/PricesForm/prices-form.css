@@ -60,4 +60,9 @@
   .form {
     grid-gap: 2rem;
   }
+
+  .categoriesWrapper {
+    grid-template-columns: 1fr;
+    grid-gap: none;
+  }
 }

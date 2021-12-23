@@ -1,11 +1,10 @@
 import clsx from "clsx";
-import { forwardRef } from "preact/compat";
 
 import ArrowSorting from "../SvgComponents/ArrowSorting/ArrowSorting";
 
 import styles from "./sorting-option.css";
 
-const SortingOption = ({ option, isAscending, setIsAscending, selected, orderable, setCurrOption, onChoose, register, setValue }) => {
+const SortingOption = ({ option, isAscending, setIsAscending, selected, orderable, setCurrOption, onChoose, register, setValue, }) => {
     const { onChange: onChangeOrderBy, ...regOrderByParams } = register("orderby");
     const { onChange: onChangeOrder, ...regOrderParams } = register("order");
 
@@ -17,9 +16,8 @@ const SortingOption = ({ option, isAscending, setIsAscending, selected, orderabl
                 className={styles.radio}
                 type="radio"
                 id={option.value}
-                name="orderby"
                 value={option.value}
-                onClick={(e) => { setValue("order", "asc"); onChangeOrder(e); onSelectOption(true); }}
+                onClick={(e) => { setValue("order", undefined); onChangeOrder(e); onSelectOption(true); }}
                 {...regOrderByParams}
             />
             <label for={orderable ? `${option.value}asc` : option.value} className={clsx(styles.option, !!selected && styles.selected)}>
@@ -33,7 +31,6 @@ const SortingOption = ({ option, isAscending, setIsAscending, selected, orderabl
                                 className={styles.radio}
                                 type="radio"
                                 id={`${option.value}asc`}
-                                name="order"
                                 value="asc"
                                 onClick={(e) => { setValue("orderby", option.value); onChangeOrder(e); onSelectOption(true); }}
                                 {...regOrderParams}

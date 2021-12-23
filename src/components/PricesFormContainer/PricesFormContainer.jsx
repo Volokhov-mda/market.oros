@@ -34,7 +34,7 @@ const PricesFormContainer = ({ defaultValues }) => {
     const redactedInfluencer = {
       ...influencer,
       countries: influencer.countries.filter(v => v !== ""),
-      categories: Array.isArray(influencer.categories) ? influencer.categories.filter(v => (v !== "" && v._id !== "")) : (influencer.categories === "" ? undefined : influencer.categories),
+      categories: influencer.categories.includes("") ? undefined : influencer.categories,
     };
 
     const { payload: newInfluencer, error } = redactedInfluencer._id
@@ -45,7 +45,19 @@ const PricesFormContainer = ({ defaultValues }) => {
     influencer._id = newInfluencer._id;
 
     const pricesMapped = prices
-      .map((price) => ({ _id: price._id || undefined, isVisible: price.isVisible, user: price.user, influencer: influencer._id, price: price.price?.amount ? price.price : undefined }));
+      .map((price) => {
+        if (price.price) {
+          price.price.amount = price.price.amount.toString().replace(/[^0-9]/g, "");
+        }
+
+        return {
+          _id: price._id || undefined,
+          isVisible: price.isVisible,
+          user: price.user,
+          influencer: influencer._id,
+          price: price.price?.amount ? price.price : undefined,
+        }
+      });
 
     if (isNewInfluencer) {
       const { error } = await trackPromise(addSubscription(pricesMapped));

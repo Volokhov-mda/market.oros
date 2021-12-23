@@ -45,8 +45,32 @@ const ClientsFormContainer = ({ defaultValues }) => {
       client._id = newClient._id;
     }
 
+    let errorPriceEmpty;
+
     const influencersMapped = influencers
-      .map((influencer) => ({ _id: influencer._id || undefined, isVisible: influencer.isVisible, influencer: influencer.influencer, user: client._id, price: influencer.price?.amount ? influencer.price : undefined }));
+      .map((influencer) => {
+        if (influencer.price) {
+          influencer.price.amount = influencer.price.amount.toString().replace(/[^0-9]/g, "");
+        }
+
+        if (influencer.isVisible && defaultValues.client.showPrices && !influencer.price.amount && !errorPriceEmpty) {
+          errorPriceEmpty = true;
+        }
+
+        return {
+          _id: influencer._id || undefined,
+          isVisible: influencer.isVisible,
+          influencer: influencer.influencer,
+          user: client._id,
+          price: influencer.price?.amount ?
+            influencer.price : undefined
+        }
+      });
+
+    if (errorPriceEmpty) {
+      notyf.error(`У всех активных ${user.role === rolesConfig.admin ? "влиятелей" : "блогеров"} должна быть указана цена`);
+      return;
+    }
 
     if (isNewClient) {
       const { error } = await trackPromise(addSubscription(influencersMapped));

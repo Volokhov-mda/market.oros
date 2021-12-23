@@ -1,0 +1,7 @@
+.option {
+  padding: .5rem !important;
+  
+  font-family: var(--font-family) !important;
+  font-size: .75rem !important;
+  font-weight: normal !important;
+}

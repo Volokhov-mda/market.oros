@@ -6,8 +6,8 @@ const formatFilterParams = (page, per_page, data) => ({
     filter: {
         categories: (data?.category.length === 0 || !data?.category) ? undefined : data?.category.join(","),
         cost: {
-            min: data?.costFrom,
-            max: data?.costTo,
+            min: data?.costFrom?.replace(/[\$ ]/g, ""),
+            max: data?.costTo?.replace(/[\$ ]/g, ""),
         },
         audience: {
             min: data?.audienceFrom,

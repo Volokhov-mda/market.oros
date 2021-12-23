@@ -10,7 +10,8 @@ const AddClietns = () => {
   const { payload: influencersActive, loading: loadingActive, error: errorActive } = useQuery(fetchInfluencersAction({ orderby: "weight" }));
   const { payload: influencersArchive, loading: loadingArchive, error: errorArchive } = useQuery(fetchArchiveInfluencersAction({ orderby: "weight" }));
 
-  if (!(influencersActive && influencersArchive)) return <>Загрузка блоггеров...</>;
+  if (loadingActive || loadingArchive) return <>Загрузка блогеров...</>;
+  if (errorActive || errorArchive) return <>Во время загрузки блогеров произошла ошибка.</>;
 
   const defaultClients = useMemo(() => {
     const influencers = [...influencersActive, ...influencersArchive];
@@ -22,11 +23,7 @@ const AddClietns = () => {
   return (
     <>
       <Header />
-
-      {(errorActive || errorArchive) && <>Во время загрузки пользователей произошла ошибка.</>}
-      {(loadingActive || loadingArchive) && <>Загрузка пользователей...</>}
-
-      {(influencersActive && influencersArchive) && <ClientsFormContainer defaultValues={defaultClients} />}
+      <ClientsFormContainer defaultValues={defaultClients} />
     </>
   );
 };

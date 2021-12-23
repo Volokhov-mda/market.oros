@@ -16,13 +16,13 @@ const EditUserCard = ({ user, className, onEdit, onBan, isNameReadOnly, showPass
         className={className}
         nameProps={{ readOnly: isNameReadOnly, ...register("name") }}
         passwordProps={showPassword && register("password")}
+        type="submit"
       >
         {onEdit && <FlatButton accent>Редактировать</FlatButton>}
 
         {onBan && (
           <FlatButton
-            danger
-            onClick={onBan ? () => onBan(user) : undefined}
+            onClick={onBan && (() => onBan(user))}
             type="button"
           >
             Бан

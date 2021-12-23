@@ -1,13 +1,24 @@
 import clsx from "clsx";
-import { useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
+
+import currencies from "../../data/currencies";
+import formatPriceInputValue from "../../helpers/formatPriceInputValue";
+
 import Checkbox from "../Checkbox/Checkbox";
 import Input from "../Input/Input";
 
 import styles from "./client-form-row.css";
 
-const ClientFormRow = ({ register, index, checked, disabled }) => {
+const ClientFormRow = ({ register, index, checked, disabled, watch, getValues, }) => {
   const [isChecked, setIsChecked] = useState(checked);
   const rowName = `influencers[${index}]`;
+
+  const [priceValue, setPriceValue] = useState(getValues(`${rowName}.price.amount`));
+  const priceWatch = watch(`${rowName}.price.amount`);
+
+  useEffect(() => {
+    setPriceValue(formatPriceInputValue(priceWatch, currencies[getValues(`${rowName}.price.currency`)]));
+  }, [priceWatch]);
 
   return (
     <div className={styles.row}>
@@ -19,10 +30,15 @@ const ClientFormRow = ({ register, index, checked, disabled }) => {
         <Input className={clsx(styles.nameInput, !isChecked && styles.priceInputDisabled)} readOnly {...register(`${rowName}.nickname`)} />
       </div>
 
-      <Input className={clsx(styles.priceInput, !isChecked && styles.priceInputDisabled, disabled && styles.disabled)} placeholder=" " {...register(`${rowName}.price.amount`)} readOnly={disabled || !isChecked} />
+      <Input
+        className={clsx(styles.priceInput, !isChecked && styles.priceInputDisabled, disabled && styles.disabled)}
+        placeholder=" "
+        {...register(`${rowName}.price.amount`)}
+        value={priceValue}
+        readOnly={disabled || !isChecked}
+      />
       <input type="hidden" {...register(`${rowName}.price.currency`)} value="USD" />
       <input type="hidden" {...register(`${rowName}.price.description`)} value="1 promo-post" />
-
     </div>
   );
 };

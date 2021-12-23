@@ -3,10 +3,11 @@
 }
 
 .option {
-    font-size: .75rem;
-
-
     padding: .5rem !important;
+    
+    font-family: var(--font-family);
+    font-size: .75rem;
+    font-weight: normal;
 }
 
 .input {
@@ -36,4 +37,8 @@
     max-width: 1rem;
     
     font-size: 1rem;
+}
+
+.emptyOption {
+    color: #777;
 }

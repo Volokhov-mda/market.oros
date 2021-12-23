@@ -10,7 +10,6 @@ import {
   fetchArchiveInfluencersAction,
   fetchArchiveInfluencersSummaryAction,
   fetchCategoriesAction,
-  fetchSubscriptionsSummaryAction,
   restoreInfluencerAction,
 } from "../../api/actions";
 
@@ -33,10 +32,9 @@ import MarketPages from "../../components/MarketPages/MarketPages";
 const Archive = ({ page, scroll: scrollElement }) => {
   history.scrollRestoration = "manual";
 
-  const { register, handleSubmit, setValue } = useForm({
+  const { register, handleSubmit, setValue, watch, } = useForm({
     defaultValues: {
       orderby: "weight",
-      order: "asc",
     }
   });
 
@@ -53,7 +51,6 @@ const Archive = ({ page, scroll: scrollElement }) => {
   const { mutate: restoreInfluencer } = useMutation(restoreInfluencerAction);
   const { mutate: deleteInfluencer } = useMutation(deleteInfluencerAction);
   const { query: queryArchiveInfluencersSummary } = useQuery(fetchArchiveInfluencersSummaryAction);
-  const { query: querySubscriptionsSummary } = useQuery(fetchSubscriptionsSummaryAction);
   const { query: queryCategories } = useQuery(fetchCategoriesAction);
 
   const usersPerPage = 30;
@@ -61,12 +58,10 @@ const Archive = ({ page, scroll: scrollElement }) => {
   const fetchFilterValues = async () => {
     const { payload: archiveInfluencersSummary, } = await queryArchiveInfluencersSummary();
     const { payload: categories } = await queryCategories();
-    const { payload: subscriptionsSummary, } = await querySubscriptionsSummary();
 
     setFilterValues({
-      audienceLimits: archiveInfluencersSummary?.audienceLimits, 
+      audienceLimits: archiveInfluencersSummary?.audienceLimits,
       categories,
-      priceLimits: subscriptionsSummary?.priceLimits,
       countries: archiveInfluencersSummary?.countries
     });
   }
@@ -82,10 +77,10 @@ const Archive = ({ page, scroll: scrollElement }) => {
   };
 
   useEffect(() => {
-    if (currentUser) {
+    if (currentUser && !params) {
       setParams({
         page: currPageIndex + 1,
-        per_page: usersPerPage.current,
+        per_page: usersPerPage,
         orderby: "weight",
         order: "asc",
       });
@@ -93,6 +88,15 @@ const Archive = ({ page, scroll: scrollElement }) => {
       trackPromise(fetchFilterValues());
     }
   }, [currentUser]);
+
+  useEffect(() => {
+    currentUser && setParams({
+        ...params,
+        page: currPageIndex + 1,
+        per_page: usersPerPage,
+        orderby: !params?.orderby ? (currentUser.role === rolesConfig.client ? "influencer.weight" : "weight") : params.orderby,
+      })
+  }, [currPageIndex]);
 
   useEffect(() => { trackPromise(fetchArchivePrices()); }, [params])
 
@@ -135,8 +139,14 @@ const Archive = ({ page, scroll: scrollElement }) => {
     }
   }, [prices, scrollElement]);
 
+  useEffect(() => {
+    if (currentUser && (`${window.location.pathname}${window.location.search}` !== "/archive?page=1" || currPageIndex !== 0)) {
+      route(`/archive?page=${currPageIndex + 1}${scrollElement ? `&scroll=${scrollElement}` : ""}`);
+    }
+  }, [currentUser, currPageIndex, scrollElement]);
+
   const onSubmit = (data) => {
-    setParams(formatFilterParams(currPageIndex + 1, usersPerPage.current, data));
+    setParams(formatFilterParams(currPageIndex + 1, usersPerPage, data));
   }
 
   return (
@@ -162,6 +172,8 @@ const Archive = ({ page, scroll: scrollElement }) => {
             register={register}
             handleSubmit={handleSubmit}
             onSubmit={onSubmit}
+            watch={watch}
+            setValue={setValue}
           />
           {influencersCount ? <MarketPages currPage={currPageIndex} setCurrPage={setCurrPageIndex} usersPerPage={usersPerPage} influencersCount={influencersCount} /> : null}
         </>

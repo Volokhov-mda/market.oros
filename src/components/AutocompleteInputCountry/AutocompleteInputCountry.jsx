@@ -1,6 +1,6 @@
 import { forwardRef } from 'preact/compat';
 import Autocomplete from '@mui/material/Autocomplete';
-import { useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 import clsx from 'clsx';
 
 import countries from '../../data/countries';
@@ -11,8 +11,15 @@ import Input from '../Input/Input';
 
 import styles from "./autocomplete-input-country.css";
 
-const AutocompleteInputCountry = forwardRef(({ className, readOnly, placeholder, ...props }, ref) => {
+const AutocompleteInputCountry = forwardRef(({ className, readOnly, placeholder, watch, ...props }, ref) => {
+    const { onChange: onChangeRegister, onBlur: onBlurRegister, ...registerProps } = props;
+
+    const countryWatch = watch(registerProps.name);
     const [currCountryCode, setCurrCountryCode] = useState(null);
+
+    useEffect(() => {
+        setCurrCountryCode(countryWatch);
+    }, [countryWatch]);
 
     return (
         <Autocomplete
@@ -26,9 +33,8 @@ const AutocompleteInputCountry = forwardRef(({ className, readOnly, placeholder,
 
                 newPropsAutocomplete.key = option.label;
 
-
                 return (
-                    <div className={clsx(styles.option, propsAutocompleteClassName)} {...newPropsAutocomplete} onClick={(e) => { onClick(e); setCurrCountryCode(option.code.toLowerCase()); }}>
+                    <div className={clsx(styles.option, propsAutocompleteClassName, option.code === "" && styles.emptyOption)} {...newPropsAutocomplete} onClick={(e) => { onClick(e); setCurrCountryCode(option.code.toLowerCase()); }}>
                         {option.code && (
                             <img
                                 className={styles.flagIcon}
@@ -45,7 +51,6 @@ const AutocompleteInputCountry = forwardRef(({ className, readOnly, placeholder,
             }}
             renderInput={(params) => {
                 const { ref: refInputProps, onChange: onChangeInputProps, onBlur: onBlurInputProps, className: classNameInputProps, ...inputProps } = params.inputProps;
-                const { onChange: onChangeRegister, onBlur: onBlurRegister, ...registerProps } = props;
                 const mergedRef = mergeRefs(refInputProps, ref);
 
                 return (

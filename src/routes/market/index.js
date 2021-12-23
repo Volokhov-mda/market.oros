@@ -12,7 +12,7 @@ import {
   fetchFeedAction,
   fetchInfluencersAction,
   fetchInfluencersSummaryAction,
-  fetchSubscriptionsSummaryAction,
+  fetchFeedSummary,
 } from "../../api/actions";
 
 import { userAtom, } from "../../data/atoms";
@@ -34,10 +34,9 @@ import MarketPages from "../../components/MarketPages/MarketPages";
 const Market = ({ page, scroll: scrollElement }) => {
   history.scrollRestoration = "manual";
 
-  const { register, handleSubmit, setValue } = useForm({
+  const { register, handleSubmit, setValue, watch } = useForm({
     defaultValues: {
       orderby: "weight",
-      order: "asc",
     }
   });
 
@@ -51,25 +50,35 @@ const Market = ({ page, scroll: scrollElement }) => {
   const notyf = useContext(NotyfContext);
 
   const { query: fetchFeed } = useParameterizedQuery(fetchFeedAction, false);
+  const { query: queryFeedSummary } = useQuery(fetchFeedSummary);
   const { query: fetchInfluencers } = useParameterizedQuery(fetchInfluencersAction, false);
   const { mutate: archiveInfluencer } = useMutation(archiveInfluencerAction);
   const { mutate: deleteInfluencer } = useMutation(deleteInfluencerAction);
   const { query: queryInfluencersSummary } = useQuery(fetchInfluencersSummaryAction);
-  const { query: querySubscriptionsSummary } = useQuery(fetchSubscriptionsSummaryAction);
   const { query: queryCategories } = useQuery(fetchCategoriesAction);
 
   const usersPerPage = useRef(null);
 
-  const fetchFilterValues = async () => {
+  const fetchAdminFilterValues = async () => {
     const { payload: influencersSummary, } = await queryInfluencersSummary();
     const { payload: categories } = await queryCategories();
-    const { payload: subscriptionsSummary, } = await querySubscriptionsSummary();
 
     setFilterValues({
       audienceLimits: influencersSummary?.audienceLimits,
       categories,
-      priceLimits: subscriptionsSummary?.priceLimits,
       countries: influencersSummary?.countries,
+    });
+  };
+
+  const fetchClientFilterValues = async () => {
+    const { payload: feedSummary, } = await queryFeedSummary();
+    const { payload: categories } = await queryCategories();
+
+    setFilterValues({
+      audienceLimits: feedSummary?.audienceLimits,
+      categories,
+      priceLimits: feedSummary?.priceLimits,
+      countries: feedSummary?.countries,
     });
   }
 
@@ -104,7 +113,7 @@ const Market = ({ page, scroll: scrollElement }) => {
   };
 
   useEffect(() => {
-    if (currentUser) {
+    if (currentUser && !params) {
       usersPerPage.current = (currentUser.role === rolesConfig.admin) ? 29 : 30;
 
       setParams({
@@ -114,9 +123,22 @@ const Market = ({ page, scroll: scrollElement }) => {
         order: "asc",
       });
 
-      trackPromise(fetchFilterValues());
+      if (currentUser.role === rolesConfig.client) {
+        trackPromise(fetchClientFilterValues());
+      } else {
+        trackPromise(fetchAdminFilterValues());
+      }
     }
   }, [currentUser]);
+
+  useEffect(() => {
+    currentUser && setParams({
+      ...params,
+      page: currPageIndex + 1,
+      per_page: usersPerPage.current,
+      orderby: !params?.orderby ? (currentUser.role === rolesConfig.client ? "influencer.weight" : "weight") : params.orderby,
+    });
+  }, [currPageIndex]);
 
   useEffect(() => { trackPromise(fetchPrices()); }, [params])
 
@@ -160,8 +182,8 @@ const Market = ({ page, scroll: scrollElement }) => {
   }, [prices, scrollElement]);
 
   useEffect(() => {
-    if (currentUser) {
-      return route(`/market?page=${currPageIndex + 1}${scrollElement ? `&scroll=${scrollElement}` : ""}`);
+    if (currentUser && (`${window.location.pathname}${window.location.search}` !== "/market?page=1" || currPageIndex !== 0)) {
+      route(`/market?page=${currPageIndex + 1}${scrollElement ? `&scroll=${scrollElement}` : ""}`);
     }
   }, [currentUser, currPageIndex, scrollElement]);
 
@@ -193,6 +215,8 @@ const Market = ({ page, scroll: scrollElement }) => {
             register={register}
             handleSubmit={handleSubmit}
             onSubmit={onSubmit}
+            watch={watch}
+            setValue={setValue}
           />
           {influencersCount ? <MarketPages currPage={currPageIndex} setCurrPage={setCurrPageIndex} usersPerPage={usersPerPage.current} influencersCount={influencersCount} /> : null}
         </>

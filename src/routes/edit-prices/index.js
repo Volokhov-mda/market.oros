@@ -18,7 +18,7 @@ const EditPrices = ({ id }) => {
   const { payload: usersActive, loading: loadingActive, error: errorActive } = useQuery(fetchUsers);
   const { payload: usersArchive, loading: loadingArchive, error: errorArchive } = useQuery(fetchArchiveUsers);
 
-  if (!subscriptions || !influencer || !usersActive || !usersArchive) return <>Загрузка цен...</>;
+  if (loadingInfluencer || loadingSubscriptions || loadingActive || loadingArchive) return <>Загрузка цен...</>;
   if (errorSubscriptions || errorActive || errorArchive || errorInfluencer) return <>Во время загрузки пользователей произошла ошибка.</>;
 
   const defaultValues = useMemo(() => {
@@ -29,8 +29,9 @@ const EditPrices = ({ id }) => {
       isVisible: price.isVisible,
       user: price.user._id,
       name: price.user.name,
+      showPrices: price.user.showPrices,
       isActive: price.user.isActive,
-      price: price.price
+      price: price.price,
     }));
 
     const unpricedClients = clients.filter((user) => {
@@ -40,8 +41,8 @@ const EditPrices = ({ id }) => {
 
       return !hasPrice;
     });
-
-    const pricesMapped = unpricedClients.map((user) => ({ user: user._id, name: user.name, isActive: user.isActive, isVisible: false, }));
+    
+    const pricesMapped = unpricedClients.map((user) => ({ ...user, password: undefined, }));
 
     return {
       influencer,
@@ -52,9 +53,7 @@ const EditPrices = ({ id }) => {
   return (
     <>
       <Header />
-      {(errorSubscriptions || errorActive || errorArchive || errorInfluencer) && <>Во время загрузки пользователей произошла ошибка.</>}
-      {(loadingSubscriptions || loadingActive || loadingArchive || loadingInfluencer) && <>Загрузка пользователей...</>}
-      {(subscriptions && influencer && usersActive && usersArchive) && <PricesFormContainer defaultValues={defaultValues} />}
+      <PricesFormContainer defaultValues={defaultValues} />
     </>
   );
 };

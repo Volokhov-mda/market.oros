@@ -1,7 +1,10 @@
 import clsx from "clsx";
+import { useAtom } from "jotai";
 import { useEffect, useState } from "preact/hooks";
 
+import { userAtom } from "../../data/atoms";
 import countries from "../../data/countries";
+import rolesConfig from "../../data/rolesConfig";
 
 import CardFlat from "../CardFlat/CardFlat";
 import FiltersCheckbox from "../FiltersCheckbox/FiltersCheckbox";
@@ -10,7 +13,8 @@ import FiltersTab from "../FiltersTab/FiltersTab";
 
 import styles from "./filters-market.css";
 
-const FiltersMarket = ({ show, register, onSubmit, handleSubmit, filterValues }) => {
+const FiltersMarket = ({ show, register, onSubmit, handleSubmit, filterValues, watch, }) => {
+    const [currUser] = useAtom(userAtom);
     const [active, setActive] = useState(null);
     const [countriesLabeled, setCountriesLabeled] = useState(null);
 
@@ -29,10 +33,10 @@ const FiltersMarket = ({ show, register, onSubmit, handleSubmit, filterValues })
 
     return (
         <div className={styles.wrapper}>
-            <form className={styles.form} onChange={handleSubmit(onSubmit)}>
-                <CardFlat id="filters" className={clsx(styles.container, show && styles.show)}>
+            <form id="filters-form" className={clsx(styles.form, styles.container, show && styles.show)} onChange={handleSubmit(onSubmit)}>
+                <CardFlat id="filters" className={styles.filterTabs}>
                     <FiltersTab
-                        title={"Категория"}
+                        title={(currUser.role <= rolesConfig.manager) ? "Категория" : "Category"}
                         onClick={() => openTab(0)}
                         isOpened={0 === active}
                     >
@@ -47,22 +51,26 @@ const FiltersMarket = ({ show, register, onSubmit, handleSubmit, filterValues })
                             </FiltersCheckbox>
                         ))}
                     </FiltersTab>
+                    {!(currUser.role <= rolesConfig.manager || !currUser.showPrices) && (
+                        <FiltersTab
+                            title={"Cost"}
+                            onClick={() => openTab(1)}
+                            isOpened={1 === active}
+                        >
+                            <FiltersDiapazonInputs
+                                from={filterValues?.priceLimits ? filterValues.priceLimits.min : "0"}
+                                to={filterValues?.priceLimits ? filterValues.priceLimits.max : "0"}
+                                placeholderLeft={filterValues?.priceLimits ? filterValues.priceLimits.min : "0"}
+                                placeholderRight={filterValues?.priceLimits ? filterValues.priceLimits.max : "0"}
+                                leftRegister={register("costFrom")}
+                                rightRegister={register("costTo")}
+                                watch={watch}
+                                constChar="$"
+                            />
+                        </FiltersTab>
+                    )}
                     <FiltersTab
-                        title={"Стоимость"}
-                        onClick={() => openTab(1)}
-                        isOpened={1 === active}
-                    >
-                        <FiltersDiapazonInputs
-                            from={filterValues?.priceLimits ? filterValues.priceLimits.min : "0"}
-                            to={filterValues?.priceLimits ? filterValues.priceLimits.max : "0"}
-                            placeholderLeft={filterValues?.priceLimits ? `$${filterValues.priceLimits.min}` : "0"}
-                            placeholderRight={filterValues?.priceLimits ? `$${filterValues.priceLimits.max}` : "0"}
-                            leftRegister={register("costFrom")}
-                            rightRegister={register("costTo")}
-                        />
-                    </FiltersTab>
-                    <FiltersTab
-                        title={"Аудитория"}
+                        title={(currUser.role <= rolesConfig.manager) ? "Аудитория" : "Auditorium"}
                         onClick={() => openTab(2)}
                         isOpened={2 === active}
                     >
@@ -73,10 +81,11 @@ const FiltersMarket = ({ show, register, onSubmit, handleSubmit, filterValues })
                             placeholderRight={filterValues?.audienceLimits ? filterValues.audienceLimits.max : "0"}
                             leftRegister={register("audienceFrom")}
                             rightRegister={register("audienceTo")}
+                            watch={watch}
                         />
                     </FiltersTab>
                     <FiltersTab
-                        title={"Страна"}
+                        title={(currUser.role <= rolesConfig.manager) ? "Страна" : "Country"}
                         onClick={() => openTab(3)}
                         isOpened={3 === active}
                     >

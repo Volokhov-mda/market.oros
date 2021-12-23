@@ -11,21 +11,29 @@ export const fetchStatsAction = {
 
 export const fetchFeedAction = (params) => ({
   method: "GET",
-  endpoint: `/feed${params ? "?" : ""}` + 
-  `${params.per_page ? `per_page=${params.per_page}` : ""}` + 
-  `${params.page ? `&page=${params.page}` : ""}` + 
-  `${params.orderby ? `&orderby=${params.orderby}` : ""}` + 
-  `${params.order ? `&order=${params.order}` : ""}` + 
-  `${params.filter?.categories ? `&filter:influencer.categories.name:in=${params.filter.categories}` : ""}` +
-  `${params.filter?.cost?.min ? `&filter:price.amount:gte=${params.filter.cost.min}` : ""}` +
-  `${params.filter?.cost?.max ? `&filter:price.amount:lte=${params.filter.cost.max}` : ""}` +
-  `${params.filter?.audience?.min ? `&filter:influencer.meta.audience:gte=${params.filter.audience.min}` : ""}` +
-  `${params.filter?.audience?.max ? `&filter:influencer.meta.audience:lte=${params.filter.audience.max}` : ""}` +
-  `${params.filter?.countries ? `&filter:influencer.countries:in=${params.filter.countries}` : ""}`,
+  endpoint: `/feed${params ? "?" : ""}` +
+    `${params.per_page ? `per_page=${params.per_page}` : ""}` +
+    `${params.page ? `&page=${params.page}` : ""}` +
+    `${params.orderby ? `&orderby=${params.orderby}` : ""}` +
+    `${params.order ? `&order=${params.order}` : ""}` +
+    `${params.filter?.categories ? `&filter:influencer.categories.name:in=${params.filter.categories}` : ""}` +
+    `${params.filter?.cost?.min ? `&filter:price.amount:gte=${params.filter.cost.min}` : ""}` +
+    `${params.filter?.cost?.max ? `&filter:price.amount:lte=${params.filter.cost.max}` : ""}` +
+    `${params.filter?.audience?.min ? `&filter:influencer.meta.audience:gte=${params.filter.audience.min}` : ""}` +
+    `${params.filter?.audience?.max ? `&filter:influencer.meta.audience:lte=${params.filter.audience.max}` : ""}` +
+    `${params.filter?.countries ? `&filter:influencer.countries:in=${params.filter.countries}` : ""}`,
   config: {
     needsToken: true,
   },
 });
+
+export const fetchFeedSummary = {
+  method: "GET",
+  endpoint: "/feed/summary",
+  config: {
+    needsToken: true,
+  },
+};
 
 export const fetchInfluencersSummaryAction = {
   method: "GET",
@@ -85,15 +93,15 @@ export const fetchCurrentUserAction = {
 
 export const fetchInfluencersAction = (params) => ({
   method: "GET",
-  endpoint: `/influencers${params ? "?" : ""}` + 
-    `${params.per_page ? `per_page=${params.per_page}` : ""}` + 
-    `${params.page ? `&page=${params.page}` : ""}` + 
-    `${params.orderby ? `&orderby=${params.orderby}` : ""}` + 
-    `${params.order ? `&order=${params.order}` : ""}` + 
+  endpoint: `/influencers${params ? "?" : ""}` +
+    `${params.per_page ? `per_page=${params.per_page}` : ""}` +
+    `${params.page ? `&page=${params.page}` : ""}` +
+    `${params.orderby ? `&orderby=${params.orderby}` : ""}` +
+    `${params.order ? `&order=${params.order}` : ""}` +
     `${params.filter?.categories ? `&filter:categories.name:in=${params.filter.categories}` : ""}` +
-  `${params.filter?.audience?.min ? `&filter:meta.audience:gte=${params.filter.audience.min}` : ""}` +
-  `${params.filter?.audience?.max ? `&filter:meta.audience:lte=${params.filter.audience.max}` : ""}` +
-  `${params.filter?.countries ? `&filter:countries:in=${params.filter.countries}` : ""}`,
+    `${params.filter?.audience?.min ? `&filter:meta.audience:gte=${params.filter.audience.min}` : ""}` +
+    `${params.filter?.audience?.max ? `&filter:meta.audience:lte=${params.filter.audience.max}` : ""}` +
+    `${params.filter?.countries ? `&filter:countries:in=${params.filter.countries}` : ""}`,
   config: {
     needsToken: true,
   },
@@ -101,15 +109,15 @@ export const fetchInfluencersAction = (params) => ({
 
 export const fetchArchiveInfluencersAction = (params) => ({
   method: "GET",
-  endpoint: `/influencers/archive${params ? "?" : ""}` + 
-  `${params.per_page ? `per_page=${params.per_page}` : ""}` + 
-  `${params.page ? `&page=${params.page}` : ""}` + 
-  `${params.orderby ? `&orderby=${params.orderby}` : ""}` + 
-  `${params.order ? `&order=${params.order}` : ""}` + 
-  `${params.filter?.categories ? `&filter:categories.name:in=${params.filter.categories}` : ""}` +
-  `${params.filter?.audience?.min ? `&filter:meta.audience:gte=${params.filter.audience.min}` : ""}` +
-  `${params.filter?.audience?.max ? `&filter:meta.audience:lte=${params.filter.audience.max}` : ""}` +
-  `${params.filter?.countries ? `&filter:countries:in=${params.filter.countries}` : ""}`,
+  endpoint: `/influencers/archive${params ? "?" : ""}` +
+    `${params.per_page ? `per_page=${params.per_page}` : ""}` +
+    `${params.page ? `&page=${params.page}` : ""}` +
+    `${params.orderby ? `&orderby=${params.orderby}` : ""}` +
+    `${params.order ? `&order=${params.order}` : ""}` +
+    `${params.filter?.categories ? `&filter:categories.name:in=${params.filter.categories}` : ""}` +
+    `${params.filter?.audience?.min ? `&filter:meta.audience:gte=${params.filter.audience.min}` : ""}` +
+    `${params.filter?.audience?.max ? `&filter:meta.audience:lte=${params.filter.audience.max}` : ""}` +
+    `${params.filter?.countries ? `&filter:countries:in=${params.filter.countries}` : ""}`,
   config: {
     needsToken: true,
   },
@@ -174,24 +182,16 @@ export const deleteCategoryAction = (id) => ({
 
 export const fetchSubscriptions = (params) => ({
   method: "GET",
-  endpoint: `/subscriptions${params ? "?" : ""}` + 
-  `${params.per_page ? `per_page=${params.per_page}` : ""}` + 
-  `${params.page ? `&page=${params.page}` : ""}` + 
-  `${params.orderby ? `&orderby=${params.orderby}` : ""}` + 
-  `${params.order ? `&order=${params.order}` : ""}` + 
-  `${params.filter?.categories ? `&filter:categories.name:in=${params.filter.categories}` : ""}`,
+  endpoint: `/subscriptions${params ? "?" : ""}` +
+    `${params.per_page ? `per_page=${params.per_page}` : ""}` +
+    `${params.page ? `&page=${params.page}` : ""}` +
+    `${params.orderby ? `&orderby=${params.orderby}` : ""}` +
+    `${params.order ? `&order=${params.order}` : ""}` +
+    `${params.filter?.categories ? `&filter:categories.name:in=${params.filter.categories}` : ""}`,
   config: {
     needsToken: true,
   },
 });
-
-export const fetchSubscriptionsSummaryAction = {
-  method: "GET",
-  endpoint: "/subscriptions/summary",
-  config: {
-    needsToken: true,
-  },
-};
 
 export const addSubscriptionAction = (data) => ({
   method: "POST",

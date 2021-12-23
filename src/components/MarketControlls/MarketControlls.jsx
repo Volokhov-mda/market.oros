@@ -10,7 +10,7 @@ import SortingButton from "../SortingButton/SortingButton";
 
 import styles from "./market-controlls.css";
 
-const MarketControlls = ({ register, handleSubmit, onSubmit, setValue }) => {
+const MarketControlls = ({ register, handleSubmit, onSubmit, setValue, }) => {
     const [currentUser] = useAtom(userAtom);
     const [contextReorderButton] = useAtom(contextReorderButtonAtom);
     const [contextArchiveButton] = useAtom(contextArchiveButtonAtom);

@@ -4,7 +4,7 @@ const formatFilterParams = (page, per_page, data) => ({
     orderby: data?.orderby,
     order: data?.order,
     filter: {
-        categories: (data?.category.length === 0 || !data?.category) ? undefined : data?.category.join(","),
+        categories: (!data?.category || data?.category.length === 0) ? undefined : data?.category.join(","),
         cost: {
             min: data?.costFrom?.replace(/[\$ ]/g, ""),
             max: data?.costTo?.replace(/[\$ ]/g, ""),
@@ -13,7 +13,7 @@ const formatFilterParams = (page, per_page, data) => ({
             min: data?.audienceFrom,
             max: data?.audienceTo,
         },
-        countries: (data?.country.length === 0 || !data?.country) ? undefined : data?.country.join(","),
+        countries: (!data?.country || data?.country.length === 0) ? undefined : data?.country.join(","),
     },
 }
 );

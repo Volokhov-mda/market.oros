@@ -12,7 +12,7 @@ import {
 } from "../../api/actions";
 
 import NotyfContext from "../../contexts/notyf";
-import showConfirm from "../../helpers/show-confirm";
+import { showConfirmRu } from "../../helpers/show-confirm";
 
 import Grid from "../Grid/Grid";
 
@@ -51,7 +51,7 @@ const CategoriesGrid = ({ categories, onUpdate }) => {
     };
 
     const onDelete = async ({ _id }) => {
-        const isConfirmed = await showConfirm("Вы действительно хотите удалить категорию?");
+        const isConfirmed = await showConfirmRu("Вы действительно хотите удалить категорию?");
         if (!isConfirmed) return;
 
         performMutation(deleteCategory, [_id], "Категория удалена");

@@ -18,7 +18,7 @@ import NotyfContext from "../../contexts/notyf";
 
 import rolesConfig from "../../data/rolesConfig";
 
-import showConfirm from "../../helpers/show-confirm";
+import { showConfirmRu } from "../../helpers/show-confirm";
 import formatFilterParams from "../../helpers/formatFilterParams";
 import useContextReorderButton from "../../hooks/use-context-button";
 import useContextArchiveButton from "../../hooks/use-context-archive-button";
@@ -92,11 +92,11 @@ const Archive = ({ page, scroll: scrollElement }) => {
 
   useEffect(() => {
     currentUser && setParams({
-        ...params,
-        page: currPageIndex + 1,
-        per_page: usersPerPage,
-        orderby: !params?.orderby ? (currentUser.role === rolesConfig.client ? "influencer.weight" : "weight") : params.orderby,
-      })
+      ...params,
+      page: currPageIndex + 1,
+      per_page: usersPerPage,
+      orderby: !params?.orderby ? (currentUser.role === rolesConfig.client ? "influencer.weight" : "weight") : params.orderby,
+    })
   }, [currPageIndex]);
 
   useEffect(() => { trackPromise(fetchArchivePrices()); }, [params])
@@ -110,7 +110,7 @@ const Archive = ({ page, scroll: scrollElement }) => {
 
   const onDelete = async ({ nickname, _id }) => {
     const message = `Вы действительно хотите удалить @${nickname}?`;
-    const isConfirmed = await showConfirm(message);
+    const isConfirmed = await showConfirmRu(message);
     if (!isConfirmed) return;
 
     const { error } = await trackPromise(deleteInfluencer(_id));

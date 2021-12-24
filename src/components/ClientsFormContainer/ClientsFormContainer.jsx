@@ -49,8 +49,8 @@ const ClientsFormContainer = ({ defaultValues }) => {
 
     const influencersMapped = influencers
       .map((influencer) => {
-        if (influencer.price) {
-          influencer.price.amount = influencer.price.amount.toString().replace(/[^0-9]/g, "");
+        if (influencer.price && influencer.price.amount) {
+          influencer.price.amount = influencer?.price?.amount.toString().replace(/[^0-9]/g, "");
         }
 
         if (influencer.isVisible && client.showPrices && !influencer.price.amount && !errorPriceEmpty) {
@@ -63,7 +63,7 @@ const ClientsFormContainer = ({ defaultValues }) => {
           influencer: influencer.influencer,
           user: client._id,
           price: influencer.price?.amount ?
-            influencer.price : undefined
+            influencer.price : undefined,
         }
       });
 
@@ -77,7 +77,10 @@ const ClientsFormContainer = ({ defaultValues }) => {
       if (error) return;
     } else {
       const influencersToEdit = influencersMapped
-        .filter((influencer, i) => (!influencer._id || !_.isEqual(influencer.price, defaultValues.influencers[i].price) || influencer.isVisible !== defaultValues.influencers[i].isVisible));
+        .filter((influencer, i) => {
+          return (!influencer._id || !_.isEqual(influencer.price, defaultValues.influencers[i].price) || influencer.isVisible !== defaultValues.influencers[i].isVisible)
+        })
+        .map((influencer) => ({ ...influencer, price: influencer.price || null }));
 
       for (const influencer of influencersToEdit) {
         const { error } = influencer._id

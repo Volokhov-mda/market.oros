@@ -1,15 +1,27 @@
 import Swal from "sweetalert2/dist/sweetalert2.all";
 
-const showConfirm = async (text) => {
+const showConfirmRu = async (text) => {
   const result = await Swal.fire({
     text,
     icon: "warning",
     showCancelButton: true,
     confirmButtonText: "Подтвердить",
-    cancelButtonText: "Отменить"
+    cancelButtonText: "Отменить",
   });
 
   return result.isConfirmed;
 };
 
-export default showConfirm;
+const showConfirmEng = async (text) => {
+  const result = await Swal.fire({
+    text,
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Accept",
+    cancelButtonText: "Decline",
+  });
+
+  return result.isConfirmed;
+};
+
+export { showConfirmRu, showConfirmEng };

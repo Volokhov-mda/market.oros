@@ -1,6 +1,5 @@
 import { useAtom } from "jotai";
 import { route } from "preact-router";
-import Swal from "sweetalert2/dist/sweetalert2.all";
 
 import exit from "../../assets/icons/exit-rest.svg";
 import arrow from "../../assets/icons/arrow-right.svg";
@@ -8,13 +7,19 @@ import arrow from "../../assets/icons/arrow-right.svg";
 import { userAtom } from "../../data/atoms";
 
 import styles from "./logout-button.css";
-import showConfirm from "../../helpers/show-confirm";
+import { showConfirmRu, showConfirmEng } from "../../helpers/show-confirm";
+import rolesConfig from "../../data/rolesConfig";
 
 const LogoutButton = () => {
   const [user, setUser] = useAtom(userAtom);
 
   const onClick = async () => {
-    const isConfirmed = await showConfirm("Вы действительно хотите выйти?");
+    let isConfirmed;
+    if (user.role === rolesConfig.client) {
+      isConfirmed = await showConfirmEng("Do you really want to logout?");
+    } else {
+      isConfirmed = await showConfirmRu("Вы действительно хотите выйти?");
+    }
     if (!isConfirmed) return;
 
     setUser(null);

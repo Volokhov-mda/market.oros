@@ -20,7 +20,7 @@ import NotyfContext from "../../contexts/notyf";
 
 import rolesConfig from "../../data/rolesConfig";
 
-import showConfirm from "../../helpers/show-confirm";
+import { showConfirmRu } from "../../helpers/show-confirm";
 import formatFilterParams from "../../helpers/formatFilterParams";
 import useContextReorderButton from "../../hooks/use-context-button";
 import useContextArchiveButton from "../../hooks/use-context-archive-button";
@@ -73,11 +73,10 @@ const Market = ({ page, scroll: scrollElement }) => {
 
   const fetchClientFilterValues = async () => {
     const { payload: feedSummary, } = await queryFeedSummary();
-    const { payload: categories } = await queryCategories();
 
     setFilterValues({
       audienceLimits: feedSummary?.audienceLimits,
-      categories,
+      categories: feedSummary?.categories,
       priceLimits: feedSummary?.priceLimits,
       countries: feedSummary?.countries,
     });
@@ -152,7 +151,7 @@ const Market = ({ page, scroll: scrollElement }) => {
 
   const onDelete = async ({ nickname, _id }) => {
     const message = `Вы действительно хотите удалить @${nickname}?`;
-    const isConfirmed = await showConfirm(message);
+    const isConfirmed = await showConfirmRu(message);
     if (!isConfirmed) return;
 
     const { error } = await trackPromise(deleteInfluencer(_id));

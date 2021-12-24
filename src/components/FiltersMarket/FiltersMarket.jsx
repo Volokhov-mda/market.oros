@@ -33,7 +33,7 @@ const FiltersMarket = ({ show, register, onSubmit, handleSubmit, filterValues, w
 
     return (
         <div className={styles.wrapper}>
-            <form id="filters-form" className={clsx(styles.form, styles.container, show && styles.show)} onChange={handleSubmit(onSubmit)}>
+            <form id="filters-form" className={clsx(styles.form, styles.container, show && styles.show)} onInput={handleSubmit(onSubmit)}>
                 <CardFlat id="filters" className={styles.filterTabs}>
                     <FiltersTab
                         title={(currUser.role <= rolesConfig.manager) ? "Категория" : "Category"}

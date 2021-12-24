@@ -23,7 +23,7 @@ const EditClietns = ({ id }) => {
       nickname: subscription.influencer.nickname,
       isActive: subscription.influencer.isActive,
       weight: subscription.influencer.weight,
-      price: subscription.price && subscription.price,
+      price: subscription.price || undefined,
     }));
 
     return { client, influencers: subscriptionsFiltered };

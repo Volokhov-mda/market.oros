@@ -6,7 +6,7 @@ import { trackPromise } from "react-promise-tracker";
 import { deleteInfluencerAction } from "../../api/actions";
 
 import NotyfContext from "../../contexts/notyf";
-import showConfirm from "../../helpers/show-confirm";
+import { showConfirmRu } from "../../helpers/show-confirm";
 
 import ReorderCard from "../ReorderCard/ReorderCard";
 
@@ -28,7 +28,7 @@ const ReorderList = ({ influencers, setInfluencers, onUpdate }) => {
 
   const onDelete = async ({ _id, nickname }) => {
     const message = `Вы действительно хотите удалить @${nickname}?`;
-    const isConfirmed = await showConfirm(message);
+    const isConfirmed = await showConfirmRu(message);
     if (!isConfirmed) return;
 
     const { error } = await trackPromise(deleteInfluencer(_id));

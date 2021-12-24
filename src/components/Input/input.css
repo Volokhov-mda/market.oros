@@ -6,7 +6,8 @@
   
   width: 100%;
   
-  transition: border-color var(--transition-duration);
+  transition-property: color;
+  transition-duration: var(--transition-duration);
 }
 
 .input::placeholder {

@@ -45,8 +45,11 @@
   border-color: rgba(255, 255, 255, .1);
 }
 
-.priceInput:not(.priceInputDisabled):focus {
+.priceInput:not(.priceInputDisabled):placeholder-shown:focus {
   border-color: #fff;
+}
+.priceInput:not(.priceInputDisabled):not(:placeholder-shown):focus {
+  border-color: var(--accent-color);
 }
 
 @media screen and (max-width: 1000px) {

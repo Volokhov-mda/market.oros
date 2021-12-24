@@ -53,7 +53,7 @@ const ClientsFormContainer = ({ defaultValues }) => {
           influencer.price.amount = influencer.price.amount.toString().replace(/[^0-9]/g, "");
         }
 
-        if (influencer.isVisible && defaultValues.client.showPrices && !influencer.price.amount && !errorPriceEmpty) {
+        if (influencer.isVisible && client.showPrices && !influencer.price.amount && !errorPriceEmpty) {
           errorPriceEmpty = true;
         }
 

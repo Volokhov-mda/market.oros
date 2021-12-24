@@ -5,6 +5,7 @@ import { useEffect, useState } from "preact/hooks";
 import { userAtom } from "../../data/atoms";
 import countries from "../../data/countries";
 import rolesConfig from "../../data/rolesConfig";
+import formatNumberSpaces from "../../helpers/formatNumberSpaces";
 
 import CardFlat from "../CardFlat/CardFlat";
 import FiltersCheckbox from "../FiltersCheckbox/FiltersCheckbox";
@@ -33,7 +34,7 @@ const FiltersMarket = ({ show, register, onSubmit, handleSubmit, filterValues, w
 
     return (
         <div className={styles.wrapper}>
-            <form id="filters-form" className={clsx(styles.form, styles.container, show && styles.show)} onInput={handleSubmit(onSubmit)}>
+            <form id="filters-form" className={clsx(styles.form, styles.container, show && styles.show)} onInput={handleSubmit(onSubmit)} onChange={handleSubmit(onSubmit)}>
                 <CardFlat id="filters" className={styles.filterTabs}>
                     <FiltersTab
                         title={(currUser.role <= rolesConfig.manager) ? "Категория" : "Category"}
@@ -46,6 +47,7 @@ const FiltersMarket = ({ show, register, onSubmit, handleSubmit, filterValues, w
                                 key={i}
                                 value={cat.name}
                                 {...register("category")}
+                                onInput={(e) => e.stopPropagation()}
                             >
                                 {cat.name}
                             </FiltersCheckbox>
@@ -60,8 +62,8 @@ const FiltersMarket = ({ show, register, onSubmit, handleSubmit, filterValues, w
                             <FiltersDiapazonInputs
                                 from={filterValues?.priceLimits ? filterValues.priceLimits.min : "0"}
                                 to={filterValues?.priceLimits ? filterValues.priceLimits.max : "0"}
-                                placeholderLeft={filterValues?.priceLimits ? filterValues.priceLimits.min : "0"}
-                                placeholderRight={filterValues?.priceLimits ? filterValues.priceLimits.max : "0"}
+                                placeholderLeft={filterValues?.priceLimits ? formatNumberSpaces(filterValues.priceLimits.min) : "0"}
+                                placeholderRight={filterValues?.priceLimits ? formatNumberSpaces(filterValues.priceLimits.max) : "0"}
                                 leftRegister={register("costFrom")}
                                 rightRegister={register("costTo")}
                                 watch={watch}
@@ -77,8 +79,8 @@ const FiltersMarket = ({ show, register, onSubmit, handleSubmit, filterValues, w
                         <FiltersDiapazonInputs
                             from={filterValues?.audienceLimits ? filterValues.audienceLimits.min : "0"}
                             to={filterValues?.audienceLimits ? filterValues.audienceLimits.max : "0"}
-                            placeholderLeft={filterValues?.audienceLimits ? filterValues.audienceLimits.min : "0"}
-                            placeholderRight={filterValues?.audienceLimits ? filterValues.audienceLimits.max : "0"}
+                            placeholderLeft={filterValues?.audienceLimits ? formatNumberSpaces(filterValues.audienceLimits.min) : "0"}
+                            placeholderRight={filterValues?.audienceLimits ? formatNumberSpaces(filterValues.audienceLimits.max) : "0"}
                             leftRegister={register("audienceFrom")}
                             rightRegister={register("audienceTo")}
                             watch={watch}
@@ -95,6 +97,7 @@ const FiltersMarket = ({ show, register, onSubmit, handleSubmit, filterValues, w
                                 key={i}
                                 value={country.code}
                                 {...register("country")}
+                                onInput={(e) => e.stopPropagation()}
                             >
                                 {country.label}
                             </FiltersCheckbox>

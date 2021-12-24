@@ -10,8 +10,8 @@ const formatFilterParams = (page, per_page, data) => ({
             max: data?.costTo?.replace(/[\$ ]/g, ""),
         },
         audience: {
-            min: data?.audienceFrom,
-            max: data?.audienceTo,
+            min: data?.audienceFrom?.replace(/[\$ ]/g, ""),
+            max: data?.audienceTo?.replace(/[\$ ]/g, ""),
         },
         countries: (!data?.country || data?.country.length === 0) ? undefined : data?.country.join(","),
     },

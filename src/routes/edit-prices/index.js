@@ -31,7 +31,7 @@ const EditPrices = ({ id }) => {
       name: price.user.name,
       showPrices: price.user.showPrices,
       isActive: price.user.isActive,
-      price: price.price,
+      price: price.price || undefined,
     }));
 
     const unpricedClients = clients.filter((user) => {

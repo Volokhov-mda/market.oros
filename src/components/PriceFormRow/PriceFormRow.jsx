@@ -16,8 +16,10 @@ const PriceFormRow = ({ register, index, checked, priceDisabled, watch, getValue
   const [priceValue, setPriceValue] = useState(getValues(`${rowName}.price.amount`));
   const priceWatch = watch(`${rowName}.price.amount`);
 
+  const currency = getValues(`${rowName}.price.currency`);
+
   useEffect(() => {
-    setPriceValue(formatPriceInputValue(priceWatch, currencies[getValues(`${rowName}.price.currency`)]));
+    setPriceValue(formatPriceInputValue(priceWatch, currencies[currency]));
   }, [priceWatch]);
 
   return (

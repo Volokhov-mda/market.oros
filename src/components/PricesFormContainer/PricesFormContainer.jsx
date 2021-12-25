@@ -46,7 +46,7 @@ const PricesFormContainer = ({ defaultValues }) => {
 
     const pricesMapped = prices
       .map((price) => {
-        if (price.price) {
+        if (price.price?.amount) {
           price.price.amount = price.price.amount.toString().replace(/[^0-9]/g, "");
         }
 
@@ -64,7 +64,8 @@ const PricesFormContainer = ({ defaultValues }) => {
       if (error) return;
     } else {
       const pricesToEdit = pricesMapped
-        .filter((price, i) => (!price._id || !_.isEqual(price.price, defaultValues.prices[i].price) || price.isVisible !== defaultValues.prices[i].isVisible));
+        .filter((price, i) => (!price._id || !_.isEqual(price.price, defaultValues.prices[i].price) || price.isVisible !== defaultValues.prices[i].isVisible))
+        .map((price) => ({ ...price, price: price.price || null }));
 
       for (const price of pricesToEdit) {
         const { error } = price._id

@@ -16,18 +16,20 @@ const ClientFormRow = ({ register, index, checked, disabled, watch, getValues, }
   const [priceValue, setPriceValue] = useState(getValues(`${rowName}.price.amount`));
   const priceWatch = watch(`${rowName}.price.amount`);
 
+  const currency = getValues(`${rowName}.price.currency`);
+
   useEffect(() => {
-    setPriceValue(formatPriceInputValue(priceWatch, currencies[getValues(`${rowName}.price.currency`)]));
+    setPriceValue(formatPriceInputValue(priceWatch, currencies[currency]));
   }, [priceWatch]);
 
   return (
     <div className={styles.row}>
       <input type="hidden" {...register(`${rowName}._id`)} />
-      <input type="hidden" {...register(`${rowName}.influencer`)} />
 
       <div className={styles.influencerInfo}>
         <Checkbox {...register(`${rowName}.isVisible`)} checked={isChecked} onClick={() => { setIsChecked(!isChecked) }} />
         <Input className={clsx(styles.nameInput, !isChecked && styles.priceInputDisabled)} readOnly {...register(`${rowName}.nickname`)} />
+        <input type="hidden" {...register(`${rowName}.influencer`)} />
       </div>
 
       <Input

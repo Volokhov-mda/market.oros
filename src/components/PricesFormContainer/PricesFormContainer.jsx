@@ -44,10 +44,16 @@ const PricesFormContainer = ({ defaultValues }) => {
     if (error) return;
     influencer._id = newInfluencer._id;
 
+    let errorPriceEmpty;
+
     const pricesMapped = prices
       .map((price) => {
         if (price.price?.amount) {
           price.price.amount = price.price.amount.toString().replace(/[^0-9]/g, "");
+        }
+
+        if (price.showPrices && !price.price?.amount) {
+          errorPriceEmpty = true;
         }
 
         return {
@@ -58,6 +64,11 @@ const PricesFormContainer = ({ defaultValues }) => {
           price: price.price?.amount ? price.price : undefined,
         }
       });
+
+    if (errorPriceEmpty) {
+      notyf.error(`У всех активных клиентов с включенным флагом "Отображать цену" должна быть указана цена`);
+      return;
+    }
 
     if (isNewInfluencer) {
       const { error } = await trackPromise(addSubscription(pricesMapped));

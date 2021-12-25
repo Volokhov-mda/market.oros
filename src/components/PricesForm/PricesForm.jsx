@@ -22,7 +22,7 @@ const PricesForm = ({ categories, onSubmit, defaultValues }) => {
     }
   }
 
-  const { handleSubmit, register, watch, getValues, control } = useForm({ defaultValues });
+  const { handleSubmit, register, watch, getValues, setValue, control } = useForm({ defaultValues });
   const categoriesSelected = getValues("influencer.categories");
   const { fields } = useFieldArray({ control, name: "prices" });
 
@@ -51,13 +51,13 @@ const PricesForm = ({ categories, onSubmit, defaultValues }) => {
         <div className={styles.clientsWrapper}>
           <TitledGrid gridGap={".5rem"} title="Активные" titleClassName={styles.rowsTitle} className={styles.gridSection}>
             {fields.map((field, index) => field.isActive && (
-              <PriceFormRow key={field.id} index={index} register={register} watch={watch} getValues={getValues} checked={field.isVisible} priceDisabled={!field.showPrices} />
+              <PriceFormRow key={field.id} index={index} register={register} watch={watch} getValues={getValues} setValue={setValue} checked={field.isVisible} priceDisabled={!field.showPrices} />
             ))}
           </TitledGrid>
 
           <TitledGrid gridGap={".5rem"} title="Архивированные" titleClassName={styles.rowsTitle} className={styles.gridSection}>
             {fields.map((field, index) => !field.isActive && (
-              <PriceFormRow key={field.id} index={index} register={register} watch={watch} getValues={getValues} checked={field.isVisible} priceDisabled={!field.showPrices} />
+              <PriceFormRow key={field.id} index={index} register={register} watch={watch} getValues={getValues} setValue={setValue} checked={field.isVisible} priceDisabled={!field.showPrices} />
             ))}
           </TitledGrid>
         </div>

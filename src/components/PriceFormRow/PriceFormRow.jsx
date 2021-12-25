@@ -9,18 +9,25 @@ import Input from "../Input/Input";
 
 import styles from "./price-form-row.css";
 
-const PriceFormRow = ({ register, index, checked, priceDisabled, watch, getValues, }) => {
+const PriceFormRow = ({ register, index, checked, priceDisabled, getValues, setValue, }) => {
   const [isChecked, setIsChecked] = useState(checked);
   const rowName = `prices[${index}]`;
 
-  const [priceValue, setPriceValue] = useState(getValues(`${rowName}.price.amount`));
-  const priceWatch = watch(`${rowName}.price.amount`);
+  const [priceValue, setPriceValue] = useState(undefined);
 
-  const currency = getValues(`${rowName}.price.currency`);
+  const currency = currencies[getValues(`${rowName}.price.currency`)];
+
+  const handlePriceInput = (value) => {
+    setPriceValue(value);
+    
+    const formattedValue = formatPriceInputValue(value, currency);
+    setPriceValue(formattedValue);
+    setValue(`${rowName}.price.amount`, formattedValue);
+  }
 
   useEffect(() => {
-    setPriceValue(formatPriceInputValue(priceWatch, currencies[currency]));
-  }, [priceWatch]);
+    handlePriceInput(getValues(`${rowName}.price.amount`));
+  }, []);
 
   return (
     <div className={styles.row}>
@@ -37,6 +44,7 @@ const PriceFormRow = ({ register, index, checked, priceDisabled, watch, getValue
         placeholder=" "
         {...register(`${rowName}.price.amount`)}
         value={priceValue}
+        onInput={(e) => handlePriceInput(e.target.value, currency)}
         readOnly={!isChecked || priceDisabled}
       />
       <input type="hidden" {...register(`${rowName}.price.currency`)} value="USD" />

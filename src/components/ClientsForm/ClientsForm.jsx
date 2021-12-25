@@ -56,14 +56,14 @@ const ClientsForm = ({ onSubmit, defaultValues }) => {
             </div>
             <div className={styles.gridSection}>
               {fields.map((field, index) => field.isActive && (
-                <ClientFormRow key={field.id} index={index} register={register} watch={watch} getValues={getValues} checked={field.isVisible} disabled={!showPrices} />
+                <ClientFormRow key={field.id} index={index} register={register} watch={watch} getValues={getValues} setValue={setValue} checked={field.isVisible} disabled={!showPrices} />
               ))}
             </div>
           </div>
 
           <TitledGrid gridGap={".5rem"} title={`Архивные ${user.role === rolesConfig.admin ? "влиятели" : "блогеры"}`} titleClassName={styles.rowsTitle} className={styles.gridSection}>
             {fields.map((field, index) => !field.isActive && (
-              <ClientFormRow key={field.id} index={index} register={register} watch={watch} getValues={getValues} checked={field.isVisible} disabled={!showPrices} />
+              <ClientFormRow key={field.id} index={index} register={register} watch={watch} getValues={getValues} setValue={setValue} checked={field.isVisible} disabled={!showPrices} />
             ))}
           </TitledGrid>
         </div>

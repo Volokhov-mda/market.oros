@@ -29,3 +29,13 @@
 .filter:hover .imgWrapper {
     transform: translateX(2px);
 }
+
+@media screen and (max-width: 500px) {
+    .chevron {
+        transform: rotate(90deg);
+    }
+
+    .open {
+        transform: rotate(-90deg);
+    }
+}

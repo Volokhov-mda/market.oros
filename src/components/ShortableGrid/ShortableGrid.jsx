@@ -3,12 +3,10 @@ import { useAtom } from "jotai";
 
 import { gridShortened } from "../../data/atoms";
 
-import FiltersMarket from "../FiltersMarket/FiltersMarket";
-
 import styles from "./shortable-grid.css";
 import clsx from "clsx";
 
-const ShortableGrid = ({ children, ...props }) => {
+const ShortableGrid = ({ children,  }) => {
     const [isGridShortened] = useAtom(gridShortened);
 
     useEffect(() => {
@@ -22,11 +20,10 @@ const ShortableGrid = ({ children, ...props }) => {
                 pricesWrapper.style.height = gridShortenedHeight ? `${gridShortenedHeight}px` : "unset";
             }
         }
-    }, [isGridShortened, children]);
+    }, [isGridShortened, children, window.innerWidth]);
 
     return (
         <div id={styles.pricesWrapper} className={isGridShortened && styles.shorteningWrapper}>
-            <FiltersMarket show={isGridShortened} {...props} />
             <div className={clsx(styles.container, isGridShortened && styles.shorteningContainer)}>
                 <div id={styles.grid} className={isGridShortened && styles.shortening}>
                     {children}

@@ -1,0 +1,13 @@
+.notShortableFilter {
+  width: 100%;
+}
+
+.mobileFilters {
+  margin-top: -1rem;
+}
+
+@media screen and (max-width: 500px) {
+  .mobileFilters {
+    margin-top: 0;
+  }
+}

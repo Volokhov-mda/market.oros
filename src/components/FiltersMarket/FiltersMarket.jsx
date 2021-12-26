@@ -14,7 +14,7 @@ import FiltersTab from "../FiltersTab/FiltersTab";
 
 import styles from "./filters-market.css";
 
-const FiltersMarket = ({ show, register, onSubmit, handleSubmit, filterValues, watch, }) => {
+const FiltersMarket = ({ className, show, register, onSubmit, handleSubmit, filterValues, watch, }) => {
     const [currUser] = useAtom(userAtom);
     const [active, setActive] = useState(null);
     const [countriesLabeled, setCountriesLabeled] = useState(null);
@@ -33,7 +33,7 @@ const FiltersMarket = ({ show, register, onSubmit, handleSubmit, filterValues, w
     }, [filterValues, filterValues?.countries]);
 
     return (
-        <div className={styles.wrapper}>
+        <div className={clsx( styles.wrapper, className)}>
             <form id="filters-form" className={clsx(styles.form, styles.container, show && styles.show)} onInput={handleSubmit(onSubmit)} onChange={handleSubmit(onSubmit)}>
                 <CardFlat id="filters" className={styles.filterTabs}>
                     <FiltersTab

@@ -1,25 +1,22 @@
 .wrapper {
-    position: absolute;
-
-    margin-top: 1rem;
-    
     height: 100%;
     width: var(--width);
     max-width: var(--max-width);
 
     pointer-events: none;
-    z-index: 1;
+    z-index: 0;
 }
 
 .form {
     position: sticky;
-    top: 1rem;
     left: 0;
 }
 
 .container {
     display: flex;
     flex-direction: column;
+
+    margin-top: 1rem;
 
     border-radius: var(--border-radius);
 
@@ -61,8 +58,36 @@
     }
 }
 
+@media screen and (min-width: 501px) {
+    .wrapper {
+        position: absolute;
+    }
+}
+
 @media screen and (max-width: 500px) {
+    .wrapper {
+        position: relative;
+        display: block;
+    }
+
     .container {
-        width: calc(50% - 1rem);
+        width: 100%;
+        margin-top: 0;
+        box-sizing: border-box;
+        transition-property: max-height, opacity, transform;
+        transition-duration: calc(var(--transition-duration) * 2);
+        transform: scale(.95);
+        max-height: 0;
+    }
+
+    .show {
+        max-height: 20.5rem;
+        transition-property: max-height, opacity, transform;
+        transform: scale(1);
+        transition-duration: calc(var(--transition-duration) * 2);
+    }
+
+    .filterTabs {
+        margin-bottom: 1.5rem;
     }
 }

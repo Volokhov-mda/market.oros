@@ -75,7 +75,7 @@
         margin-top: 0;
         box-sizing: border-box;
         transition-property: max-height, opacity, transform;
-        transition-duration: calc(var(--transition-duration) * 2);
+        transition-duration: calc(var(--transition-duration) * 3.5);
         transform: scale(.95);
         max-height: 0;
     }
@@ -83,8 +83,8 @@
     .show {
         max-height: 20.5rem;
         transition-property: max-height, opacity, transform;
+        transition-duration: calc(var(--transition-duration) * 3);
         transform: scale(1);
-        transition-duration: calc(var(--transition-duration) * 2);
     }
 
     .filterTabs {

@@ -28,7 +28,7 @@ const ShortableGrid = ({ children,  }) => {
                 <div id={styles.grid} className={isGridShortened && styles.shortening}>
                     {children}
                 </div>
-                <div id={styles.gridShortened} className={isGridShortened && styles.shortening}>
+                <div id={styles.gridShortened} className={clsx(isGridShortened && styles.shortening, styles.hideMobile)}>
                     {children}
                 </div>
             </div>

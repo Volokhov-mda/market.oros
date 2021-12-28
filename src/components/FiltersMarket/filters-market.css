@@ -4,7 +4,7 @@
     max-width: var(--max-width);
 
     pointer-events: none;
-    z-index: 0;
+    z-index: 1;
 }
 
 .form {

@@ -2,6 +2,8 @@ import clsx from "clsx";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "preact/hooks";
 
+import useGAEventTracker from "../../hooks/use-ga-event-tracker";
+
 import { userAtom } from "../../data/atoms";
 import countries from "../../data/countries";
 import rolesConfig from "../../data/rolesConfig";
@@ -18,6 +20,7 @@ const FiltersMarket = ({ className, show, register, onSubmit, handleSubmit, filt
     const [currUser] = useAtom(userAtom);
     const [active, setActive] = useState(null);
     const [countriesLabeled, setCountriesLabeled] = useState(null);
+    const GAEventTrackerFilterTab = useGAEventTracker("Filter Tab Click");
 
     const openTab = (i) => setActive(i === active ? -1 : i);
 
@@ -38,7 +41,7 @@ const FiltersMarket = ({ className, show, register, onSubmit, handleSubmit, filt
                 <CardFlat id="filters" className={styles.filterTabs}>
                     <FiltersTab
                         title={(currUser.role <= rolesConfig.manager) ? "Категория" : "Category"}
-                        onClick={() => openTab(0)}
+                        onClick={() => { openTab(0); currUser.role === rolesConfig.client && GAEventTrackerFilterTab("Category"); }}
                         isOpened={0 === active}
                     >
                         {!filterValues?.categories?.length && <div className={styles.notification}>Категории отсутсвуют</div>}
@@ -56,7 +59,7 @@ const FiltersMarket = ({ className, show, register, onSubmit, handleSubmit, filt
                     {!(currUser.role <= rolesConfig.manager || !currUser.showPrices) && (
                         <FiltersTab
                             title={"Cost"}
-                            onClick={() => openTab(1)}
+                            onClick={() => { openTab(1); currUser.role === rolesConfig.client && GAEventTrackerFilterTab("Cost"); }}
                             isOpened={1 === active}
                         >
                             <FiltersDiapazonInputs
@@ -73,7 +76,7 @@ const FiltersMarket = ({ className, show, register, onSubmit, handleSubmit, filt
                     )}
                     <FiltersTab
                         title={(currUser.role <= rolesConfig.manager) ? "Аудитория" : "Auditorium"}
-                        onClick={() => openTab(2)}
+                        onClick={() => { openTab(2); currUser.role === rolesConfig.client && GAEventTrackerFilterTab("Auditorium"); }}
                         isOpened={2 === active}
                     >
                         <FiltersDiapazonInputs
@@ -88,7 +91,7 @@ const FiltersMarket = ({ className, show, register, onSubmit, handleSubmit, filt
                     </FiltersTab>
                     <FiltersTab
                         title={(currUser.role <= rolesConfig.manager) ? "Страна" : "Country"}
-                        onClick={() => openTab(3)}
+                        onClick={() => { openTab(3); currUser.role === rolesConfig.client && GAEventTrackerFilterTab("Country"); }}
                         isOpened={3 === active}
                     >
                         {!countriesLabeled?.length && <div className={styles.notification}>Страны отсутсвуют</div>}

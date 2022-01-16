@@ -2,6 +2,7 @@ import { useQuery } from "react-fetching-library";
 import { route, Router } from "preact-router";
 import { useAtom } from "jotai";
 import { trackPromise } from "react-promise-tracker";
+import ReactGA from "react-ga";
 
 import ProgressBar from "../ProgressBar/ProgressBar";
 
@@ -24,6 +25,9 @@ import Categories from "../../routes/categories";
 import Admin from "../../routes/admin";
 
 import styles from "./app.css";
+import { useEffect } from "preact/hooks";
+
+ReactGA.initialize("UA-217260703-1");
 
 const App = () => {
   const [, setUser] = useAtom(userAtom);
@@ -44,12 +48,17 @@ const App = () => {
       await trackPromise(fetchUser());
     }
 
-    if (!userTemp) return route("/");
+    if (!userTemp) {
+      ReactGA.pageview("/");
+      return route("/");
+    }
 
     if (e.url === "/") {
+      ReactGA.pageview("/market");
       return route("/market?page=1", true);
     } 
     else if (e.url === "/market") {
+      ReactGA.pageview("/market");
       return route("/market?page=1");
     } 
     else if (e.url === "archive") {
@@ -87,6 +96,7 @@ const App = () => {
       }
     } else if (e.url === "/categories") {
       if (!(userTemp?.role <= rolesConfig.manager)) {
+        ReactGA.pageview(e.url);
         return route("/", true);
       }
     } else if (e.url === "/admin") {

@@ -6,6 +6,8 @@ import _ from "lodash";
 import { userAtom } from "../../data/atoms";
 import rolesConfig from "../../data/rolesConfig";
 
+import useGAEventTracker from "../../hooks/use-ga-event-tracker";
+
 import chevron from "./../../assets/icons/chevron-right.svg";
 
 import SortingOption from "../SortingOption/SortingOption";
@@ -18,8 +20,14 @@ const SortingButton = ({ isOpen, setIsOpen, className, register, handleSubmit, o
     const [currOption, setCurrOption] = useState(undefined);
     const [isAscending, setIsAscending] = useState(undefined);
     const [sortingOptions, setSortingOptions] = useState(undefined);
+    const GAEventTrackerSorting = useGAEventTracker("Sorting Button Click");
 
-    useEffect(() => {
+    const handleSortingButtonClick = () => {
+        currUser.role === rolesConfig.client && GAEventTrackerSorting(`Sorting button ${!isOpen ? "Opened" : "Closed"}`);
+        setIsOpen(!isOpen);
+    };
+
+    useEffect(function setDefaultSortingOptions() {
         setSortingOptions(
             (currUser.role <= rolesConfig.manager) ? ([
                 { name: "По умолчанию", value: "weight", },
@@ -36,10 +44,10 @@ const SortingButton = ({ isOpen, setIsOpen, className, register, handleSubmit, o
     }, []);
 
     const classes = clsx(className, styles.wrapper);
-    
+
     return (
         <form className={classes} onChange={handleSubmit(onSubmit)}>
-            <button id="sorting-button" className={clsx(styles.button, isOpen && styles.open)} onClick={() => setIsOpen(!isOpen)} type="button">
+            <button id="sorting-button" className={clsx(styles.button, isOpen && styles.open)} onClick={handleSortingButtonClick} type="button">
                 <div className={styles.currOption}>
                     {currOption?.name || (currUser.role <= rolesConfig.manager ? "Сортировка" : "Sorting")} {currOption?.orderable && (isAscending ? <ArrowSorting className={styles.ascending} /> : <ArrowSorting className={styles.descending} />)}
                 </div>

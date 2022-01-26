@@ -2,13 +2,14 @@
     display: flex;
     justify-content: center;
 
-    margin-top: 1rem;
+    margin-top: 4rem;
 
     width: 100%;
 }
 
 .nums {
     display: flex;
+    z-index: 1;
 }
 
 .nums > * {

@@ -1,8 +1,14 @@
+import { useContext } from "preact/hooks";
 import { useAtom } from "jotai";
 import { route } from "preact-router";
+import { useParameterizedQuery, } from "react-fetching-library";
+import { trackPromise } from "react-promise-tracker";
+
+import NotyfContext from "../../contexts/notyf";
+
+import { addCartItem } from "../../api/actions";
 
 import rolesConfig from "../../data/rolesConfig";
-
 import { gridShortened, userAtom } from "../../data/atoms";
 
 import PriceCardAdmin from "../PriceCardAdmin/PriceCardAdmin";
@@ -14,10 +20,21 @@ import FiltersMarket from "../FiltersMarket/FiltersMarket";
 import styles from "./prices-grid.css";
 
 const PricesGrid = ({ prices, onEdit, onDelete, onArchive, ...props }) => {
+  const notyf = useContext(NotyfContext);
+
+  const { query: addToCartQuery } = useParameterizedQuery(addCartItem);
+
   const [user] = useAtom(userAtom);
   const [isGridShortened] = useAtom(gridShortened);
 
   const onAdd = () => route("/prices/add");
+
+  const onAddToCart = async ({ _id }) => {
+    const { error } = await trackPromise(addToCartQuery({ subscription: _id, quantity: 1, }));
+    if (error) return;
+
+    notyf.success("кайф");
+  };
 
   return (
     <>
@@ -45,6 +62,7 @@ const PricesGrid = ({ prices, onEdit, onDelete, onArchive, ...props }) => {
           ) : (
             <PriceCardUser
               {...price}
+              onAddToCart={onAddToCart}
               key={i}
             />
           )

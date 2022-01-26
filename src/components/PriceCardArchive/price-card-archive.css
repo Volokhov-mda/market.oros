@@ -1,5 +1,7 @@
 .card {
   max-height: 4.5rem;
+
+  overflow: hidden;
 }
 
 .info {
@@ -7,6 +9,10 @@
 }
 
 .followers {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  
   font-size: .5833rem;
   line-height: .8333rem;
 }

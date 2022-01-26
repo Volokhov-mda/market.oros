@@ -4,8 +4,8 @@
   box-sizing: border-box;
 }
 
-body {
-  padding: env(safe-area-inset);
+html {
+  overflow-x: hidden;
 }
 
 html,
@@ -17,7 +17,9 @@ select {
 }
 
 body {
-  overflow-x: hidden;
+  overflow-x: clip;
+  overflow-clip-margin: 2rem;
+  padding: env(safe-area-inset);
   background: var(--gradient);
 }
 
@@ -52,7 +54,7 @@ strong {
 }
 
 
-@media screen and (max-width: 1000px) { /* 500px */
+@media screen and (max-width: 1000px) { 
   html,
   input,
   button,

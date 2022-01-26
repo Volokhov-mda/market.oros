@@ -1,6 +1,14 @@
 .card {
+  position: relative;
+
   display: flex;
   max-height: 4.5rem;
+
+  transition-duration: var(--transition-duration);
+}
+
+.card:not(:hover) {
+  animation: mouseOut var(--transition-duration);
 }
 
 .thumbnailWrapper {
@@ -23,6 +31,8 @@
   width: 100%;
   object-fit: cover;
   position: absolute;
+  border-top-left-radius: var(--border-radius);
+  border-bottom-left-radius: var(--border-radius);
 }
 
 .info {
@@ -42,10 +52,10 @@
 }
 
 .priceContainer {
-  /* position: absolute;
-  bottom: .4rem; */
   padding-right: .5rem;
+  
   font-size: .666rem;
+  line-height: 104%;
 }
 
 .price {
@@ -54,6 +64,10 @@
 }
 
 .followers {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
   font-size: .5833rem;
   line-height: .8333rem;
 }
@@ -75,16 +89,56 @@
   word-break: break-all;
 }
 
-.followers,
-.linkContainer,
-.priceContainer {
-  /* overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap; */
+.addToCartContainer {
+  position: absolute;
+  bottom: 0;
+  transform: translateY(100%);
 
-  /* line-height: 90%; */
+  border-bottom-left-radius: var(--border-radius);
+  border-bottom-right-radius: var(--border-radius);
+  padding: .5rem;
+
+  /* height: 3rem; */
+  width: 100%;
+
+  background-color: #584851;
+
+  visibility: hidden;
+  opacity: 0;
+
+  transition-property: visibility, opacity;
+  transition-duration: var(--transition-duration);
 }
 
-.priceContainer {
-  line-height: 104%;
+.card.hoverable:hover {
+  background-color: #584851;
+
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+
+  filter: drop-shadow(0px 0px 2rem #000000);
+
+  z-index: 20;
+}
+
+.card:hover .addToCartContainer {
+  visibility: visible;
+  opacity: 1;
+}
+
+.addToCartButton {
+  height: 1.75rem;
+  padding: 0;
+  font-size: .666rem;
+  border-radius: var(--border-radius);
+}
+
+@keyframes mouseOut {
+  0% {
+    z-index: 20;
+  }
+
+  100% {
+    z-index: unset;
+  }
 }

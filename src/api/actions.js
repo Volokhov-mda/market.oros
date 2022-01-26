@@ -279,3 +279,28 @@ export const addInfluencerAction = (data) => ({
     needsToken: true,
   },
 });
+
+export const fetchCartAction = {
+  method: "GET",
+  endpoint: "/cart",
+  config: {
+    needsToken: true,
+  },
+};
+
+export const addCartItem = (data) => ({
+  method: "PUT",
+  endpoint: "/cart",
+  body: data,
+  config: {
+    needsToken: true,
+  },
+});
+
+export const emptyCartAction = () => ({
+  method: "DELETE",
+  endpoint: `/cart`,
+  config: {
+    needsToken: true,
+  },
+});

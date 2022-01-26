@@ -37,13 +37,6 @@ const PricesFormContainer = ({ defaultValues }) => {
       categories: influencer.categories.includes("") ? undefined : influencer.categories,
     };
 
-    const { payload: newInfluencer, error } = redactedInfluencer._id
-      ? await trackPromise(editInfluencer(redactedInfluencer._id, redactedInfluencer))
-      : await trackPromise(addInfluencer({ ...redactedInfluencer, _id: undefined }));
-
-    if (error) return;
-    influencer._id = newInfluencer._id;
-
     let errorPriceEmpty;
 
     const pricesMapped = prices
@@ -69,6 +62,13 @@ const PricesFormContainer = ({ defaultValues }) => {
       notyf.error(`У всех активных клиентов с включенным флагом "Отображать цену" должна быть указана цена`);
       return;
     }
+
+    const { payload: newInfluencer, error } = redactedInfluencer._id
+      ? await trackPromise(editInfluencer(redactedInfluencer._id, redactedInfluencer))
+      : await trackPromise(addInfluencer({ ...redactedInfluencer, _id: undefined }));
+
+    if (error) return;
+    influencer._id = newInfluencer._id;
 
     if (isNewInfluencer) {
       const { error } = await trackPromise(addSubscription(pricesMapped));

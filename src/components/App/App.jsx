@@ -23,9 +23,9 @@ import EditClietns from "../../routes/edit-clients";
 import Managers from "../../routes/managers";
 import Categories from "../../routes/categories";
 import Admin from "../../routes/admin";
+import Cart from "../../routes/cart";
 
 import styles from "./app.css";
-import { useEffect } from "preact/hooks";
 
 ReactGA.initialize("UA-217260703-1");
 
@@ -103,6 +103,10 @@ const App = () => {
       if (userTemp?.role !== rolesConfig.admin) {
         return route("/", true);
       }
+    } else if (e.url === "/cart") {
+      if (userTemp?.role === rolesConfig.client) {
+        return route("/cart", true);
+      }
     }
   };
 
@@ -127,6 +131,7 @@ const App = () => {
         <Managers path="/managers" />
         <Categories path="/categories" />
         <Admin path="/admin" />
+        <Cart path="/cart" />
       </Router>
     </div>
   );

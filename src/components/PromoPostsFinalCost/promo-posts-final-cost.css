@@ -1,0 +1,24 @@
+.totalWrapper {
+
+}
+
+.title {
+    font-size: .583rem;
+    font-weight: bold;
+}
+
+.cost {
+    margin-top: 1.125rem;
+
+    color: var(--accent-color);
+
+    word-wrap: break-word;
+}
+
+@media screen and (max-width: 500px) {
+    .cost {
+        margin-top: 1rem;
+
+        font-size: 1.5rem;
+    }
+}

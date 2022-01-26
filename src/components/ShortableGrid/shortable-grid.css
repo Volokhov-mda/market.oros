@@ -7,8 +7,8 @@
   .container {
     position: relative;
   
-    margin: -1rem;
-    padding: 1rem;
+    margin: -4rem -4rem -7rem;
+    padding: 4rem 4rem 7rem;
   
     height: 100%;
   
@@ -26,18 +26,18 @@
   #gridShortened,
   #grid > *,
   #gridShortened > * {
-    transition-property: transform, opacity, width, min-height;
+    transition-property: transform, opacity, width, min-height, background-color, border-radius, filter;
     transition-duration: calc(var(--transition-duration) * 2);
   }
   
   #grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
   
   #gridShortened {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   
-    padding: 1rem 1rem 0 1rem;
+    padding: 4rem 4rem 0 2rem;
     
     width: 66%;
   
@@ -69,12 +69,12 @@
   
   @media screen and (min-width: 1001px) and (max-width: 1150px) {
     #grid {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   
     #gridShortened {
       width: calc(50% - .5rem);
-      grid-template-columns: 1fr;
+      grid-template-columns: minmax(0, 1fr);
     }
   
     #grid.shortening > *:nth-child(3n) {
@@ -111,12 +111,12 @@
   
   @media screen and (min-width: 501px) and (max-width: 1000px) {
     #grid {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   
     #gridShortened {
       width: 66%;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   
     #grid.shortening > *:nth-child(3n) {
@@ -138,13 +138,13 @@
   
   @media screen and (max-width: 500px) {
     #grid {
-      grid-template-columns: 1fr;
+      grid-template-columns: minmax(0, 1fr);
       margin: 0 0 0 auto;
       width: 100%;
     }
   
     #gridShortened {
-      grid-template-columns: 1fr;
+      grid-template-columns: minmax(0, 1fr);
       display: none;
     }
 

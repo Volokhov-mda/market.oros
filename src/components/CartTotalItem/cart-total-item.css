@@ -1,0 +1,40 @@
+.cartTotalItem {
+    display: grid;
+    grid-gap: .25rem;
+}
+
+.title {
+    font-size: .583rem;
+}
+
+.stat {
+    font-size: .833rem;
+}
+
+.cartTotalItem[accent=true] > .title {
+    font-weight: bold;
+}
+
+.cartTotalItem[accent=true] > .stat {
+    font-size: 1rem;
+
+    color: var(--accent-color);
+}
+
+@media screen and (max-width: 800px) {
+    .cartTotalItem {
+        grid-gap: .375rem;
+    }
+
+    .title {
+        font-size: .875rem;
+    }
+
+    .stat {
+        font-size: 1.25rem;
+    }
+
+    .cartTotalItem[accent=true] > .stat {
+        font-size: 1.5rem;
+    }
+}

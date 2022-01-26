@@ -17,8 +17,8 @@ const AddClients = () => {
     const activeUsers = (usersActive) ? (usersActive).filter((user) => (user.role === rolesConfig.client)) : [];
     const archiveUsers = (usersArchive) ? (usersArchive).filter((user) => (user.role === rolesConfig.client)) : [];
 
-    const pricesActive = activeUsers.map((user) => ({ user: user._id, name: user.name, isActive: user.isActive, price: { currency: "USD", description: "1 promo-post" }, isVisible: true, }));
-    const pricesArchive = archiveUsers.map((user) => ({ user: user._id, name: user.name, isActive: user.isActive, price: { currency: "USD", description: "1 promo-post" }, isVisible: true, }));
+    const pricesActive = activeUsers.map((user) => ({ user: user._id, name: user.name, isActive: user.isActive, price: { currency: "USD", description: "1 promo-post" }, isVisible: true, showPrices: true, }));
+    const pricesArchive = archiveUsers.map((user) => ({ user: user._id, name: user.name, isActive: user.isActive, price: { currency: "USD", description: "1 promo-post" }, isVisible: true, showPrices: true, }));
 
     return { prices: [...pricesActive, ...pricesArchive] };
   }, [usersActive, usersArchive]);

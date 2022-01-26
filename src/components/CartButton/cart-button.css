@@ -1,0 +1,42 @@
+.cartButton {
+    display: flex;
+
+    align-items: center;
+}
+
+.cartIcon {
+    display: flex;
+    align-items: center;
+    position: relative;
+
+    margin-bottom: 4px;
+    margin-left: calc(1rem / 3);
+}
+
+.cart {
+    height: 1rem;
+    width: 1rem;
+
+
+    mask: url("./../../assets/icons/shopping-bag.svg") no-repeat;
+    mask-position: center center;
+    mask-size: 1rem 1rem;
+    background-color: #fff;
+}
+
+.cart.active {
+    background-color: var(--accent-color);
+}
+
+.cartCount {
+    position: absolute;
+
+    top: calc(1rem / 2 + 1px);
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    line-height: 1rem;
+    font-size: calc(1rem / 3);
+    font-weight: bold;
+    text-decoration: unset;
+}

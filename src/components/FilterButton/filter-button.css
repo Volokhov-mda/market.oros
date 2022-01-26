@@ -5,6 +5,8 @@
     font-size: .666rem;
 
     cursor: pointer;
+
+    z-index: 200;
 }
 
 .imgWrapper {

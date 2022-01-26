@@ -57,6 +57,8 @@
     overflow-y: visible;
 
     white-space: nowrap;
+
+    z-index: 1;
 }
 
 .reorderContainer {

@@ -1,11 +1,12 @@
+import clsx from "clsx";
 import trash from "../../assets/icons/trash.svg";
 import FlatActionButton from "../FlatActionButton/FlatActionButton";
 
 import styles from "./delete-button.css";
 
-const DeleteButton = ({ onDelete, }, props) => {
+const DeleteButton = ({ className, onDelete, }, props) => {
     return (
-        <FlatActionButton className={styles.button} icon={trash} onClick={onDelete} {...props} />
+        <FlatActionButton className={clsx(styles.button, className)} icon={trash} onClick={onDelete} {...props} />
     );
 }
 

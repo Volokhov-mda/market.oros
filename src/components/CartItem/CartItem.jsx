@@ -10,31 +10,58 @@ import PromoPostsFinalCost from "../PromoPostsFinalCost/PromoPostsFinalCost";
 
 import styles from "./cart-item.css";
 
-const CartItem = ({ influencer, className }) => {
-    const [numOfPromoPosts, setNumOfPromoPosts] = useState(undefined);
+const CartItem = ({ cartItem, onChangeQuantity, onDelete, className }) => {
+    const [numOfPromoPosts, setNumOfPromoPosts] = useState(cartItem.quantity);
 
-    console.log(influencer);
-
-    useEffect(() => {
-        if (numOfPromoPosts === undefined) {
-            setNumOfPromoPosts(undefined);
+    const onInput = (quantity) => {
+        quantity = formatPriceInputValue(quantity);
+        if (quantity === "") {
+            setNumOfPromoPosts("");
+            onChangeQuantity(cartItem, 1);
             return;
         }
-        if (numOfPromoPosts > 99) {
-            setNumOfPromoPosts(99);
+
+        let newQuantity;
+        if (!quantity || quantity == 0) {
+            newQuantity = 1;
+        } else {
+            newQuantity = quantity > 99 ? 99 : quantity
         }
+
+        newQuantity = formatPriceInputValue(newQuantity);
+        
+        setNumOfPromoPosts(newQuantity);
+        onChangeQuantity(cartItem, newQuantity);
+    };
+
+    const onFocusOut = (quantity) => {
+        if (!numOfPromoPosts) {
+            setNumOfPromoPosts(quantity);
+            onChangeQuantity(cartItem, quantity);
+        }
+    }
+
+    useEffect(() => {
+        // console.log(cartItem);
+        // console.log(`${cartItem?.price?.amount} * ${numOfPromoPosts} = ${cartItem?.price?.amount * (numOfPromoPosts || 0)}`);
     }, [numOfPromoPosts]);
 
     return (
         <div className={clsx(styles.cartItemWrapper, className)}>
             <div className={styles.influencerInfo}>
-                <DeleteButton className={styles.deleteButton} />
-                <PriceCardUser className={styles.influencerCard} influencer={influencer} priceDescription="per promo post" />
+                <DeleteButton className={styles.deleteButton} onDelete={() => { onDelete(cartItem); }} type="button" />
+                <PriceCardUser className={styles.influencerCard} influencer={cartItem.subscription} priceDescription="per promo post" />
             </div>
             <div className={styles.cost}>
-                <PromoPostsInput className={styles.promoPostsInput} numOfPromoPosts={numOfPromoPosts} setNumOfPromoPosts={setNumOfPromoPosts} />
+                <PromoPostsInput
+                    className={styles.promoPostsInput}
+                    numOfPromoPosts={numOfPromoPosts}
+                    setNumOfPromoPosts={setNumOfPromoPosts}
+                    onInput={(e) => { onInput(e.target.value); }}
+                    onfocusout={() => { onFocusOut(1); }}
+                />
                 <div className={styles.verticalSeparator} />
-                <PromoPostsFinalCost className={styles.total} cost={influencer?.price?.amount * (numOfPromoPosts || 0)} />
+                <PromoPostsFinalCost className={styles.total} cost={cartItem?.price?.amount} />
             </div>
         </div>
     );

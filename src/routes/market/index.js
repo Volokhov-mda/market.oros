@@ -224,7 +224,15 @@ const Market = ({ page, scroll: scrollElement }) => {
             watch={watch}
             setValue={setValue}
           />
-          {influencersCount ? <MarketPages currPage={currPageIndex} setCurrPage={setCurrPageIndex} setTotalNumOfPages={setTotalNumOfPages} usersPerPage={usersPerPage.current} influencersCount={influencersCount} /> : null}
+          {influencersCount ? (
+            <MarketPages
+              currPage={currPageIndex}
+              setCurrPage={setCurrPageIndex}
+              setTotalNumOfPages={setTotalNumOfPages}
+              usersPerPage={usersPerPage.current}
+              influencersCount={influencersCount}
+            />
+          ) : null}
         </>
       )}
     </>

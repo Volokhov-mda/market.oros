@@ -6,8 +6,8 @@ import ReactGA from "react-ga";
 
 import ProgressBar from "../ProgressBar/ProgressBar";
 
-import { fetchCurrentUserAction } from "../../api/actions";
-import { userAtom } from "../../data/atoms";
+import { fetchCartTotalAction, fetchCurrentUserAction } from "../../api/actions";
+import { cartItemsNumAtom, userAtom } from "../../data/atoms";
 
 import rolesConfig from "../../data/rolesConfig";
 
@@ -31,18 +31,31 @@ ReactGA.initialize("UA-217260703-1");
 
 const App = () => {
   const [, setUser] = useAtom(userAtom);
-  const { query } = useQuery(fetchCurrentUserAction, false);
+  const [, setCartItemsNum] = useAtom(cartItemsNumAtom);
+
+  const { query: queryCurrUser } = useQuery(fetchCurrentUserAction, false);
+  const { query: queryCartTotal } = useQuery(fetchCartTotalAction, false);
 
   const onRouteChange = async (e) => {
     let userTemp;
 
     const fetchUser = async () => {
-      const { payload, error } = await query();
-      if (!error) {
-        setUser(payload);
-        userTemp = payload;
-      }
+      const { payload, error } = await trackPromise(queryCurrUser());
+      if (error) return;
+
+      setUser(payload);
+      userTemp = payload;
+
     };
+
+    const fetchCartItemsNum = async () => {
+      const { payload, error } = await trackPromise(queryCartTotal());
+      if (error) return;
+
+      setCartItemsNum(payload.total.count);
+    }
+
+    fetchCartItemsNum();
 
     if (localStorage.getItem("token")) {
       await trackPromise(fetchUser());
@@ -56,32 +69,32 @@ const App = () => {
     if (e.url === "/") {
       ReactGA.pageview("/market");
       return route("/market?page=1", true);
-    } 
+    }
     else if (e.url === "/market") {
       ReactGA.pageview("/market");
       return route("/market?page=1");
-    } 
+    }
     else if (e.url === "archive") {
       if (!(userTemp?.role <= rolesConfig.manager)) {
         return route("/", true);
       }
       return route("/archive?page=1");
-    } 
+    }
     else if (e.url === "/reorder") {
       if (!(userTemp?.role <= rolesConfig.admin)) {
         return route("/", true);
       }
-    } 
+    }
     else if (e.url.startsWith("/prices/")) {
       if (!(userTemp?.role <= rolesConfig.manager)) {
         return route("/", true);
       }
-    } 
+    }
     else if (e.url === "/prices/add") {
       if (!(userTemp?.role <= rolesConfig.manager)) {
         return route("/", true);
       }
-    } 
+    }
     else if (e.url.startsWith("/clients")) {
       if (!(userTemp?.role <= rolesConfig.manager)) {
         return route("/", true);

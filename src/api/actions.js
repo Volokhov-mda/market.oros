@@ -288,6 +288,22 @@ export const fetchCartAction = {
   },
 };
 
+export const fetchCartItemsAction = {
+  method: "GET",
+  endpoint: "/cart?fields=items",
+  config: {
+    needsToken: true,
+  },
+};
+
+export const fetchCartTotalAction = {
+  method: "GET",
+  endpoint: "/cart?fields=total",
+  config: {
+    needsToken: true,
+  },
+};
+
 export const addCartItem = (data) => ({
   method: "PUT",
   endpoint: "/cart",
@@ -297,9 +313,35 @@ export const addCartItem = (data) => ({
   },
 });
 
+export const editCartItem = (_id, data) => ({
+  method: "PATCH",
+  endpoint: `/cart/${_id}`,
+  body: data,
+  config: {
+    needsToken: true,
+  },
+});
+
+export const deleteCartItem = (_id) => ({
+  method: "DELETE",
+  endpoint: `/cart/${_id}`,
+  config: {
+    needsToken: true,
+  },
+});
+
 export const emptyCartAction = () => ({
   method: "DELETE",
   endpoint: `/cart`,
+  config: {
+    needsToken: true,
+  },
+});
+
+export const submitCartAction = (data) => ({
+  method: "POST",
+  endpoint: `/cart`,
+  body: data,
   config: {
     needsToken: true,
   },

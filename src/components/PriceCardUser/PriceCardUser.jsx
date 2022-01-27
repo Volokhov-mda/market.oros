@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { useEffect, useState } from "preact/hooks";
 import Img from "react-image-fade-in";
 
 import currencies from "../../data/currencies";
@@ -10,9 +11,15 @@ import UserCardFlat from "../UserCardFlat/UserCardFlat";
 
 import styles from "./price-card-user.css";
 
-const PriceCardUser = ({ className, influencer, onAddToCart, priceDescription, }) => {
+const PriceCardUser = ({ className, influencer, onAddToCart, priceDescription, isInCart, }) => {
   const { influencer: inf, price } = influencer;
   const showPrices = influencer.user.showPrices;
+
+  const [isAddedToCart, setIsAddedToCart] = useState(isInCart);
+
+  useEffect(() => {
+    setIsAddedToCart(isInCart);
+  }, [isInCart]);
 
   return (
     <UserCardFlat flags={inf.countries} className={clsx(styles.card, !!onAddToCart && styles.hoverable, className)} onclick={() => { }} aria-haspopup="true">
@@ -46,7 +53,19 @@ const PriceCardUser = ({ className, influencer, onAddToCart, priceDescription, }
 
       {!!onAddToCart && (
         <div className={styles.addToCartContainer}>
-          <FlatButton className={styles.addToCartButton} onclick={() => onAddToCart(influencer)} accent>Add to cart</FlatButton>
+          <FlatButton
+            className={styles.addToCartButton}
+            onclick={() => {
+              if (!isAddedToCart) {
+                onAddToCart(influencer);
+                setIsAddedToCart(true);
+              }
+            }}
+            accent={!isAddedToCart}
+            outlinedThin={isAddedToCart}
+          >
+            {!isAddedToCart ? "Add to cart" : "Added to cart"}
+          </FlatButton>
         </div>
       )}
 

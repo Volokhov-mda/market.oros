@@ -2,11 +2,11 @@ import CartItem from "../CartItem/CartItem";
 
 import styles from "./cart-list.css";
 
-const CartList = ({ cartItems }) => (
+const CartList = ({ cartItems, onChangeQuantity, onDelete }) => (
     <div className={styles.cartListWrapper}>
-        {cartItems.map((cartItem) =>
-            <CartItem className={styles.cartItem} influencer={cartItem.subscription} key={cartItem._id} />
-        )}
+        {cartItems ? cartItems.map((cartItem) =>
+            <CartItem className={styles.cartItem} cartItem={cartItem} onChangeQuantity={onChangeQuantity} onDelete={onDelete} key={cartItem._id} />
+        ) : null}
     </div>
 );
 

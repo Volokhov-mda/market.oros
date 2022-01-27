@@ -78,30 +78,15 @@
         transform: none;
     }
 
-    .cartTotalContainer {
-        padding: 1rem 1.5rem 1.5rem;
+    .title {
+        font-size: 1.25rem;
     }
 
     .emptyCartButton {
         display: none;
     }
 
-    .title {
-        font-size: 1.5rem;
-
-        margin-bottom: .75rem;
-    }
-
-    .horizontalSeparator {
-        margin-bottom: 1.5rem;
-        padding: 0 1.5rem;
-
-        transform: translateX(-1.5rem)
-    }
-
     .submitCartButton {
-        font-size: 1.25rem;
-
         background-color: var(--accent-color);
     }
 }

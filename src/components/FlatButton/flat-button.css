@@ -4,7 +4,7 @@
   padding: 0.75rem;
   font-size: .8333rem;
   font-weight: bold;
-  transition-property: background-color, transform, color, border-color;
+  transition-property: background-color, transform, color, border-color, filter;
   transition-duration: var(--transition-duration);
 }
 
@@ -32,4 +32,15 @@
   color: #fff;
   border-color: var(--danger-color);
   background-color: var(--danger-color);
+}
+
+.outlinedThin {
+  color: #fff;
+  border: 2px solid var(--accent-color);
+  font-weight: normal;
+}
+
+.outlinedThin:hover {
+  color: #fff;
+  background-color: rgba(255, 255, 255, .1);
 }

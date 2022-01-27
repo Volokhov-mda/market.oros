@@ -9,10 +9,14 @@ import CartItemElement from "../CartItemElement/CartItemElement";
 
 const CartItem = ({ cartItem, onChangeQuantity, onDelete, className }) => {
     useEffect(() => {
-        const deleteButton = document.getElementById("delete-button");
+        const deleteButtons = document.querySelectorAll('[id=delete-button]');
 
-        if (deleteButton) {
-            deleteButton.type = "button";
+        console.log(deleteButtons);
+
+        if (deleteButtons.length !== 0) {
+            deleteButtons.forEach(button => {
+                button.type = "button";
+            });
         }
     }, []);
 

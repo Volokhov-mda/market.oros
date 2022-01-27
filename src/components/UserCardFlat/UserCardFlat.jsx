@@ -16,9 +16,6 @@ const UserCardFlat = ({ leftButtons, rightButtons, flags, children, className, .
     )}
     {flags && (
       <>
-        {/* <div className={styles.flags}>
-          {flags.map((flag, i) => <span key={i} className={clsx("flag-icon", `flag-icon-${flag}`, styles.flag)} />)}
-        </div> */}
         <div className={styles.flags}>
           {flags.map((flag, i) => (
               <img

@@ -64,11 +64,18 @@
     text-align: center;
 }
 
-.influencerCard {
-    overflow: hidden;
+.cardWrapper {
+    position: relative;
+    height: 4.5rem;
+    width: 100%;
 }
 
-
+.influencerCard {
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+}
 
 @media screen and (max-width: 800px) {
     .cartItemWrapper {

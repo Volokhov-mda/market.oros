@@ -45,7 +45,9 @@ const CartItemElement = ({ cartItem, onChangeQuantity, onDelete, className }) =>
         <div className={clsx(styles.cartItemWrapper, className, styles.showDesktop)}>
             <div className={styles.influencerInfo}>
                 <DeleteButton className={styles.deleteButton} onDelete={() => { onDelete(cartItem); }} type="button" />
-                <PriceCardUser className={styles.influencerCard} influencer={cartItem.subscription} priceDescription="per promo post" />
+                <div className={styles.cardWrapper}>
+                    <PriceCardUser className={styles.influencerCard} influencer={cartItem.subscription} priceDescription="per promo post" />
+                </div>
             </div>
             <div className={styles.cost}>
                 <PromoPostsInput

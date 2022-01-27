@@ -8,9 +8,9 @@
   --accent-color: #72aeff;
   --accent-color-semitransparent: rgba(114, 174, 255, 0.75);
   --accent-darker-color: #3e86e4;
-  --gradient: linear-gradient(112deg, #401a27 0%, #171922 48%, #192c41 100%),
-    #ffffff;
+  --gradient: linear-gradient(112deg, #401a27 0%, #171922 48%, #192c41 100%);
   --sorting-button-background-color: #454951;
+  --delete-button-color: rgba(235, 87, 87, .5);
 
   --font-family: "Montserrat", sans-serif;
   --font-size: 24px; /* 20px */

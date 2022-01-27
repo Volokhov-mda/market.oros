@@ -2,6 +2,8 @@ import { useContext, useEffect, useState } from "preact/hooks";
 import { useMutation, useQuery } from "react-fetching-library";
 import { trackPromise } from "react-promise-tracker";
 
+import useGAEventTracker from "../../hooks/use-ga-event-tracker";
+
 import { cartItemsNumAtom, } from "../../data/atoms";
 
 import { deleteCartItem, editCartItem, emptyCartAction, fetchCartAction, fetchCartTotalAction, submitCartAction } from "../../api/actions";
@@ -22,6 +24,9 @@ import { route } from "preact-router";
 
 const Cart = () => {
     const notyf = useContext(NotyfContext);
+    const GAEventTrackerRemoveInfFromCart = useGAEventTracker("Remove influencer from the cart click");
+    const GAEventTrackerRemoveAllInfsFromCart = useGAEventTracker("Remove all influencers from the cart click");
+    const GAEventTrackerCreateOrder = useGAEventTracker("Create order click");
 
     const { register, handleSubmit } = useForm();
 
@@ -58,10 +63,15 @@ const Cart = () => {
         if (error) return;
     };
 
-    const onDeleteCartItem = async ({ _id }) => {
+    const onDeleteCartItem = async ({ subscription, _id }) => {
+        // const message = `Do you really want to remove @${subscription.influencer.nickname} from the cart?`;
+        // const isConfirmed = await showConfirmEng(message);
+        // if (!isConfirmed) return;
+
         const { error } = await trackPromise(mutateDeleteCartItem(_id));
         if (error) return;
 
+        GAEventTrackerRemoveInfFromCart("Influencer has been removed")
         notyf.success("Influencer has been removed from the cart");
         
         await onFetchCart();
@@ -75,6 +85,7 @@ const Cart = () => {
         const { error } = await trackPromise(emptyCart());
         if (error) return;
 
+        GAEventTrackerRemoveAllInfsFromCart("Cart has been emptied");
         notyf.success("The cart has been emptied");
         
         await trackPromise(onFetchCart());
@@ -94,7 +105,7 @@ const Cart = () => {
         const { error } = await trackPromise(mutateSubmitCart(data));
         if (error) return;
 
-        
+        GAEventTrackerCreateOrder("Order created");
         notyf.success("The order has been created");
         route("/market?page=1");
     };

@@ -11,13 +11,16 @@ const ShortableGrid = ({ children,  }) => {
 
     useEffect(() => {
         const pricesWrapper = document.getElementById(styles.pricesWrapper);
+        // const filtersFormWrapper = document.getElementById("filters-form-wrapper");
 
         if (pricesWrapper) {
             const gridShortenedHeight = document.getElementById(styles.gridShortened).offsetHeight;
             if (!isGridShortened) {
                 pricesWrapper.style.height = "unset";
+                // filtersFormWrapper.style.height = "unset";
             } else {
                 pricesWrapper.style.height = gridShortenedHeight ? `${gridShortenedHeight}px` : "unset";
+                // filtersFormWrapper.style.height = gridShortenedHeight ? `${gridShortenedHeight}px` : "unset";
             }
         }
     }, [isGridShortened, children, window.innerWidth]);

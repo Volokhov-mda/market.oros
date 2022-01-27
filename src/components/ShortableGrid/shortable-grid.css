@@ -7,8 +7,8 @@
   .container {
     position: relative;
   
-    margin: -4rem -4rem -7rem;
-    padding: 4rem 4rem 7rem;
+    margin: -4rem calc((100vw - var(--max-width)) / -2) -7rem;
+    padding: 4rem calc((100vw - var(--max-width)) / 2) 7rem;
   
     height: 100%;
   
@@ -37,7 +37,7 @@
   #gridShortened {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   
-    padding: 4rem 4rem 0 2rem;
+    padding: 4rem calc((100vw - var(--max-width)) / 2) 0 2rem;
     
     width: 66%;
   

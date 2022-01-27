@@ -19,6 +19,7 @@ select {
 body {
   overflow-x: clip;
   overflow-clip-margin: 2rem;
+  max-width: 100vw;
   padding: env(safe-area-inset);
   background: var(--gradient);
 }

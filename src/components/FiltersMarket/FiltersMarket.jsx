@@ -36,7 +36,7 @@ const FiltersMarket = ({ className, show, register, onSubmit, handleSubmit, filt
     }, [filterValues, filterValues?.countries]);
 
     return (
-        <div className={clsx(styles.wrapper, className)}>
+        <div id="filters-form-wrapper" className={clsx(styles.wrapper, className)}>
             <form id="filters-form" className={clsx(styles.form, styles.container, show && styles.show)} onInput={handleSubmit(onSubmit)} onChange={handleSubmit(onSubmit)}>
                 <CardFlat id="filters" className={styles.filterTabs}>
                     <FiltersTab

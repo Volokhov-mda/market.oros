@@ -24,6 +24,10 @@
     background-color: #fff;
 }
 
+.cartButton.active {
+    color: var(--accent-color);
+}
+
 .cart.active {
     background-color: var(--accent-color);
 }
@@ -39,4 +43,11 @@
     font-size: calc(1rem / 3);
     font-weight: bold;
     text-decoration: unset;
+}
+
+@media screen and (max-width: 800px) {
+    .cartCount {
+        font-size: calc(1rem / 2.5);
+        top: calc(1rem / 2 + 1px);
+    }
 }

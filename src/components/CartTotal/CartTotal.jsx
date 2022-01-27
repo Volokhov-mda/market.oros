@@ -8,18 +8,20 @@ import FlatButton from "../FlatButton/FlatButton";
 import styles from "./cart-total.css";
 
 const CartTotal = ({ cartTotal, onEmpty, onSubmit, className, register, }) => (
-    <div className={clsx(styles.cartTotalWrapper, className)}>
-        <button className={styles.emptyCartButton} onClick={onEmpty} type="button">Empty the cart</button>
+    <div className={styles.stickyWrapper}>
+        <div className={clsx(styles.cartTotalWrapper, className)}>
+            <button className={styles.emptyCartButton} onClick={onEmpty} type="button">Empty the cart</button>
 
-        <CardFlat className={styles.cartTotalContainer}>
-            <div className={styles.title}>Total:</div>
-            <div className={styles.horizontalSeparator} />
-            <CartTotalInfo audience={cartTotal.audience} posts={cartTotal.posts} price={`$${cartTotal.price}`} />
-        </CardFlat>
+            <CardFlat className={styles.cartTotalContainer}>
+                <div className={styles.title}>Total:</div>
+                <div className={styles.horizontalSeparator} />
+                <CartTotalInfo audience={cartTotal.audience} posts={cartTotal.posts} price={`$${cartTotal.price}`} />
+            </CardFlat>
 
-        <CartManagerInput {...register("manager")} />
+            <CartManagerInput {...register("manager")} />
 
-        <FlatButton className={styles.submitCartButton} onClick={onSubmit} type="submit">Create order</FlatButton>
+            <FlatButton className={styles.submitCartButton} onClick={onSubmit} type="submit">Create order</FlatButton>
+        </div>
     </div>
 );
 

@@ -27,7 +27,7 @@ import Cart from "../../routes/cart";
 
 import styles from "./app.css";
 
-ReactGA.initialize("UA-217260703-1");
+ReactGA.initialize("UA-180919978-2");
 
 const App = () => {
   const [, setUser] = useAtom(userAtom);
@@ -70,7 +70,7 @@ const App = () => {
       ReactGA.pageview("/market");
       return route("/market?page=1", true);
     }
-    else if (e.url === "/market") {
+    else if (e.url === "/market" || e.url.includes("/market?")) {
       ReactGA.pageview("/market");
       return route("/market?page=1");
     }
@@ -118,6 +118,7 @@ const App = () => {
       }
     } else if (e.url === "/cart") {
       if (userTemp?.role === rolesConfig.client) {
+        ReactGA.pageview("/cart");
         return route("/cart", true);
       }
     }

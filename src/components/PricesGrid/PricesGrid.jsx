@@ -4,6 +4,8 @@ import { route } from "preact-router";
 import { useParameterizedQuery, useQuery } from "react-fetching-library";
 import { trackPromise } from "react-promise-tracker";
 
+import useGAEventTracker from "../../hooks/use-ga-event-tracker";
+
 import NotyfContext from "../../contexts/notyf";
 
 import { addCartItem, fetchCartItemsAction, fetchCartTotalAction, } from "../../api/actions";
@@ -21,6 +23,7 @@ import styles from "./prices-grid.css";
 
 const PricesGrid = ({ prices, onEdit, onDelete, onArchive, ...props }) => {
   const notyf = useContext(NotyfContext);
+  const GAEventTrackerAddToCartButton = useGAEventTracker("Add to cart button click");
 
   const { query: addToCartQuery } = useParameterizedQuery(addCartItem);
   const { query: queryCartTotal } = useQuery(fetchCartTotalAction, false);
@@ -50,6 +53,7 @@ const PricesGrid = ({ prices, onEdit, onDelete, onArchive, ...props }) => {
 
     setCartItemsNum(payload.total.count);
 
+    GAEventTrackerAddToCartButton("Influencer added to cart")
     notyf.success("Influencer has been added to the cart");
   };
 

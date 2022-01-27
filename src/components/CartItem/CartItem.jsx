@@ -1,69 +1,35 @@
 import clsx from "clsx";
 import { useEffect, useState } from "preact/hooks";
+import SwipeToDelete from 'react-swipe-to-delete-ios';
 
-import formatPriceInputValue from "../../helpers/formatPriceInputValue";
-
-import DeleteButton from "../DeleteButton/DeleteButton";
-import PriceCardUser from "../PriceCardUser/PriceCardUser";
-import PromoPostsInput from "../PromoPostsInput/PromoPostsInput";
-import PromoPostsFinalCost from "../PromoPostsFinalCost/PromoPostsFinalCost";
+import trash from "../../assets/icons/trash.svg";
 
 import styles from "./cart-item.css";
+import CartItemElement from "../CartItemElement/CartItemElement";
 
 const CartItem = ({ cartItem, onChangeQuantity, onDelete, className }) => {
-    const [numOfPromoPosts, setNumOfPromoPosts] = useState(cartItem.quantity);
-
-    const onInput = (quantity) => {
-        quantity = formatPriceInputValue(quantity);
-        if (quantity === "") {
-            setNumOfPromoPosts("");
-            onChangeQuantity(cartItem, 1);
-            return;
-        }
-
-        let newQuantity;
-        if (!quantity || quantity == 0) {
-            newQuantity = 1;
-        } else {
-            newQuantity = quantity > 99 ? 99 : quantity
-        }
-
-        newQuantity = formatPriceInputValue(newQuantity);
-        
-        setNumOfPromoPosts(newQuantity);
-        onChangeQuantity(cartItem, newQuantity);
-    };
-
-    const onFocusOut = (quantity) => {
-        if (!numOfPromoPosts) {
-            setNumOfPromoPosts(quantity);
-            onChangeQuantity(cartItem, quantity);
-        }
-    }
-
     useEffect(() => {
-        // console.log(cartItem);
-        // console.log(`${cartItem?.price?.amount} * ${numOfPromoPosts} = ${cartItem?.price?.amount * (numOfPromoPosts || 0)}`);
-    }, [numOfPromoPosts]);
+        const deleteButton = document.getElementById("delete-button");
+
+        if (deleteButton) {
+            deleteButton.type = "button";
+        }
+    }, []);
 
     return (
-        <div className={clsx(styles.cartItemWrapper, className)}>
-            <div className={styles.influencerInfo}>
-                <DeleteButton className={styles.deleteButton} onDelete={() => { onDelete(cartItem); }} type="button" />
-                <PriceCardUser className={styles.influencerCard} influencer={cartItem.subscription} priceDescription="per promo post" />
+        <>
+            <div className={clsx(styles.swipeWrapper, styles.showMobile)}>
+                <SwipeToDelete
+                    onDelete={() => { onDelete(cartItem); }}
+                    deleteColor='var(--delete-button-color)' // default
+                    deleteComponent={<img src={trash} style={{ userSelect: "none" }} />}
+                >
+                    <CartItemElement cartItem={cartItem} onChangeQuantity={onChangeQuantity} onDelete={() => { onDelete(cartItem); }} className={className} />
+                </SwipeToDelete>
             </div>
-            <div className={styles.cost}>
-                <PromoPostsInput
-                    className={styles.promoPostsInput}
-                    numOfPromoPosts={numOfPromoPosts}
-                    setNumOfPromoPosts={setNumOfPromoPosts}
-                    onInput={(e) => { onInput(e.target.value); }}
-                    onfocusout={() => { onFocusOut(1); }}
-                />
-                <div className={styles.verticalSeparator} />
-                <PromoPostsFinalCost className={styles.total} cost={cartItem?.price?.amount} />
-            </div>
-        </div>
+
+            <CartItemElement cartItem={cartItem} onChangeQuantity={onChangeQuantity} onDelete={() => { onDelete(cartItem); }} className={clsx(className, styles.showDesktop)} />
+        </>
     );
 };
 

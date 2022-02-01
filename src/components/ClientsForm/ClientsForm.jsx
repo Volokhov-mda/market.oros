@@ -46,6 +46,12 @@ const ClientsForm = ({ onSubmit, defaultValues }) => {
           </div>
         </div>
 
+        <div className={styles.gridSectionUserInfo}>
+          <Checkbox className={styles.showPrice} markClassName={styles.showPriceMark} {...{ disabled: user.role !== rolesConfig.admin, ...register("client.showCart") }}>
+            Отображать корзину
+          </Checkbox>
+        </div>
+
         <div className={styles.influencersWrapper}>
           <div className={styles.titledGridTwoColumns}>
             <div className={styles.columnsHeader}>

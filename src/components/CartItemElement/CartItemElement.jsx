@@ -1,5 +1,8 @@
 import clsx from "clsx";
-import { useState } from "preact/hooks";
+import { useAtom } from "jotai";
+import { useEffect, useState } from "preact/hooks";
+
+import { userAtom } from "../../data/atoms";
 
 import formatPriceInputValue from "../../helpers/formatPriceInputValue";
 
@@ -11,6 +14,9 @@ import PromoPostsInput from "../PromoPostsInput/PromoPostsInput";
 import styles from "./cart-item-element.css";
 
 const CartItemElement = ({ cartItem, onChangeQuantity, onDelete, className }) => {
+    const [user] = useAtom(userAtom);
+
+    const cartItemPostPrice = cartItem.price.amount / cartItem.quantity;
     const [numOfPromoPosts, setNumOfPromoPosts] = useState(cartItem.quantity);
 
     const onInput = (quantity) => {
@@ -57,8 +63,12 @@ const CartItemElement = ({ cartItem, onChangeQuantity, onDelete, className }) =>
                     onInput={(e) => { onInput(e.target.value); }}
                     onfocusout={() => { onFocusOut(1); }}
                 />
-                <div className={styles.verticalSeparator} />
-                <PromoPostsFinalCost className={styles.total} cost={cartItem?.price?.amount} />
+                {user.showPrices && (
+                    <>
+                        <div className={styles.verticalSeparator} />
+                        <PromoPostsFinalCost className={styles.total} cost={cartItemPostPrice * numOfPromoPosts} />
+                    </>
+                )}
             </div>
         </div>
     );

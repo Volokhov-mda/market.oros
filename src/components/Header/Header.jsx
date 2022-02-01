@@ -19,7 +19,7 @@ const Header = () => {
   const setLinkActiveStyle = (pathToMatch) => isLinkActive(pathToMatch) ? styles.active : null;
 
   return (
-    <header className={clsx(styles.header, styles.clientHeader)}>
+    <header className={clsx(styles.header, user?.role === rolesConfig.client && styles.clientHeader)}>
       <Logo className={styles.logo} to="/market?page=1" />
 
       <div className={styles.links}>
@@ -28,7 +28,7 @@ const Header = () => {
         {user?.role <= rolesConfig.admin   && <Link href="/managers" className={setLinkActiveStyle("/managers")}>Менеджеры</Link>}
         {user?.role <= rolesConfig.manager && <Link href="/categories" className={setLinkActiveStyle("/categories")}>Категории</Link>}
         {user?.role <= rolesConfig.admin   && <Link href="/admin" className={setLinkActiveStyle("/admin")}>Admin</Link>}
-        {user?.role === rolesConfig.client && <Link href="/cart" className={setLinkActiveStyle("/cart")}><CartButton active={isLinkActive("/cart")} /></Link>}
+        {(user?.role === rolesConfig.client && user.showCart) && <Link href="/cart" className={setLinkActiveStyle("/cart")}><CartButton active={isLinkActive("/cart")} /></Link>}
 
         <LogoutButton />
       </div>

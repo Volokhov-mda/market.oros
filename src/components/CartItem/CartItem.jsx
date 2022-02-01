@@ -11,8 +11,6 @@ const CartItem = ({ cartItem, onChangeQuantity, onDelete, className }) => {
     useEffect(() => {
         const deleteButtons = document.querySelectorAll('[id=delete-button]');
 
-        console.log(deleteButtons);
-
         if (deleteButtons.length !== 0) {
             deleteButtons.forEach(button => {
                 button.type = "button";

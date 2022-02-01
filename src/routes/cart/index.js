@@ -1,6 +1,9 @@
 import { useContext, useEffect, useState } from "preact/hooks";
 import { useMutation, useQuery } from "react-fetching-library";
 import { trackPromise } from "react-promise-tracker";
+import { useAtom } from "jotai";
+import { useForm } from "react-hook-form";
+import { route } from "preact-router";
 
 import useGAEventTracker from "../../hooks/use-ga-event-tracker";
 
@@ -18,9 +21,6 @@ import Header from "../../components/Header/Header";
 import PageWrapper from "../../components/PageWrapper/PageWrapper";
 
 import styles from "./style.css";
-import { useAtom } from "jotai";
-import { useForm } from "react-hook-form";
-import { route } from "preact-router";
 
 const Cart = () => {
     const notyf = useContext(NotyfContext);

@@ -117,10 +117,11 @@ const App = () => {
         return route("/", true);
       }
     } else if (e.url === "/cart") {
-      if (userTemp?.role === rolesConfig.client) {
+      if (userTemp?.role === rolesConfig.client && userTemp.showCart) {
         ReactGA.pageview("/cart");
         return route("/cart", true);
       }
+      return route("/", true);
     }
   };
 

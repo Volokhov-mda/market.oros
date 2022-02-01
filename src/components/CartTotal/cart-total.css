@@ -75,6 +75,8 @@
 
 @media screen and (max-width: 800px) {
     .cartTotalWrapper {
+        position: static;
+
         width: 100%;
 
         transform: none;
@@ -85,7 +87,9 @@
     }
 
     .emptyCartButton {
-        display: none;
+        position: absolute;
+        top: -2rem;
+        right: 0;
     }
 
     .submitCartButton {

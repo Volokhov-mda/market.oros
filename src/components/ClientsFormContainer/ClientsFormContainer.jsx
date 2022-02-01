@@ -50,7 +50,6 @@ const ClientsFormContainer = ({ defaultValues }) => {
     const influencersMapped = influencers
       .map((influencer) => {
         if (!!influencer.price && !!influencer.price.amount) {
-          console.log(influencer.price.amount);
           influencer.price.amount = influencer.price.amount.toString().replace(/[^0-9]/g, "");
         }
 

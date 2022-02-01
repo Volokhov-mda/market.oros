@@ -81,7 +81,7 @@
     }
 
     .show {
-        max-height: 20.5rem;
+        max-height: 22.5rem;
         transition-property: max-height, opacity, transform;
         transition-duration: calc(var(--transition-duration) * 3.5);
         transform: scale(1);

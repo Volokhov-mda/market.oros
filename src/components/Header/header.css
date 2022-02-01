@@ -44,4 +44,12 @@
   .header.clientHeader .links > *:not(:last-child) {
     margin-right: 1rem;
   }
+
+  .linksRowMobile {
+    flex-direction: row;
+  }
+  
+  .linksColumnMobile {
+    flex-direction: column;
+  }
 }

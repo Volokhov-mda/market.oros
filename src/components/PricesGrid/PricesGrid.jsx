@@ -89,6 +89,7 @@ const PricesGrid = ({ prices, onEdit, onDelete, onArchive, ...props }) => {
           ) : (
             <PriceCardUser
               {...price}
+              showAddToCartButton={user?.showCart}
               onAddToCart={onAddToCart}
               isInCart={cartItems?.find((cartItem) => cartItem.subscription._id === price.influencer._id)}
               key={i}

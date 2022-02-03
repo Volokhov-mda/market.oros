@@ -28,10 +28,17 @@
   display: grid;
   align-items: center;
   grid-gap: .666rem;
+}
+
+.nicknameWrapper {
   grid-template-columns: calc(50% - 0.5rem) 1fr;
 }
 
 .columnsHeader {
+  grid-template-columns: minmax(0, calc(12.5% - 0.5rem)) minmax(0, calc(37.5% - 0.5rem)) minmax(0, 1fr);
+
+  align-self: center;
+
   font-size: .8333rem;
 }
 
@@ -46,13 +53,14 @@
   grid-template-columns: calc(50% - 0.5rem) 1fr;
 }
 
-.showPrice {
+.clientCheckbox {
   display: flex;
   grid-template-columns: 1.333rem auto;
   
   width: 100%;
 
   font-size: .8333rem;
+  font-weight: normal;
 }
 
 .showPriceMark {
@@ -67,11 +75,6 @@
   height: 11px;
 }
 
-.titledGridTwoColumns {
-  display: grid;
-  grid-gap: .5rem;
-}
-
 .categoriesWrapper {
   display: grid;
   grid-gap: 1rem;
@@ -80,6 +83,8 @@
 
 .rowsTitle {
   display: flex;
+  align-items: center;
+
   font-size: .8333rem;
   font-weight: bold;
 }
@@ -110,15 +115,11 @@
   }
 
   .columnsHeader {
-    grid-template-columns: none;
-    grid-gap: 2rem;
+    grid-template-columns: minmax(0, calc(50% - .5rem)) minmax(0, 1fr);
+    grid-row-gap: 2rem;
   }
 
-  .rowsTitle {
-    grid-row: 2;
-  }
-
-  .showPrice {
+  .clientCheckbox {
     grid-row: 1;
   }
 }

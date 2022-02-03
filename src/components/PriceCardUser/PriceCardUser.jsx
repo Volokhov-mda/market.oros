@@ -11,7 +11,7 @@ import UserCardFlat from "../UserCardFlat/UserCardFlat";
 
 import styles from "./price-card-user.css";
 
-const PriceCardUser = ({ className, influencer, onAddToCart, priceDescription, isInCart, }) => {
+const PriceCardUser = ({ className, influencer, showAddToCartButton, onAddToCart, priceDescription, isInCart, }) => {
   const { influencer: inf, price } = influencer;
   const showPrices = influencer.user.showPrices;
 
@@ -22,7 +22,7 @@ const PriceCardUser = ({ className, influencer, onAddToCart, priceDescription, i
   }, [isInCart]);
 
   return (
-    <UserCardFlat flags={inf.countries} className={clsx(styles.card, !!onAddToCart && styles.hoverable, className)} onclick={() => { }} aria-haspopup="true">
+    <UserCardFlat flags={inf.countries} className={clsx(styles.card, showAddToCartButton && !!onAddToCart && styles.hoverable, className)} onclick={() => { }} aria-haspopup="true">
       <div className={styles.thumbnailWrapper}>
         {inf.meta.avatar.thumbnail && (
           <Img
@@ -51,7 +51,7 @@ const PriceCardUser = ({ className, influencer, onAddToCart, priceDescription, i
         )}
       </div>
 
-      {!!onAddToCart && (
+      {showAddToCartButton && !!onAddToCart && (
         <div className={styles.addToCartContainer}>
           <FlatButton
             className={styles.addToCartButton}

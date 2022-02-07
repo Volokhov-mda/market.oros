@@ -27,7 +27,7 @@ const Home = () => {
       <LoginFormContainer />
 
       <footer className={styles.footer}>
-        <MarketInfo numOfInfluencers={stats ? stats.influencers : "..."} numOfAudience={stats ? stats.audience : "..."} />
+        <MarketInfo numOfInfluencers={(stats && stats.influencers) || "..."} numOfAudience={(stats && stats.audience) || "..."} />
       </footer>
     </div>
   );

@@ -79,15 +79,27 @@ const FiltersMarket = ({ className, show, register, onSubmit, handleSubmit, filt
                         onClick={() => { openTab(2); currUser.role === rolesConfig.client && GAEventTrackerFilterTab("Auditorium"); }}
                         isOpened={2 === active}
                     >
-                        <FiltersDiapazonInputs
-                            from={filterValues?.audienceLimits ? filterValues.audienceLimits.min : "0"}
-                            to={filterValues?.audienceLimits ? filterValues.audienceLimits.max : "0"}
-                            placeholderLeft={filterValues?.audienceLimits ? formatNumberSpaces(filterValues.audienceLimits.min) : "0"}
-                            placeholderRight={filterValues?.audienceLimits ? formatNumberSpaces(filterValues.audienceLimits.max) : "0"}
-                            leftRegister={register("audienceFrom")}
-                            rightRegister={register("audienceTo")}
-                            watch={watch}
-                        />
+                        {(filterValues && filterValues?.audienceLimits.min !== null && filterValues?.audienceLimits.max !== null) ? (
+                            <FiltersDiapazonInputs
+                                from={filterValues.audienceLimits.min}
+                                to={filterValues?.audienceLimits.max}
+                                placeholderLeft={formatNumberSpaces(filterValues?.audienceLimits?.min)}
+                                placeholderRight={formatNumberSpaces(filterValues?.audienceLimits?.max)}
+                                leftRegister={register("audienceFrom")}
+                                rightRegister={register("audienceTo")}
+                                watch={watch}
+                            />
+                        ) : (
+                            <FiltersDiapazonInputs
+                                from={"0"}
+                                to={"0"}
+                                placeholderLeft={"0"}
+                                placeholderRight={"0"}
+                                leftRegister={register("audienceFrom")}
+                                rightRegister={register("audienceTo")}
+                                watch={watch}
+                            />
+                        )}
                     </FiltersTab>
                     <FiltersTab
                         title={(currUser.role <= rolesConfig.manager) ? "Страна" : "Country"}

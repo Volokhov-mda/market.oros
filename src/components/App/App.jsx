@@ -55,7 +55,7 @@ const App = () => {
       setCartItemsNum(payload.total.count);
     }
 
-    fetchCartItemsNum();
+    userTemp && fetchCartItemsNum();
 
     if (localStorage.getItem("token")) {
       await trackPromise(fetchUser());

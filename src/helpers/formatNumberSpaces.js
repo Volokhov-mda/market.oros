@@ -1,6 +1,6 @@
 const formatNumberSpaces = (number) => {
-    if (number === null) return "";
-    
+    if (!number && number != 0) return "";
+
     let numFormated = number.toString();
 
     for (let i = numFormated.length - 1; i > 0; i--) {

@@ -58,16 +58,24 @@ const ClientsForm = ({ onSubmit, defaultValues }) => {
               </Checkbox>
             </div>
             <div className={styles.gridSection}>
-              {fields.map((field, index) => field.isActive && (
-                <ClientFormRow key={field.id} index={index} register={register} watch={watch} getValues={getValues} setValue={setValue} checked={field.isVisible} disabled={!showPrices} />
-              ))}
+              {fields.length ? (
+                fields.map((field, index) => field.isActive && (
+                  <ClientFormRow key={field.id} index={index} register={register} watch={watch} getValues={getValues} setValue={setValue} checked={field.isVisible} disabled={!showPrices} />
+                ))
+              ) : (
+                <div className={styles.hint}>{`Нет активных ${user.role === rolesConfig.admin ? "влиятелей" : "блогеров"}`} </div>
+              )}
             </div>
           </div>
 
           <TitledGrid gridGap={".5rem"} title={`Архивные ${user.role === rolesConfig.admin ? "влиятели" : "блогеры"}`} titleClassName={styles.rowsTitle} className={styles.gridSection}>
-            {fields.map((field, index) => !field.isActive && (
-              <ClientFormRow key={field.id} index={index} register={register} watch={watch} getValues={getValues} setValue={setValue} checked={field.isVisible} disabled={!showPrices} />
-            ))}
+            {fields.legth ? (
+              fields.map((field, index) => !field.isActive && (
+                <ClientFormRow key={field.id} index={index} register={register} watch={watch} getValues={getValues} setValue={setValue} checked={field.isVisible} disabled={!showPrices} />
+              ))
+            ) : (
+              <div className={styles.hint}>{`Нет архивированных ${user.role === rolesConfig.admin ? "влиятелей" : "блогеров"}`} </div>
+            )}
           </TitledGrid>
         </div>
       </div>

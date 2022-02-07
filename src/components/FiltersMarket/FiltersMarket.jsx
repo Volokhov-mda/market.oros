@@ -62,16 +62,30 @@ const FiltersMarket = ({ className, show, register, onSubmit, handleSubmit, filt
                             onClick={() => { openTab(1); currUser.role === rolesConfig.client && GAEventTrackerFilterTab("Cost"); }}
                             isOpened={1 === active}
                         >
-                            <FiltersDiapazonInputs
-                                from={filterValues?.priceLimits ? filterValues.priceLimits.min : "0"}
-                                to={filterValues?.priceLimits ? filterValues.priceLimits.max : "0"}
-                                placeholderLeft={filterValues?.priceLimits ? formatNumberSpaces(filterValues.priceLimits.min) : "0"}
-                                placeholderRight={filterValues?.priceLimits ? formatNumberSpaces(filterValues.priceLimits.max) : "0"}
-                                leftRegister={register("costFrom")}
-                                rightRegister={register("costTo")}
-                                watch={watch}
-                                constChar="$"
-                            />
+                            {(filterValues?.priceLimits && (filterValues.priceLimits?.min || filterValues.priceLimits?.min === 0)
+                                && (filterValues.priceLimits?.max || filterValues.priceLimits?.max === 0)) ? (
+                                <FiltersDiapazonInputs
+                                    from={filterValues.priceLimits.min}
+                                    to={filterValues.priceLimits.max}
+                                    placeholderLeft={formatNumberSpaces(filterValues.priceLimits.min)}
+                                    placeholderRight={formatNumberSpaces(filterValues.priceLimits.max)}
+                                    leftRegister={register("costFrom")}
+                                    rightRegister={register("costTo")}
+                                    watch={watch}
+                                    constChar="$"
+                                />
+                            ) : (
+                                <FiltersDiapazonInputs
+                                    from={"0"}
+                                    to={"0"}
+                                    placeholderLeft={"0"}
+                                    placeholderRight={"0"}
+                                    leftRegister={register("costFrom")}
+                                    rightRegister={register("costTo")}
+                                    watch={watch}
+                                    constChar="$"
+                                />
+                            )}
                         </FiltersTab>
                     )}
                     <FiltersTab
@@ -79,10 +93,11 @@ const FiltersMarket = ({ className, show, register, onSubmit, handleSubmit, filt
                         onClick={() => { openTab(2); currUser.role === rolesConfig.client && GAEventTrackerFilterTab("Auditorium"); }}
                         isOpened={2 === active}
                     >
-                        {(filterValues && filterValues?.audienceLimits.min !== null && filterValues?.audienceLimits.max !== null) ? (
+                        {(filterValues?.audienceLimits && (filterValues.audienceLimits?.min || filterValues.audienceLimits?.min === 0)
+                            && (filterValues.audienceLimits?.max || filterValues.audienceLimits?.max === 0)) ? (
                             <FiltersDiapazonInputs
-                                from={filterValues.audienceLimits.min}
-                                to={filterValues?.audienceLimits.max}
+                                from={filterValues?.audienceLimits?.min}
+                                to={filterValues?.audienceLimits?.max}
                                 placeholderLeft={formatNumberSpaces(filterValues?.audienceLimits?.min)}
                                 placeholderRight={formatNumberSpaces(filterValues?.audienceLimits?.max)}
                                 leftRegister={register("audienceFrom")}

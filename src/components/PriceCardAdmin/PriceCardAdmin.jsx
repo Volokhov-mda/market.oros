@@ -15,7 +15,7 @@ const PriceCardAdmin = ({ influencer, onEdit, onDelete, onArchive, id }) => {
     <UserCardFlat className={styles.card} leftButtons={[editButton]} rightButtons={[archiveButton, deleteButton]} id={id}>
       <div className={styles.info}>
         <div className={styles.followers}>
-          {influencer.meta.audience || "N/A"} followers
+          {influencer.meta?.audience || "N/A"} followers
         </div>
         <Link external className={styles.name} href={influencer.link}>
           {influencer.nickname}

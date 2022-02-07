@@ -50,15 +50,23 @@ const PricesForm = ({ categories, onSubmit, defaultValues }) => {
 
         <div className={styles.clientsWrapper}>
           <TitledGrid gridGap={".5rem"} title="Активные" titleClassName={styles.rowsTitle} className={styles.gridSection}>
-            {fields.map((field, index) => field.isActive && (
-              <PriceFormRow key={field.id} index={index} register={register} watch={watch} getValues={getValues} setValue={setValue} checked={field.isVisible} priceDisabled={!field.showPrices} />
-            ))}
+            {fields.length ? (
+              fields.map((field, index) => field.isActive && (
+                <PriceFormRow key={field.id} index={index} register={register} watch={watch} getValues={getValues} setValue={setValue} checked={field.isVisible} priceDisabled={!field.showPrices} />
+              ))
+            ) : (
+              <div className={styles.hint}>Нет активных клиентов</div>
+            )}
           </TitledGrid>
 
           <TitledGrid gridGap={".5rem"} title="Архивированные" titleClassName={styles.rowsTitle} className={styles.gridSection}>
-            {fields.map((field, index) => !field.isActive && (
-              <PriceFormRow key={field.id} index={index} register={register} watch={watch} getValues={getValues} setValue={setValue} checked={field.isVisible} priceDisabled={!field.showPrices} />
-            ))}
+            {fields.length ? (
+              fields.map((field, index) => !field.isActive && (
+                <PriceFormRow key={field.id} index={index} register={register} watch={watch} getValues={getValues} setValue={setValue} checked={field.isVisible} priceDisabled={!field.showPrices} />
+              ))
+            ) : (
+              <div className={styles.hint}>Нет архивированных клиентов</div>
+            )}
           </TitledGrid>
         </div>
       </div>

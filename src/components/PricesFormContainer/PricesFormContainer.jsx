@@ -68,10 +68,12 @@ const PricesFormContainer = ({ defaultValues }) => {
       : await trackPromise(addInfluencer({ ...redactedInfluencer, _id: undefined }));
 
     if (error) return;
-    influencer._id = newInfluencer._id;
 
     if (isNewInfluencer) {
-      const { error } = await trackPromise(addSubscription(pricesMapped));
+      const pricesToAdd = pricesMapped
+        .map((price) => ({ ...price, influencer: newInfluencer._id, }));
+      
+      const { error } = await trackPromise(addSubscription(pricesToAdd));
       if (error) return;
     } else {
       const pricesToEdit = pricesMapped

@@ -23,6 +23,9 @@ const ClientsForm = ({ onSubmit, defaultValues }) => {
   const { handleSubmit, register, control, watch, getValues, setValue } = useForm({ defaultValues });
   const { fields } = useFieldArray({ control, name: "influencers" });
 
+  const isAnyActiveInfluencer = fields.some(field => field.isActive);
+  const isAnyArchiveInfluencer = fields.some(field => !field.isActive);
+
   const goBack = () => route("/clients");
 
   const clientName = watch("client.name");
@@ -58,7 +61,7 @@ const ClientsForm = ({ onSubmit, defaultValues }) => {
               </Checkbox>
             </div>
             <div className={styles.gridSection}>
-              {fields.length ? (
+              {fields.length && isAnyActiveInfluencer ? (
                 fields.map((field, index) => field.isActive && (
                   <ClientFormRow key={field.id} index={index} register={register} watch={watch} getValues={getValues} setValue={setValue} checked={field.isVisible} disabled={!showPrices} />
                 ))
@@ -69,7 +72,7 @@ const ClientsForm = ({ onSubmit, defaultValues }) => {
           </div>
 
           <TitledGrid gridGap={".5rem"} title={`Архивные ${user.role === rolesConfig.admin ? "влиятели" : "блогеры"}`} titleClassName={styles.rowsTitle} className={styles.gridSection}>
-            {fields.legth ? (
+            {fields.legth && isAnyArchiveInfluencer ? (
               fields.map((field, index) => !field.isActive && (
                 <ClientFormRow key={field.id} index={index} register={register} watch={watch} getValues={getValues} setValue={setValue} checked={field.isVisible} disabled={!showPrices} />
               ))

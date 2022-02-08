@@ -26,6 +26,9 @@ const PricesForm = ({ categories, onSubmit, defaultValues }) => {
   const categoriesSelected = getValues("influencer.categories");
   const { fields } = useFieldArray({ control, name: "prices" });
 
+  const isAnyActiveClient = fields.some(field => field.isActive);
+  const isAnyArchiveClient = fields.some(field => !field.isActive);
+
   return (
     <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
       <div className={styles.inputs}>
@@ -50,7 +53,7 @@ const PricesForm = ({ categories, onSubmit, defaultValues }) => {
 
         <div className={styles.clientsWrapper}>
           <TitledGrid gridGap={".5rem"} title="Активные" titleClassName={styles.rowsTitle} className={styles.gridSection}>
-            {fields.length ? (
+            {fields.length && isAnyActiveClient ? (
               fields.map((field, index) => field.isActive && (
                 <PriceFormRow key={field.id} index={index} register={register} watch={watch} getValues={getValues} setValue={setValue} checked={field.isVisible} priceDisabled={!field.showPrices} />
               ))
@@ -60,7 +63,7 @@ const PricesForm = ({ categories, onSubmit, defaultValues }) => {
           </TitledGrid>
 
           <TitledGrid gridGap={".5rem"} title="Архивированные" titleClassName={styles.rowsTitle} className={styles.gridSection}>
-            {fields.length ? (
+            {fields.length && isAnyArchiveClient ? (
               fields.map((field, index) => !field.isActive && (
                 <PriceFormRow key={field.id} index={index} register={register} watch={watch} getValues={getValues} setValue={setValue} checked={field.isVisible} priceDisabled={!field.showPrices} />
               ))

@@ -45,7 +45,7 @@ const PricesFormContainer = ({ defaultValues }) => {
           price.price.amount = price.price.amount.toString().replace(/[^0-9]/g, "");
         }
 
-        if (price.showPrices && !price.price?.amount) {
+        if (price.isVisible && !price.price?.amount) {
           errorPriceEmpty = true;
         }
 

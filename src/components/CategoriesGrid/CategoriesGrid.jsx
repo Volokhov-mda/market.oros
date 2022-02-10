@@ -107,7 +107,6 @@ const CategoriesGrid = ({ categories, onUpdate }) => {
                     {categories.map((category) => (
                         <CategoryCard
                             category={category}
-                            className={styles.categoryCard}
                             key={category._id}
                             onEdit={() => { setCurrCategory(category); setIsEditing(true); }}
                             onDelete={(currentUser.role === rolesConfig.admin) && onDelete}

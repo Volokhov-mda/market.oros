@@ -43,7 +43,7 @@ const SortingButton = ({ isOpen, setIsOpen, className, register, handleSubmit, o
         );
     }, []);
 
-    const classes = clsx(className, styles.wrapper);
+    const classes = clsx(styles.wrapper, className);
 
     return (
         <form className={classes} onChange={handleSubmit(onSubmit)}>

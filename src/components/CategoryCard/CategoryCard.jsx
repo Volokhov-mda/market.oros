@@ -13,6 +13,7 @@ const CategoryCard = ({ category, onEdit, onDelete, ...props }) => {
     <UserCardFlat
       leftButtons={[editButton]}
       rightButtons={[deleteButton]}
+      className={styles.categoryCard}
       {...props}
     >
       <div className={styles.name}>{category.name}</div>

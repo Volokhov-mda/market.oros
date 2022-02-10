@@ -20,7 +20,11 @@
 .priceInput {
   color: #fff;
   border-color: #fff;
-  
+}
+
+.nameInput,
+.priceInput,
+.priceInput::placeholder {
   transition-property: border-color, color;
   transition-duration: var(--transition-duration);
 }
@@ -28,14 +32,17 @@
 /* Cancelling prev style change */
 .priceInputDisabled:focus,
 .priceInput:placeholder-shown,
+.priceInput::placeholder,
 .priceInput:focus:placeholder-shown,
-.priceInput.disabled:focus {
+.priceInputDisabled:focus,
+.priceInputDisabled:focus::placeholder {
   color: rgba(255, 255, 255, .4);
   border-color: rgba(255, 255, 255, .4);
 }
 
 .priceInputDisabled,
-.priceInputDisabled:placeholder-shown {
+.priceInputDisabled:placeholder-shown,
+.priceInputDisabled::placeholder {
   color: rgba(255, 255, 255, .1);
   border-color: rgba(255, 255, 255, .1);
 }

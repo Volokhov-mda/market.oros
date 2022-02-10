@@ -41,7 +41,7 @@ const PriceFormRow = ({ register, index, checked, priceDisabled, getValues, setV
 
       <Input
         className={clsx(styles.priceInput, (!isChecked || priceDisabled) && styles.priceInputDisabled)}
-        placeholder=" "
+        placeholder="$"
         {...register(`${rowName}.price.amount`)}
         value={priceValue}
         onInput={(e) => handlePriceInput(e.target.value, currency)}

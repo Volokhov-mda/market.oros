@@ -71,7 +71,7 @@ const PricesGrid = ({ prices, onEdit, onDelete, onArchive, ...props }) => {
           <div className={styles.error}>There are no prices at the moment.</div>
         )}
 
-        {(user.role === rolesConfig.admin) && (
+        {(user.role <= rolesConfig.manager) && (
           <AddCardFlat onClick={onAdd} />
         )}
 

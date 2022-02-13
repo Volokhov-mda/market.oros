@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from "preact/hooks";
 import { useMutation, useQuery } from "react-fetching-library";
 import { trackPromise } from "react-promise-tracker";
 import { route } from "preact-router";
-import _ from "lodash";
 
 import {
   addInfluencerAction,
@@ -34,7 +33,7 @@ const PricesFormContainer = ({ defaultValues }) => {
     const redactedInfluencer = {
       ...influencer,
       countries: influencer.countries.filter(v => v !== ""),
-      categories: influencer.categories.includes("") ? undefined : influencer.categories,
+      categories: influencer.categories.includes("") ? [] : influencer.categories,
     };
 
     let errorPriceEmpty;
@@ -72,12 +71,12 @@ const PricesFormContainer = ({ defaultValues }) => {
     if (isNewInfluencer) {
       const pricesToAdd = pricesMapped
         .map((price) => ({ ...price, influencer: newInfluencer._id, }));
-      
+
       const { error } = await trackPromise(addSubscription(pricesToAdd));
       if (error) return;
     } else {
       const pricesToEdit = pricesMapped
-        .filter((price, i) => (!price._id || !_.isEqual(price.price, defaultValues.prices[i].price) || price.isVisible !== defaultValues.prices[i].isVisible))
+        .filter((price, i) => (!price._id || price.isVisible !== defaultValues.prices[i].isVisible || price.price && (price.price?.amount != defaultValues.prices[i].price.amount)))
         .map((price) => ({ ...price, price: price.price || null }));
 
       for (const price of pricesToEdit) {

@@ -4,9 +4,10 @@ import Img from "react-image-fade-in";
 
 import currencies from "../../data/currencies";
 import formatNumberSpaces from "../../helpers/formatNumberSpaces";
-import FlatButton from "../FlatButton/FlatButton";
+import shortenNumber from "../../helpers/shorten-number";
 
 import Link from "../Link/Link";
+import FlatButton from "../FlatButton/FlatButton";
 import UserCardFlat from "../UserCardFlat/UserCardFlat";
 
 import styles from "./price-card-user.css";
@@ -36,7 +37,7 @@ const PriceCardUser = ({ className, influencer, showAddToCartButton, onAddToCart
       <div className={styles.info}>
         <div className={!(showPrices && price) && styles.infoWithoutPrice}>
           <div className={styles.followers}>
-            {inf.meta.audience || "N/A"} followers
+            {shortenNumber(inf.meta.audience) || "N/A"} followers
           </div>
           <div className={styles.linkContainer}>
             <Link external className={styles.name} href={inf.link}>

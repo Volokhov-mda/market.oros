@@ -76,10 +76,8 @@ const ClientsFormContainer = ({ defaultValues }) => {
       if (error) return;
     } else {
       const influencersToEdit = influencersMapped
-        .filter((influencer, i) => (!influencer._id || !_.isEqual(influencer.price, defaultValues.influencers[i].price) || influencer.isVisible !== defaultValues.influencers[i].isVisible))
+        .filter((influencer, i) => (!influencer._id || influencer.isVisible !== defaultValues.influencers[i].isVisible) || influencer.price && (influencer.price.amount != defaultValues.influencers[i].price.amount))
         .map((influencer) => ({ ...influencer, price: influencer.price || null }));
-
-      console.log(influencersToEdit[0]);
 
       for (const influencer of influencersToEdit) {
         const { error } = influencer._id

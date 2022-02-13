@@ -4,8 +4,6 @@
     display: inline-block;
 
     width: 9.25rem;
-
-    z-index: 2;
 }
 
 .button {
@@ -24,7 +22,7 @@
     transition-property: background-color;
     transition-duration: var(--transition-duration);
 
-    z-index: 200;
+    /* z-index: 200; */
 }
 
 .currOption {

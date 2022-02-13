@@ -44,7 +44,7 @@ const FiltersMarket = ({ className, show, register, onSubmit, handleSubmit, filt
                         onClick={() => { openTab(0); currUser.role === rolesConfig.client && GAEventTrackerFilterTab("Category"); }}
                         isOpened={0 === active}
                     >
-                        {!filterValues?.categories?.length && <div className={styles.notification}>Категории отсутсвуют</div>}
+                        {!filterValues?.categories?.length && <div className={styles.notification}>{currUser.role === rolesConfig.client ? "There are no categories available" : "Категории отсутсвуют"}</div>}
                         {filterValues?.categories && filterValues.categories.map((cat, i) => (
                             <FiltersCheckbox
                                 key={i}
@@ -121,7 +121,7 @@ const FiltersMarket = ({ className, show, register, onSubmit, handleSubmit, filt
                         onClick={() => { openTab(3); currUser.role === rolesConfig.client && GAEventTrackerFilterTab("Country"); }}
                         isOpened={3 === active}
                     >
-                        {!countriesLabeled?.length && <div className={styles.notification}>Страны отсутсвуют</div>}
+                        {!countriesLabeled?.length && <div className={styles.notification}>{currUser.role === rolesConfig.client ? "There are no countries available" : "Страны отсутсвуют"}</div>}
                         {countriesLabeled && countriesLabeled.map((country, i) => (
                             <FiltersCheckbox
                                 key={i}

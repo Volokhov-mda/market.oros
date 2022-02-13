@@ -1,3 +1,5 @@
+import shortenNumber from "../../helpers/shorten-number";
+
 import ArchiveButton from "../ArchiveButton/ArchiveButton";
 import DeleteButton from "../DeleteButton/DeleteButton";
 import EditButton from "../EditButton/EditButton";
@@ -15,7 +17,7 @@ const PriceCardAdmin = ({ influencer, onEdit, onDelete, onArchive, id }) => {
     <UserCardFlat className={styles.card} leftButtons={[editButton]} rightButtons={[archiveButton, deleteButton]} id={id}>
       <div className={styles.info}>
         <div className={styles.followers}>
-          {influencer.meta?.audience || "N/A"} followers
+          {shortenNumber(influencer.meta?.audience) || "N/A"} followers
         </div>
         <Link external className={styles.name} href={influencer.link}>
           {influencer.nickname}

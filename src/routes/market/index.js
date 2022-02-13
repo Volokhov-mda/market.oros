@@ -8,7 +8,7 @@ import { route } from "preact-router";
 import {
   archiveInfluencerAction,
   deleteInfluencerAction,
-  fetchCategoriesAction,
+  // fetchCategoriesAction,
   fetchFeedAction,
   fetchInfluencersAction,
   fetchInfluencersSummaryAction,
@@ -56,17 +56,16 @@ const Market = ({ page, scroll: scrollElement }) => {
   const { mutate: archiveInfluencer } = useMutation(archiveInfluencerAction);
   const { mutate: deleteInfluencer } = useMutation(deleteInfluencerAction);
   const { query: queryInfluencersSummary } = useQuery(fetchInfluencersSummaryAction);
-  const { query: queryCategories } = useQuery(fetchCategoriesAction);
+  // const { query: queryCategories } = useQuery(fetchCategoriesAction);
 
   const usersPerPage = useRef(null);
 
   const fetchAdminFilterValues = async () => {
     const { payload: influencersSummary, } = await queryInfluencersSummary();
-    const { payload: categories } = await queryCategories();
 
     setFilterValues({
       audienceLimits: influencersSummary?.audienceLimits,
-      categories,
+      categories: influencersSummary?.categories,
       countries: influencersSummary?.countries,
     });
   };

@@ -1,32 +1,33 @@
 import clsx from "clsx";
 import { useAtom } from "jotai";
-import { useState } from "preact/hooks";
 
 import useGAEventTracker from "../../hooks/use-ga-event-tracker";
 
-import { userAtom } from "../../data/atoms";
+import { gridShortened, sortingOpened, userAtom } from "../../data/atoms";
 import rolesConfig from "../../data/rolesConfig";
 
 import chevron from "./../../assets/icons/chevron-right.svg";
 
 import styles from "./filter-button.css";
 
-const FilterButton = ({ className, onFilterClick }) => {
+const FilterButton = ({ className, }) => {
     const [currUser] = useAtom(userAtom);
-    const [isOpen, setIsOpen] = useState(false);
+    const [, setIsSortingOpen] = useAtom(sortingOpened);
+    const [isGridShortened, setIsGridShortened] = useAtom(gridShortened);
+
     const GAEventTrackerFilter = useGAEventTracker("Filter Button Click");
 
     const handleFilterClick = () => {
-        currUser.role === rolesConfig.client && GAEventTrackerFilter(`Filter button ${!isOpen ? "Opened" : "Closed"}`);
-        setIsOpen(!isOpen);
-        onFilterClick && onFilterClick();
+        currUser.role === rolesConfig.client && GAEventTrackerFilter(`Filter button ${!isGridShortened ? "Opened" : "Closed"}`);
+        setIsGridShortened(!isGridShortened);
+        window.innerWidth <= 500 && setIsSortingOpen(false);
     }
 
     return (
         <button onClick={handleFilterClick} className={clsx(className, styles.filter)}>
             <span>{currUser.role <= rolesConfig.manager ? "Фильтр" : "Filter"}</span>
             <div className={styles.imgWrapper}>
-                <img src={chevron} className={clsx(styles.chevron, isOpen && styles.open)} />
+                <img src={chevron} className={clsx(styles.chevron, isGridShortened && styles.open)} />
             </div>
         </button>
     );

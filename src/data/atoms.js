@@ -7,3 +7,4 @@ export const contextReorderButtonAtom = atom(undefined);
 export const contextArchiveButtonAtom = atom(undefined);
 
 export const gridShortened = atom(false);
+export const sortingOpened = atom(false);

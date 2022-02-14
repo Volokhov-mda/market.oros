@@ -3,7 +3,7 @@ import { useAtom } from "jotai";
 import { useEffect, useState } from "preact/hooks";
 import _ from "lodash";
 
-import { userAtom } from "../../data/atoms";
+import { gridShortened, sortingOpened, userAtom } from "../../data/atoms";
 import rolesConfig from "../../data/rolesConfig";
 
 import useGAEventTracker from "../../hooks/use-ga-event-tracker";
@@ -15,16 +15,20 @@ import ArrowSorting from "../SvgComponents/ArrowSorting/ArrowSorting";
 
 import styles from "./sorting-button.css";
 
-const SortingButton = ({ isOpen, setIsOpen, className, register, handleSubmit, onSubmit, setValue, }) => {
+const SortingButton = ({ className, register, handleSubmit, onSubmit, setValue, }) => {
     const [currUser] = useAtom(userAtom);
+    const [isSortingOpen, setIsSortingOpen] = useAtom(sortingOpened);
+    const [, setIsGridShortened] = useAtom(gridShortened);
+    
     const [currOption, setCurrOption] = useState(undefined);
     const [isAscending, setIsAscending] = useState(undefined);
     const [sortingOptions, setSortingOptions] = useState(undefined);
     const GAEventTrackerSorting = useGAEventTracker("Sorting Button Click");
 
     const handleSortingButtonClick = () => {
-        currUser.role === rolesConfig.client && GAEventTrackerSorting(`Sorting button ${!isOpen ? "Opened" : "Closed"}`);
-        setIsOpen(!isOpen);
+        currUser.role === rolesConfig.client && GAEventTrackerSorting(`Sorting button ${!isSortingOpen ? "Opened" : "Closed"}`);
+        setIsSortingOpen(!isSortingOpen);
+        window.innerWidth <= 500 && setIsGridShortened(false);
     };
 
     useEffect(function setDefaultSortingOptions() {
@@ -47,7 +51,7 @@ const SortingButton = ({ isOpen, setIsOpen, className, register, handleSubmit, o
 
     return (
         <form className={classes} onChange={handleSubmit(onSubmit)}>
-            <button id="sorting-button" className={clsx(styles.button, isOpen && styles.open)} onClick={handleSortingButtonClick} type="button">
+            <button id="sorting-button" className={clsx(styles.button, isSortingOpen && styles.open)} onClick={handleSortingButtonClick} type="button">
                 <div className={styles.currOption}>
                     {currOption?.name || (currUser.role <= rolesConfig.manager ? "Сортировка" : "Sorting")} {currOption?.orderable && (isAscending ? <ArrowSorting className={styles.ascending} /> : <ArrowSorting className={styles.descending} />)}
                 </div>
@@ -63,7 +67,7 @@ const SortingButton = ({ isOpen, setIsOpen, className, register, handleSubmit, o
                         orderable={option.orderable}
                         selected={option === currOption}
                         setCurrOption={setCurrOption}
-                        onChoose={() => setIsOpen(false)}
+                        onChoose={() => setIsSortingOpen(false)}
                         register={register}
                         setValue={setValue}
                     />

@@ -3,7 +3,7 @@
     max-width: var(--max-width);
 
     pointer-events: none;
-    z-index: 2;
+    z-index: 1;
 }
 
 .form {
@@ -89,7 +89,5 @@
 
     .filterTabs {
         margin-bottom: 1.5rem;
-
-        background-color: #4c414a;
     }
 }

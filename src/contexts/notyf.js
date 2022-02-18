@@ -3,7 +3,7 @@ import { Notyf } from "notyf";
 
 export default createContext(
   new Notyf({
-    duration: 5000,
+    duration: 3000,
     ripple: false,
   })
 );

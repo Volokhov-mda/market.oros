@@ -1,10 +1,9 @@
-import * as React from "react";
+import { useEffect, useState } from "preact/hooks";
 import { styled, } from '@mui/material/styles';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { InputBase } from '@mui/material';
-import { useEffect } from "preact/hooks";
 
 import chevron from "./../../assets/icons/chevron-down-select.svg";
 
@@ -34,7 +33,7 @@ const BootstrapInput = styled(InputBase)(({ theme }) => ({
 }));
 
 const MultipleSelect = ({ values, valuesSelected, registerProps, }) => {
-    const [personName, setPersonName] = React.useState([]);
+    const [personName, setPersonName] = useState([]);
 
     const handleChange = (event) => {
         const { target: { value } } = event;
@@ -54,7 +53,7 @@ const MultipleSelect = ({ values, valuesSelected, registerProps, }) => {
 
     const { onChange, ...register } = registerProps;
     return (
-        <FormControl style={{ width: "100%", height: "100%" }}>
+        <FormControl style={{ width: "100%", height: "100%", }}>
             <Select
                 multiple
                 value={personName}
@@ -66,6 +65,25 @@ const MultipleSelect = ({ values, valuesSelected, registerProps, }) => {
                 IconComponent={() => (
                     <img src={chevron} style={{ position: "absolute", right: "1.5rem" }} />
                 )}
+                MenuProps={{
+                    style: {
+                        position: "absolute",
+                    },
+                    PaperProps: {
+                        style: {
+                            maxHeight: "12rem",
+                        }
+                    },
+                    anchorOrigin: {
+                        vertical: "bottom",
+                        horizontal: "center",
+                    },
+                    transformOrigin: {
+                        vertical: "top",
+                        horizontal: "center",
+                    },
+                    getContentAnchorEl: null,
+                }}
             >
                 <MenuItem
                     value={""}

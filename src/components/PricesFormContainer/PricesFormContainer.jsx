@@ -30,10 +30,11 @@ const PricesFormContainer = ({ defaultValues }) => {
 
   const onSubmit = async ({ influencer, prices }) => {
     const isNewInfluencer = !influencer._id;
+
     const redactedInfluencer = {
       ...influencer,
       countries: influencer.countries.filter(v => v !== ""),
-      categories: influencer.categories.includes("") ? [] : influencer.categories,
+      categories: !influencer.categories|| influencer.categories.includes("") ? [] : influencer.categories,
     };
 
     let errorPriceEmpty;
@@ -44,9 +45,11 @@ const PricesFormContainer = ({ defaultValues }) => {
           price.price.amount = price.price.amount.toString().replace(/[^0-9]/g, "");
         }
 
-        if (price.isVisible && !price.price?.amount) {
+        if (price.isVisible && !price.price?.amount && price.showPrices) {
           errorPriceEmpty = true;
         }
+
+        console.log(price);
 
         return {
           _id: price._id || undefined,
@@ -67,7 +70,7 @@ const PricesFormContainer = ({ defaultValues }) => {
       : await trackPromise(addInfluencer({ ...redactedInfluencer, _id: undefined }));
 
     if (error) return;
-
+    
     if (isNewInfluencer) {
       const pricesToAdd = pricesMapped
         .map((price) => ({ ...price, influencer: newInfluencer._id, }));

@@ -8,7 +8,6 @@ import FlatButton from "../FlatButton/FlatButton";
 import Input from "../Input/Input";
 import MultipleSelect from "../MultipleSelect/MultipleSelect";
 import PriceFormRow from "../PriceFormRow/PriceFormRow";
-import Select from "../Select/Select";
 import TitledGrid from "../TitledGrid/TitledGrid";
 
 import styles from "./prices-form.css";

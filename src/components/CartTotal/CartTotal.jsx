@@ -1,5 +1,7 @@
 import clsx from "clsx";
 
+import shortenNumber from "../../helpers/shorten-number";
+
 import CardFlat from "../CardFlat/CardFlat";
 import CartManagerInput from "../CartManagerInput/CartManagerInput";
 import CartTotalInfo from "../CartTotalInfo/CartTotalInfo";
@@ -15,7 +17,7 @@ const CartTotal = ({ cartTotal, onEmpty, onSubmit, className, register, }) => (
             <CardFlat className={styles.cartTotalContainer}>
                 <div className={styles.title}>Total:</div>
                 <div className={styles.horizontalSeparator} />
-                <CartTotalInfo audience={cartTotal.audience} posts={cartTotal.posts} price={`$${cartTotal.price}`} />
+                <CartTotalInfo audience={shortenNumber(cartTotal.audience)} posts={cartTotal.posts} price={`$${cartTotal.price}`} />
             </CardFlat>
 
             <CartManagerInput {...register("manager")} />

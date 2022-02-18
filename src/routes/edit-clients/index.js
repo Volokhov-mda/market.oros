@@ -16,6 +16,8 @@ const EditClietns = ({ id }) => {
   if (errorSubscriptions || errorActive || errorArchive || errorClient) return <>Во время загрузки пользователей произошла ошибка.</>;
 
   const defaultClients = useMemo(() => {
+    const influencers = [...influencersActive, ...influencersArchive];
+
     const subscriptionsFiltered = subscriptions.filter((subscription) => subscription.user._id === id).map((subscription) => ({
       _id: subscription._id,
       isVisible: subscription.isVisible,
@@ -26,7 +28,20 @@ const EditClietns = ({ id }) => {
       price: subscription.price || undefined,
     }));
 
-    return { client, influencers: subscriptionsFiltered };
+    const influencersAndSubscriptions = influencers.map((influencer) => {
+      let val;
+
+      subscriptionsFiltered.forEach(subscription => {
+        if (subscription.influencer === influencer._id) {
+          val = subscription;
+          return;
+        }
+      });
+
+      return !!val ? val : { ...influencer, _id: undefined, influencer: influencer._id };
+    });
+
+    return { client, influencers: influencersAndSubscriptions, };
   }, [client, subscriptions, influencersActive, influencersArchive]);
 
   return (

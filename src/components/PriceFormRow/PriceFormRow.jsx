@@ -32,6 +32,7 @@ const PriceFormRow = ({ register, index, checked, priceDisabled, getValues, setV
   return (
     <div className={styles.row}>
       <input type="hidden" {...register(`${rowName}._id`)} />
+      <input type="hidden" {...register(`${rowName}.user`)} />
 
       <div className={styles.influencerInfo}>
         <Checkbox {...register(`${rowName}.isVisible`)} checked={isChecked} onClick={() => setIsChecked(!isChecked)} />

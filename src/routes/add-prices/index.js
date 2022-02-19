@@ -20,8 +20,6 @@ const AddClients = () => {
     const pricesActive = activeUsers.map((user) => ({ user: user._id, name: user.name, isActive: user.isActive, price: { currency: "USD", description: "1 promo-post" }, isVisible: true, showPrices: user.showPrices, }));
     const pricesArchive = archiveUsers.map((user) => ({ user: user._id, name: user.name, isActive: user.isActive, price: { currency: "USD", description: "1 promo-post" }, isVisible: true, showPrices: user.showPrices, }));
 
-    console.log(activeUsers);
-
     return { prices: [...pricesActive, ...pricesArchive] };
   }, [usersActive, usersArchive]);
 

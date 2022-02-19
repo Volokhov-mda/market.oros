@@ -5,3 +5,13 @@
   font-size: .75rem !important;
   font-weight: normal !important;
 }
+
+@media screen and (max-width: 1000px) {
+  .paperManager {
+    top: 387px !important;
+  }
+
+  .paperAdmin {
+    top: 446px !important;
+  }
+}

@@ -4,10 +4,15 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { InputBase } from '@mui/material';
+import { useAtom } from "jotai";
+
+import { userAtom } from "../../data/atoms";
 
 import chevron from "./../../assets/icons/chevron-down-select.svg";
 
 import styles from "./multiple-select.css";
+import rolesConfig from "../../data/rolesConfig";
+import clsx from "clsx";
 
 const BootstrapInput = styled(InputBase)(({ theme }) => ({
     'label + &': {
@@ -33,6 +38,8 @@ const BootstrapInput = styled(InputBase)(({ theme }) => ({
 }));
 
 const MultipleSelect = ({ values, valuesSelected, registerProps, }) => {
+    const [user] = useAtom(userAtom);
+
     const [personName, setPersonName] = useState([]);
 
     const handleChange = (event) => {
@@ -49,6 +56,7 @@ const MultipleSelect = ({ values, valuesSelected, registerProps, }) => {
 
     useEffect(() => {
         setPersonName(valuesSelected?.length ? valuesSelected.map((valueSelected) => valueSelected._id) : [""]);
+        console.log(user.role === rolesConfig.manager ? styles.paper : styles.custom);
     }, []);
 
     const { onChange, ...register } = registerProps;
@@ -68,8 +76,15 @@ const MultipleSelect = ({ values, valuesSelected, registerProps, }) => {
                 MenuProps={{
                     style: {
                         position: "absolute",
+                        top: "0 !important",
+                        bottom: "unset !important",
+                        left: "unset !important",
+                        right: "unset !important",
+                        height: "100vh !important",
+                        width: "100vw !important"
                     },
                     PaperProps: {
+                        className: user.role === rolesConfig.manager ? styles.paperManager : styles.paperAdmin,
                         style: {
                             maxHeight: "12rem",
                         }

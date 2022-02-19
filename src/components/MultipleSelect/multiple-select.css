@@ -6,6 +6,11 @@
   font-weight: normal !important;
 }
 
+.paperManager,
+.paperAdmin {
+  top: 415px !important;
+}
+
 @media screen and (max-width: 1000px) {
   .paperManager {
     top: 387px !important;

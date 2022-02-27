@@ -75,7 +75,6 @@ const PricesGrid = ({ prices, onEdit, onDelete, onArchive, ...props }) => {
           <AddCardFlat onClick={onAdd} />
         )}
 
-
         {prices.map((price, i) => (
           (user.role <= rolesConfig.manager) ? (
             <PriceCardAdmin

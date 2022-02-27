@@ -49,8 +49,6 @@ const PricesFormContainer = ({ defaultValues }) => {
           errorPriceEmpty = true;
         }
 
-        console.log(price);
-
         return {
           _id: price._id || undefined,
           isVisible: price.isVisible,
@@ -92,7 +90,7 @@ const PricesFormContainer = ({ defaultValues }) => {
 
     notyf.success("Информация сохранена");
 
-    route("/market");
+    route("/market?page=1");
   };
 
   const fetchCategories = async () => {

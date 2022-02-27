@@ -72,7 +72,7 @@ const App = () => {
     }
     else if (e.url === "/market" || e.url.includes("/market?")) {
       ReactGA.pageview("/market");
-      return route("/market?page=1");
+      return route(e.url);
     }
     else if (e.url === "archive") {
       if (!(userTemp?.role <= rolesConfig.manager)) {

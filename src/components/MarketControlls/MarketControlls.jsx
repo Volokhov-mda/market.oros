@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { useAtom } from "jotai";
 
-import { contextReorderButtonAtom, contextArchiveButtonAtom, gridShortened, sortingOpened, userAtom } from "../../data/atoms";
+import { contextReorderButtonAtom, contextArchiveButtonAtom, userAtom } from "../../data/atoms";
 import rolesConfig from "../../data/rolesConfig";
 
 import FilterButton from "../FilterButton/FilterButton";

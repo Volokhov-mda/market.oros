@@ -45,7 +45,7 @@ const Reorder = () => {
     if (error) return;
 
     notyf.success("Порядок успешно сохранён");
-    route("/market");
+    route("/market?page=1");
   };
 
   useContextReorderButton(<Link className={styles.active} onClick={onSave}>Сохранить</Link>);

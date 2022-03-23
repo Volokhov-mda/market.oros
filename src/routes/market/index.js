@@ -1,6 +1,10 @@
 import { useContext, useEffect, useRef, useState } from "preact/hooks";
 import { useAtom } from "jotai";
-import { useMutation, useParameterizedQuery, useQuery } from "react-fetching-library";
+import {
+  useMutation,
+  useParameterizedQuery,
+  useQuery,
+} from "react-fetching-library";
 import { trackPromise } from "react-promise-tracker";
 import { useForm } from "react-hook-form";
 import { route } from "preact-router";
@@ -14,7 +18,7 @@ import {
   fetchFeedSummary,
 } from "../../api/actions";
 
-import { userAtom, } from "../../data/atoms";
+import { userAtom } from "../../data/atoms";
 import NotyfContext from "../../contexts/notyf";
 
 import rolesConfig from "../../data/rolesConfig";
@@ -36,12 +40,12 @@ const Market = ({ page, scroll: scrollElement }) => {
   const { register, handleSubmit, setValue, watch } = useForm({
     defaultValues: {
       orderby: "weight",
-    }
+    },
   });
 
   const [currentUser] = useAtom(userAtom);
 
-  const [currPageIndex, setCurrPageIndex] = useState(page ? (page - 1) : 0);
+  const [currPageIndex, setCurrPageIndex] = useState(page ? page - 1 : 0);
   const [totalNumOfPages, setTotalNumOfPages] = useState(undefined);
   const [prices, setPrices] = useState(null);
   const [filterValues, setFilterValues] = useState(null);
@@ -51,15 +55,20 @@ const Market = ({ page, scroll: scrollElement }) => {
 
   const { query: fetchFeed } = useParameterizedQuery(fetchFeedAction, false);
   const { query: queryFeedSummary } = useQuery(fetchFeedSummary);
-  const { query: fetchInfluencers } = useParameterizedQuery(fetchInfluencersAction, false);
+  const { query: fetchInfluencers } = useParameterizedQuery(
+    fetchInfluencersAction,
+    false
+  );
   const { mutate: archiveInfluencer } = useMutation(archiveInfluencerAction);
   const { mutate: deleteInfluencer } = useMutation(deleteInfluencerAction);
-  const { query: queryInfluencersSummary } = useQuery(fetchInfluencersSummaryAction);
+  const { query: queryInfluencersSummary } = useQuery(
+    fetchInfluencersSummaryAction
+  );
 
   const usersPerPage = useRef(null);
 
   const fetchAdminFilterValues = async () => {
-    const { payload: influencersSummary, } = await queryInfluencersSummary();
+    const { payload: influencersSummary } = await queryInfluencersSummary();
 
     setFilterValues({
       audienceLimits: influencersSummary?.audienceLimits,
@@ -69,7 +78,7 @@ const Market = ({ page, scroll: scrollElement }) => {
   };
 
   const fetchClientFilterValues = async () => {
-    const { payload: feedSummary, } = await queryFeedSummary();
+    const { payload: feedSummary } = await queryFeedSummary();
 
     setFilterValues({
       audienceLimits: feedSummary?.audienceLimits,
@@ -77,7 +86,7 @@ const Market = ({ page, scroll: scrollElement }) => {
       priceLimits: feedSummary?.priceLimits,
       countries: feedSummary?.countries,
     });
-  }
+  };
 
   const fetchUserPrices = async () => {
     const { payload, headers, error } = await fetchFeed(params);
@@ -102,21 +111,25 @@ const Market = ({ page, scroll: scrollElement }) => {
   };
 
   const fetchPrices = async () => {
-    const prices = (currentUser.role <= rolesConfig.manager)
-      ? await fetchAdminPrices()
-      : await fetchUserPrices();
+    const prices =
+      currentUser.role <= rolesConfig.manager
+        ? await fetchAdminPrices()
+        : await fetchUserPrices();
 
     setPrices(prices);
   };
 
   useEffect(() => {
     if (currentUser && !params) {
-      usersPerPage.current = (currentUser.role === rolesConfig.admin) ? 29 : 30;
+      usersPerPage.current = currentUser.role === rolesConfig.admin ? 29 : 30;
 
       setParams({
         page: currPageIndex + 1,
         per_page: usersPerPage.current,
-        orderby: currentUser.role === rolesConfig.client ? "influencer.weight" : "weight",
+        orderby:
+          currentUser.role === rolesConfig.client
+            ? "influencer.weight"
+            : "weight",
         order: "asc",
       });
 
@@ -129,21 +142,34 @@ const Market = ({ page, scroll: scrollElement }) => {
   }, [currentUser]);
 
   useEffect(() => {
-    currentUser && setParams({
-      ...params,
-      page: currPageIndex + 1,
-      per_page: usersPerPage.current,
-      orderby: !params?.orderby ? (currentUser.role === rolesConfig.client ? "influencer.weight" : "weight") : params.orderby,
-    });
+    currentUser &&
+      setParams({
+        ...params,
+        page: currPageIndex + 1,
+        per_page: usersPerPage.current,
+        orderby: !params?.orderby
+          ? currentUser.role === rolesConfig.client
+            ? "influencer.weight"
+            : "weight"
+          : params.orderby,
+      });
   }, [currPageIndex]);
 
-  useEffect(() => { trackPromise(fetchPrices()); }, [params])
+  useEffect(() => {
+    trackPromise(fetchPrices());
+  }, [params]);
 
   useContextReorderButton(
-    (currentUser?.role <= rolesConfig.manager) ? <Link href="/reorder">{document.body.clientWidth <= 500 ? "Порядок" : "Изменить порядок"}</Link> : null
+    currentUser?.role <= rolesConfig.manager ? (
+      <Link href="/reorder">
+        {document.body.clientWidth <= 500 ? "Порядок" : "Изменить порядок"}
+      </Link>
+    ) : null
   );
   useContextArchiveButton(
-    (currentUser?.role <= rolesConfig.manager) ? <Link href="/archive?page=1">Архив</Link> : null
+    currentUser?.role <= rolesConfig.manager ? (
+      <Link href="/archive?page=1">Архив</Link>
+    ) : null
   );
 
   const onDelete = async ({ nickname, _id }) => {
@@ -169,18 +195,29 @@ const Market = ({ page, scroll: scrollElement }) => {
 
     await trackPromise(fetchPrices());
     notyf.success("Инфлюенсер заархивирован");
-  }
+  };
 
   useEffect(() => {
     if (prices && scrollElement) {
       const target = document.getElementById(scrollElement);
-      target?.scrollIntoView({ block: 'nearest', }); // behavior: 'smooth', 
+      target?.scrollIntoView({ block: "nearest" }); // behavior: 'smooth',
+    } else {
+      window.scrollTo(0, 0);
     }
   }, [prices, scrollElement]);
 
   useEffect(() => {
-    if (currentUser && (`${window.location.pathname}${window.location.search}` !== "/market?page=1" || currPageIndex !== 0)) {
-      route(`/market?page=${currPageIndex + 1}${scrollElement ? `&scroll=${scrollElement}` : ""}`);
+    if (
+      currentUser &&
+      (`${window.location.pathname}${window.location.search}` !==
+        "/market?page=1" ||
+        currPageIndex !== 0)
+    ) {
+      route(
+        `/market?page=${currPageIndex + 1}${
+          scrollElement ? `&scroll=${scrollElement}` : ""
+        }`
+      );
     }
   }, [currentUser, currPageIndex, scrollElement]);
 
@@ -191,9 +228,19 @@ const Market = ({ page, scroll: scrollElement }) => {
   }, [totalNumOfPages]);
 
   const onSubmit = (data) => {
-    data.orderby = ((data.orderby === "meta.audience" || data.orderby === "weight") && currentUser.role === rolesConfig.client) ? `influencer.${data.orderby}` : data.orderby;
-    setParams(formatFilterParams((totalNumOfPages < currPageIndex + 1) ? 0 : currPageIndex + 1, usersPerPage.current, data));
-  }
+    data.orderby =
+      (data.orderby === "meta.audience" || data.orderby === "weight") &&
+      currentUser.role === rolesConfig.client
+        ? `influencer.${data.orderby}`
+        : data.orderby;
+    setParams(
+      formatFilterParams(
+        totalNumOfPages < currPageIndex + 1 ? 0 : currPageIndex + 1,
+        usersPerPage.current,
+        data
+      )
+    );
+  };
 
   return (
     <>

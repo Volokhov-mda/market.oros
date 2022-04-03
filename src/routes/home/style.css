@@ -28,6 +28,8 @@
 
 @media screen and (max-width: 650px) {
   .footer {
-    bottom: 4rem;
+    bottom: unset;
+    top: calc(50% + 10rem);
+    transform: translateY(-50%);
   }
 }

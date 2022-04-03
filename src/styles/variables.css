@@ -10,14 +10,14 @@
   --accent-darker-color: #3e86e4;
   --gradient: linear-gradient(112deg, #401a27 0%, #171922 48%, #192c41 100%);
   --sorting-button-background-color: #454951;
-  --delete-button-color: rgba(235, 87, 87, .5);
+  --delete-button-color: rgba(235, 87, 87, 0.5);
 
   --font-family: "Montserrat", sans-serif;
-  --font-size: 24px; /* 20px */
+  --font-size: 24px;
 
   --border-width: 5px;
   --border-radius: 8px;
-  --border-color-secondary: #5A4851;
+  --border-color-secondary: #5a4851;
   --light-border-width: 1px;
   --light-border-radius: 2px;
 

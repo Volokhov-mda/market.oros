@@ -1,12 +1,16 @@
 import { useQuery } from "react-fetching-library";
 import { route, Router } from "preact-router";
+import { useEffect, useState } from "preact/hooks";
 import { useAtom } from "jotai";
 import { trackPromise } from "react-promise-tracker";
 import ReactGA from "react-ga";
 
 import ProgressBar from "../ProgressBar/ProgressBar";
 
-import { fetchCartTotalAction, fetchCurrentUserAction } from "../../api/actions";
+import {
+  fetchCartTotalAction,
+  fetchCurrentUserAction,
+} from "../../api/actions";
 import { cartItemsNumAtom, userAtom } from "../../data/atoms";
 
 import rolesConfig from "../../data/rolesConfig";
@@ -45,7 +49,6 @@ const App = () => {
 
       setUser(payload);
       userTemp = payload;
-
     };
 
     const fetchCartItemsNum = async () => {
@@ -53,7 +56,7 @@ const App = () => {
       if (error) return;
 
       setCartItemsNum(payload.total.count);
-    }
+    };
 
     userTemp && fetchCartItemsNum();
 
@@ -69,33 +72,27 @@ const App = () => {
     if (e.url === "/") {
       ReactGA.pageview("/market");
       return route("/market?page=1", true);
-    }
-    else if (e.url === "/market" || e.url.includes("/market?")) {
+    } else if (e.url === "/market" || e.url.includes("/market?")) {
       ReactGA.pageview("/market");
       return route(e.url);
-    }
-    else if (e.url === "archive") {
+    } else if (e.url === "archive") {
       if (!(userTemp?.role <= rolesConfig.manager)) {
         return route("/", true);
       }
       return route("/archive?page=1");
-    }
-    else if (e.url === "/reorder") {
+    } else if (e.url === "/reorder") {
       if (!(userTemp?.role <= rolesConfig.admin)) {
         return route("/", true);
       }
-    }
-    else if (e.url.startsWith("/prices/")) {
+    } else if (e.url.startsWith("/prices/")) {
       if (!(userTemp?.role <= rolesConfig.manager)) {
         return route("/", true);
       }
-    }
-    else if (e.url === "/prices/add") {
+    } else if (e.url === "/prices/add") {
       if (!(userTemp?.role <= rolesConfig.manager)) {
         return route("/", true);
       }
-    }
-    else if (e.url.startsWith("/clients")) {
+    } else if (e.url.startsWith("/clients")) {
       if (!(userTemp?.role <= rolesConfig.manager)) {
         return route("/", true);
       }
@@ -131,12 +128,22 @@ const App = () => {
 
       <Router onChange={onRouteChange}>
         <Home path="/" />
-        {["/market", "/market?page=:page", "/market?scroll=:scroll", "/market?page=:page&scroll=:scroll"].map((path, i) =>
+        {[
+          "/market",
+          "/market?page=:page",
+          "/market?scroll=:scroll",
+          "/market?page=:page&scroll=:scroll",
+        ].map((path, i) => (
           <Market path={path} key={i} />
-        )}
-        {["/archive", "/archive?page=:page", "/archive?scroll=:scroll", "/archive?page=:page&scroll=:scroll"].map((path, i) =>
+        ))}
+        {[
+          "/archive",
+          "/archive?page=:page",
+          "/archive?scroll=:scroll",
+          "/archive?page=:page&scroll=:scroll",
+        ].map((path, i) => (
           <Archive path={path} key={i} />
-        )}
+        ))}
         <Reorder path="/reorder" />
         <AddPrices path="/prices/add" />
         <EditPrices path="/prices/:id" />

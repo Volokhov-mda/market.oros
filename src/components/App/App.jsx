@@ -59,13 +59,10 @@ const App = () => {
     };
 
     const changeBackgroundSize = () => {
-      if (
-        window.innerWidth <= 1000 &&
-        (e.url === "/" || e.url === "/market" || e.url.includes("/market?"))
-      ) {
-        document.body.style.backgroundSize = "auto max(100%, 3050px)";
+      if (e.url === "/" || e.url === "/market" || e.url.includes("/market?")) {
+        document.body.classList.add(styles.bodyFixedBackgroundHeight);
       } else {
-        document.body.style.backgroundSize = "auto";
+        document.body.classList.remove(styles.bodyFixedBackgroundHeight);
       }
     };
 

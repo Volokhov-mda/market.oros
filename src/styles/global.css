@@ -62,8 +62,4 @@ strong {
   select {
     font-size: calc(var(--font-size) / 1.5);
   }
-
-  body {
-    background-size: auto max(100%, 3050px);
-  }
 }

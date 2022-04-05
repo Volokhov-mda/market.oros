@@ -58,6 +58,17 @@ const App = () => {
       setCartItemsNum(payload.total.count);
     };
 
+    const changeBackgroundSize = () => {
+      if (
+        window.innerWidth <= 1000 &&
+        (e.url === "/" || e.url === "/market" || e.url.includes("/market?"))
+      ) {
+        document.body.style.backgroundSize = "auto max(100%, 3050px)";
+      } else {
+        document.body.style.backgroundSize = "auto";
+      }
+    };
+
     userTemp && fetchCartItemsNum();
 
     if (localStorage.getItem("token")) {
@@ -69,13 +80,17 @@ const App = () => {
       return route("/");
     }
 
+    changeBackgroundSize();
+
     if (e.url === "/") {
       ReactGA.pageview("/market");
       return route("/market?page=1", true);
     } else if (e.url === "/market" || e.url.includes("/market?")) {
       ReactGA.pageview("/market");
       return route(e.url);
-    } else if (e.url === "archive") {
+    }
+
+    if (e.url === "archive") {
       if (!(userTemp?.role <= rolesConfig.manager)) {
         return route("/", true);
       }

@@ -18,7 +18,6 @@ import CardFlat from "../CardFlat/CardFlat";
 import styles from "./prices-form-container.css";
 
 const PricesFormContainer = ({ defaultValues }) => {
-
   const [categories, setCategories] = useState(null);
   const notyf = useContext(NotyfContext);
 
@@ -33,51 +32,69 @@ const PricesFormContainer = ({ defaultValues }) => {
 
     const redactedInfluencer = {
       ...influencer,
-      countries: influencer.countries.filter(v => v !== ""),
-      categories: !influencer.categories|| influencer.categories.includes("") ? [] : influencer.categories,
+      countries: influencer.countries.filter((v) => v !== ""),
+      categories:
+        !influencer.categories || influencer.categories.includes("")
+          ? []
+          : influencer.categories,
     };
 
     let errorPriceEmpty;
 
-    const pricesMapped = prices
-      .map((price) => {
-        if (price.price?.amount) {
-          price.price.amount = price.price.amount.toString().replace(/[^0-9]/g, "");
-        }
+    const pricesMapped = prices.map((price) => {
+      if (price.price?.amount) {
+        price.price.amount = price.price.amount
+          .toString()
+          .replace(/[^0-9]/g, "");
+      }
 
-        if (price.isVisible && !price.price?.amount && price.showPrices) {
-          errorPriceEmpty = true;
-        }
+      if (price.isVisible && !price.price?.amount && price.showPrices) {
+        errorPriceEmpty = true;
+      }
 
-        return {
-          _id: price._id || undefined,
-          isVisible: price.isVisible,
-          user: price.user,
-          influencer: influencer._id,
-          price: price.price?.amount ? price.price : undefined,
-        }
-      });
+      return {
+        _id: price._id || undefined,
+        isVisible: price.isVisible,
+        user: price.user,
+        influencer: influencer._id,
+        price: price.price?.amount ? price.price : undefined,
+      };
+    });
 
     if (errorPriceEmpty) {
-      notyf.error(`У всех активных клиентов с включенным флагом "Отображать цену" должна быть указана цена`);
+      notyf.error(
+        `У всех активных клиентов с включенным флагом "Отображать цену" должна быть указана цена`
+      );
       return;
     }
 
     const { payload: newInfluencer, error } = redactedInfluencer._id
-      ? await trackPromise(editInfluencer(redactedInfluencer._id, redactedInfluencer))
-      : await trackPromise(addInfluencer({ ...redactedInfluencer, _id: undefined }));
+      ? await trackPromise(
+          editInfluencer(redactedInfluencer._id, redactedInfluencer)
+        )
+      : await trackPromise(
+          addInfluencer({ ...redactedInfluencer, _id: undefined })
+        );
 
     if (error) return;
-    
+
     if (isNewInfluencer) {
-      const pricesToAdd = pricesMapped
-        .map((price) => ({ ...price, influencer: newInfluencer._id, }));
+      const pricesToAdd = pricesMapped.map((price) => ({
+        ...price,
+        influencer: newInfluencer._id,
+      }));
 
       const { error } = await trackPromise(addSubscription(pricesToAdd));
       if (error) return;
     } else {
       const pricesToEdit = pricesMapped
-        .filter((price, i) => (!price._id || price.isVisible !== defaultValues.prices[i].isVisible || price.price && (price.price?.amount != defaultValues.prices[i].price.amount)))
+        .filter(
+          (price, i) =>
+            !price._id ||
+            price.isVisible !== defaultValues.prices[i].isVisible ||
+            (price.price &&
+              price.price?.amount != defaultValues.prices[i].price.amount)
+        )
         .map((price) => ({ ...price, price: price.price || null }));
 
       for (const price of pricesToEdit) {
@@ -90,7 +107,7 @@ const PricesFormContainer = ({ defaultValues }) => {
 
     notyf.success("Информация сохранена");
 
-    route("/market?page=1");
+    goBack();
   };
 
   const fetchCategories = async () => {
@@ -99,15 +116,31 @@ const PricesFormContainer = ({ defaultValues }) => {
     if (error) setCategories([]);
 
     setCategories(payload);
-  }
+  };
 
-  useEffect(() => { trackPromise(fetchCategories()); }, [])
+  useEffect(() => {
+    trackPromise(fetchCategories());
+  }, []);
 
   return (
     <CardFlat className={styles.card}>
-      {categories && <PricesForm categories={categories} onSubmit={onSubmit} defaultValues={defaultValues} />}
+      {categories && (
+        <PricesForm
+          categories={categories}
+          onSubmit={onSubmit}
+          defaultValues={defaultValues}
+        />
+      )}
     </CardFlat>
   );
+};
+
+const goBack = () => {
+  if (history.length > 2) {
+    history.back();
+  } else {
+    route("/market?page=1");
+  }
 };
 
 export default PricesFormContainer;

@@ -17,16 +17,17 @@ const PricesForm = ({ categories, onSubmit, defaultValues }) => {
     if (history.length > 2) {
       history.back();
     } else {
-      route("/market");
+      route("/market?page=1");
     }
-  }
+  };
 
-  const { handleSubmit, register, watch, getValues, setValue, control } = useForm({ defaultValues });
+  const { handleSubmit, register, watch, getValues, setValue, control } =
+    useForm({ defaultValues });
   const categoriesSelected = getValues("influencer.categories");
   const { fields } = useFieldArray({ control, name: "prices" });
 
-  const isAnyActiveClient = fields.some(field => field.isActive);
-  const isAnyArchiveClient = fields.some(field => !field.isActive);
+  const isAnyActiveClient = fields.some((field) => field.isActive);
+  const isAnyArchiveClient = fields.some((field) => !field.isActive);
 
   return (
     <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
@@ -38,34 +39,92 @@ const PricesForm = ({ categories, onSubmit, defaultValues }) => {
           </div>
 
           <div className={styles.countriesWrapper}>
-            <AutocompleteInputCountry placeholder="Страна" {...register("influencer.countries[0]")} watch={watch} />
+            <AutocompleteInputCountry
+              placeholder="Страна"
+              {...register("influencer.countries[0]")}
+              watch={watch}
+            />
 
-            <AutocompleteInputCountry className={clsx(styles.opaquePlaceholder, styles.centeredPlaceholder)} placeholder="+" {...register("influencer.countries[1]")} watch={watch} />
+            <AutocompleteInputCountry
+              className={clsx(
+                styles.opaquePlaceholder,
+                styles.centeredPlaceholder
+              )}
+              placeholder="+"
+              {...register("influencer.countries[1]")}
+              watch={watch}
+            />
 
-            <AutocompleteInputCountry className={clsx(styles.opaquePlaceholder, styles.centeredPlaceholder)} placeholder="+" {...register("influencer.countries[2]")} watch={watch} />
+            <AutocompleteInputCountry
+              className={clsx(
+                styles.opaquePlaceholder,
+                styles.centeredPlaceholder
+              )}
+              placeholder="+"
+              {...register("influencer.countries[2]")}
+              watch={watch}
+            />
           </div>
 
           <div className={styles.categoriesWrapper}>
-            <MultipleSelect registerProps={register("influencer.categories")} values={categories} valuesSelected={categoriesSelected} />
+            <MultipleSelect
+              registerProps={register("influencer.categories")}
+              values={categories}
+              valuesSelected={categoriesSelected}
+            />
           </div>
         </div>
 
         <div className={styles.clientsWrapper}>
-          <TitledGrid gridGap={".5rem"} title="Активные" titleClassName={styles.rowsTitle} className={styles.gridSection}>
+          <TitledGrid
+            gridGap={".5rem"}
+            title="Активные"
+            titleClassName={styles.rowsTitle}
+            className={styles.gridSection}
+          >
             {fields.length && isAnyActiveClient ? (
-              fields.map((field, index) => field.isActive && (
-                <PriceFormRow key={field.id} index={index} register={register} watch={watch} getValues={getValues} setValue={setValue} checked={field.isVisible} priceDisabled={!field.showPrices} />
-              ))
+              fields.map(
+                (field, index) =>
+                  field.isActive && (
+                    <PriceFormRow
+                      key={field.id}
+                      index={index}
+                      register={register}
+                      watch={watch}
+                      getValues={getValues}
+                      setValue={setValue}
+                      checked={field.isVisible}
+                      priceDisabled={!field.showPrices}
+                    />
+                  )
+              )
             ) : (
               <div className={styles.hint}>Нет активных клиентов</div>
             )}
           </TitledGrid>
 
-          <TitledGrid gridGap={".5rem"} title="Архивированные" titleClassName={styles.rowsTitle} className={styles.gridSection}>
+          <TitledGrid
+            gridGap={".5rem"}
+            title="Архивированные"
+            titleClassName={styles.rowsTitle}
+            className={styles.gridSection}
+          >
             {fields.length && isAnyArchiveClient ? (
-              fields.map((field, index) => !field.isActive && (
-                <PriceFormRow key={field.id} index={index} register={register} watch={watch} getValues={getValues} setValue={setValue} checked={field.isVisible} priceDisabled={!field.showPrices} />
-              ))
+              fields.map(
+                (field, index) =>
+                  !field.isActive && (
+                    <PriceFormRow
+                      key={field.id}
+                      index={index}
+                      register={register}
+                      watch={watch}
+                      getValues={getValues}
+                      setValue={setValue}
+                      checked={field.isVisible}
+                      priceDisabled={!field.showPrices}
+                    />
+                  )
+              )
             ) : (
               <div className={styles.hint}>Нет архивированных клиентов</div>
             )}

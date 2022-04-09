@@ -22,7 +22,7 @@ const FilterButton = ({ className, }) => {
         currUser.role === rolesConfig.client && GAEventTrackerFilter(`Filter button ${!isGridShortened ? "Opened" : "Closed"}`);
         setIsGridShortened(!isGridShortened);
         setActiveTab(null);
-        window.innerWidth <= 500 && setIsSortingOpen(false);
+        setIsSortingOpen(false);
     }
 
     return (

@@ -28,7 +28,7 @@ const SortingButton = ({ className, register, handleSubmit, onSubmit, setValue, 
     const handleSortingButtonClick = () => {
         currUser.role === rolesConfig.client && GAEventTrackerSorting(`Sorting button ${!isSortingOpen ? "Opened" : "Closed"}`);
         setIsSortingOpen(!isSortingOpen);
-        window.innerWidth <= 500 && setIsGridShortened(false);
+        setIsGridShortened(false);
     };
 
     useEffect(function setDefaultSortingOptions() {

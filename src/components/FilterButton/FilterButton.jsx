@@ -3,7 +3,7 @@ import { useAtom } from "jotai";
 
 import useGAEventTracker from "../../hooks/use-ga-event-tracker";
 
-import { gridShortened, sortingOpened, userAtom } from "../../data/atoms";
+import { activeFilterTab, gridShortened, sortingOpened, userAtom } from "../../data/atoms";
 import rolesConfig from "../../data/rolesConfig";
 
 import chevron from "./../../assets/icons/chevron-right.svg";
@@ -12,6 +12,7 @@ import styles from "./filter-button.css";
 
 const FilterButton = ({ className, }) => {
     const [currUser] = useAtom(userAtom);
+    const [, setActiveTab] = useAtom(activeFilterTab);
     const [, setIsSortingOpen] = useAtom(sortingOpened);
     const [isGridShortened, setIsGridShortened] = useAtom(gridShortened);
 
@@ -20,6 +21,7 @@ const FilterButton = ({ className, }) => {
     const handleFilterClick = () => {
         currUser.role === rolesConfig.client && GAEventTrackerFilter(`Filter button ${!isGridShortened ? "Opened" : "Closed"}`);
         setIsGridShortened(!isGridShortened);
+        setActiveTab(null);
         window.innerWidth <= 500 && setIsSortingOpen(false);
     }
 

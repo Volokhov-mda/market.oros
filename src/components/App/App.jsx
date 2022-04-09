@@ -1,6 +1,5 @@
 import { useQuery } from "react-fetching-library";
 import { route, Router } from "preact-router";
-import { useEffect, useState } from "preact/hooks";
 import { useAtom } from "jotai";
 import { trackPromise } from "react-promise-tracker";
 import ReactGA from "react-ga";

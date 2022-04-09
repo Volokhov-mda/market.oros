@@ -18,16 +18,21 @@ const Home = () => {
     if (error) return;
 
     setStats(payload);
-  }
+  };
 
-  useEffect(() => { trackPromise(fetchStats()); }, [])
+  useEffect(() => {
+    trackPromise(fetchStats());
+  }, []);
 
   return (
     <div className={styles.wrapper}>
       <LoginFormContainer />
 
       <footer className={styles.footer}>
-        <MarketInfo numOfInfluencers={(stats && stats.influencers) || "..."} numOfAudience={(stats && stats.audience) || "..."} />
+        <MarketInfo
+          numOfInfluencers={(stats && stats.influencers) || "..."}
+          numOfAudience={(stats && stats.audience) || "..."}
+        />
       </footer>
     </div>
   );

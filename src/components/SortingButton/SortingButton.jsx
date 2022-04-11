@@ -1,7 +1,6 @@
 import clsx from "clsx";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "preact/hooks";
-import _ from "lodash";
 
 import { gridShortened, sortingOpened, userAtom } from "../../data/atoms";
 import rolesConfig from "../../data/rolesConfig";
@@ -31,7 +30,7 @@ const SortingButton = ({ className, register, handleSubmit, onSubmit, setValue, 
         setIsGridShortened(false);
     };
 
-    useEffect(function setDefaultSortingOptions() {
+    useEffect(() => {
         setSortingOptions(
             (currUser.role <= rolesConfig.manager) ? ([
                 { name: "По умолчанию", value: "weight", },

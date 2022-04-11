@@ -7,10 +7,6 @@
   transition-duration: var(--transition-duration);
 }
 
-.card:not(:hover) {
-  animation: mouseOut var(--transition-duration);
-}
-
 .thumbnailWrapper {
   flex-shrink: 0;
   position: relative;
@@ -39,7 +35,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: .75rem .5rem;
+  padding: 0.75rem 0.5rem;
   max-width: calc(100% - var(--thumbnail-size));
   max-height: 4.5rem;
 }
@@ -52,9 +48,9 @@
 }
 
 .priceContainer {
-  padding-right: .5rem;
-  
-  font-size: .666rem;
+  padding-right: 0.5rem;
+
+  font-size: 0.666rem;
   line-height: 104%;
 }
 
@@ -68,12 +64,12 @@
   overflow: hidden;
   text-overflow: ellipsis;
 
-  font-size: .5833rem;
-  line-height: .8333rem;
+  font-size: 0.5833rem;
+  line-height: 0.8333rem;
 }
 
 .linkContainer {
-  margin-top: .15rem;
+  margin-top: 0.15rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -82,8 +78,8 @@
 
 .name {
   vertical-align: top;
-  font-size: .8333rem;
-  line-height: .8333rem;
+  font-size: 0.8333rem;
+  line-height: 0.8333rem;
   text-decoration: none;
   font-weight: 600;
   word-break: break-all;
@@ -96,7 +92,7 @@
 
   border-bottom-left-radius: var(--border-radius);
   border-bottom-right-radius: var(--border-radius);
-  padding: .5rem;
+  padding: 0.5rem;
 
   /* height: 3rem; */
   width: 100%;
@@ -110,22 +106,6 @@
   transition-duration: var(--transition-duration);
 }
 
-.card.hoverable:hover {
-  background-color: #584851;
-
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-
-  filter: drop-shadow(0px 0px 2rem #000000);
-
-  z-index: 20;
-}
-
-.card:hover .addToCartContainer {
-  visibility: visible;
-  opacity: 1;
-}
-
 .addToCartButton {
   display: flex;
   justify-content: center;
@@ -136,7 +116,51 @@
 
   height: 1.75rem;
 
-  font-size: .666rem;
+  font-size: 0.666rem;
+}
+
+@media screen and (min-width: 1001px) {
+  .card.hoverable:hover {
+    background-color: #584851;
+
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+
+    filter: drop-shadow(0px 0px 2rem #000000);
+
+    z-index: 20;
+  }
+
+  .card:hover .addToCartContainer {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .card:not(:hover) {
+    animation: mouseOut var(--transition-duration);
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .card.hoverable.opened {
+    background-color: #584851;
+
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+
+    filter: drop-shadow(0px 0px 2rem #000000);
+
+    z-index: 20;
+  }
+
+  .card.opened .addToCartContainer {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .card:not(.opened) {
+    animation: mouseOut var(--transition-duration);
+  }
 }
 
 @keyframes mouseOut {

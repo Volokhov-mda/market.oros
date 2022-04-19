@@ -45,7 +45,7 @@ const Market = ({ page, scroll: scrollElement }) => {
 
   const [currentUser] = useAtom(userAtom);
 
-  const [currPageIndex, setCurrPageIndex] = useState(page ? page - 1 : 0);
+  const [currPageIndex, setCurrPageIndex] = useState(null);
   const [totalNumOfPages, setTotalNumOfPages] = useState(undefined);
   const [prices, setPrices] = useState(null);
   const [filterValues, setFilterValues] = useState(null);
@@ -142,6 +142,10 @@ const Market = ({ page, scroll: scrollElement }) => {
   }, [currentUser]);
 
   useEffect(() => {
+    setCurrPageIndex(page && page > 0 ? page - 1 : 0);
+  }, [page]);
+
+  useEffect(() => {
     currentUser &&
       setParams({
         ...params,
@@ -200,7 +204,11 @@ const Market = ({ page, scroll: scrollElement }) => {
   useEffect(() => {
     if (prices && scrollElement) {
       const target = document.getElementById(scrollElement);
-      target?.scrollIntoView({ block: "nearest" }); // behavior: 'smooth',
+      window.scrollTo(
+        0,
+        target?.getBoundingClientRect().top - (window.innerHeight - target?.clientHeight) / 2
+      );
+      // target?.scrollIntoView({ block: "end" }); // behavior: 'smooth',
     } else {
       window.scrollTo(0, 0);
     }

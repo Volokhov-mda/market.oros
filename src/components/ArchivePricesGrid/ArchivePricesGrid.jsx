@@ -20,7 +20,7 @@ const ArchivePricesGrid = ({ prices, onEdit, onDelete, onRestore, ...props }) =>
         <PriceCardArchive
           {...price}
           key={price._id}
-          id={i}
+          name={i}
           onEdit={onEdit}
           onDelete={onDelete}
           onRestore={onRestore}

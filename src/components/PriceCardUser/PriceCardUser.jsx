@@ -32,17 +32,12 @@ const PriceCardUser = ({
   const [open, toggleOpen] = useToggle(false);
 
   useClickOutside(ref, () => {
-    console.log("click out");
     open && toggleOpen();
   });
 
   useEffect(() => {
     setIsAddedToCart(isInCart);
   }, [isInCart]);
-
-  useEffect(() => {
-    console.log(open);
-  }, [open]);
 
   return (
     <div ref={ref}>

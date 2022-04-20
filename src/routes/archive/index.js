@@ -1,6 +1,10 @@
 import { useContext, useEffect, useState } from "preact/hooks";
 import { useAtom } from "jotai";
-import { useMutation, useParameterizedQuery, useQuery } from "react-fetching-library";
+import {
+  useMutation,
+  useParameterizedQuery,
+  useQuery,
+} from "react-fetching-library";
 import { trackPromise } from "react-promise-tracker";
 import { route } from "preact-router";
 import { useForm } from "react-hook-form";
@@ -13,7 +17,7 @@ import {
   restoreInfluencerAction,
 } from "../../api/actions";
 
-import { userAtom } from "../../data/atoms";
+import { gridShortened, userAtom } from "../../data/atoms";
 import NotyfContext from "../../contexts/notyf";
 
 import rolesConfig from "../../data/rolesConfig";
@@ -32,15 +36,15 @@ import MarketPages from "../../components/MarketPages/MarketPages";
 const Archive = ({ page, scroll: scrollElement }) => {
   history.scrollRestoration = "manual";
 
-  const { register, handleSubmit, setValue, watch, } = useForm({
+  const { register, handleSubmit, setValue, watch } = useForm({
     defaultValues: {
       orderby: "weight",
-    }
+    },
   });
 
   const [currentUser] = useAtom(userAtom);
 
-  const [currPageIndex, setCurrPageIndex] = useState(page ? (page - 1) : 0);
+  const [currPageIndex, setCurrPageIndex] = useState(page ? page - 1 : 0);
   const [totalNumOfPages, setTotalNumOfPages] = useState(undefined);
   const [prices, setPrices] = useState(null);
   const [filterValues, setFilterValues] = useState(null);
@@ -48,24 +52,30 @@ const Archive = ({ page, scroll: scrollElement }) => {
   const [params, setParams] = useState(undefined);
   const notyf = useContext(NotyfContext);
 
-  const { query: queryArchiveInfluencers } = useParameterizedQuery(fetchArchiveInfluencersAction, false);
+  const { query: queryArchiveInfluencers } = useParameterizedQuery(
+    fetchArchiveInfluencersAction,
+    false
+  );
   const { mutate: restoreInfluencer } = useMutation(restoreInfluencerAction);
   const { mutate: deleteInfluencer } = useMutation(deleteInfluencerAction);
-  const { query: queryArchiveInfluencersSummary } = useQuery(fetchArchiveInfluencersSummaryAction);
+  const { query: queryArchiveInfluencersSummary } = useQuery(
+    fetchArchiveInfluencersSummaryAction
+  );
   const { query: queryCategories } = useQuery(fetchCategoriesAction);
 
   const usersPerPage = 30;
 
   const fetchFilterValues = async () => {
-    const { payload: archiveInfluencersSummary, } = await queryArchiveInfluencersSummary();
+    const { payload: archiveInfluencersSummary } =
+      await queryArchiveInfluencersSummary();
     const { payload: categories } = await queryCategories();
 
     setFilterValues({
       audienceLimits: archiveInfluencersSummary?.audienceLimits,
       categories,
-      countries: archiveInfluencersSummary?.countries
+      countries: archiveInfluencersSummary?.countries,
     });
-  }
+  };
 
   const fetchArchivePrices = async () => {
     const { payload, headers, error } = await queryArchiveInfluencers(params);
@@ -91,21 +101,32 @@ const Archive = ({ page, scroll: scrollElement }) => {
   }, [currentUser]);
 
   useEffect(() => {
-    currentUser && setParams({
-      ...params,
-      page: currPageIndex + 1,
-      per_page: usersPerPage,
-      orderby: !params?.orderby ? (currentUser.role === rolesConfig.client ? "influencer.weight" : "weight") : params.orderby,
-    })
+    currentUser &&
+      setParams({
+        ...params,
+        page: currPageIndex + 1,
+        per_page: usersPerPage,
+        orderby: !params?.orderby
+          ? currentUser.role === rolesConfig.client
+            ? "influencer.weight"
+            : "weight"
+          : params.orderby,
+      });
   }, [currPageIndex]);
 
-  useEffect(() => { trackPromise(fetchArchivePrices()); }, [params])
+  useEffect(() => {
+    trackPromise(fetchArchivePrices());
+  }, [params]);
 
   useContextReorderButton(
-    (currentUser?.role <= 1) ? <Link href="/reorder">{document.body.clientWidth <= 500 ? "Порядок" : "Изменить порядок"}</Link> : null
+    currentUser?.role <= 1 ? (
+      <Link href="/reorder">
+        {document.body.clientWidth <= 500 ? "Порядок" : "Изменить порядок"}
+      </Link>
+    ) : null
   );
   useContextArchiveButton(
-    (currentUser?.role <= 1) ? <Link href="/market?page=1">Активные</Link> : null
+    currentUser?.role <= 1 ? <Link href="/market?page=1">Активные</Link> : null
   );
 
   const onDelete = async ({ nickname, _id }) => {
@@ -120,8 +141,8 @@ const Archive = ({ page, scroll: scrollElement }) => {
     notyf.success("Инфлюенсер удалён");
   };
 
-  const onEdit = (elementId, { _id }) => {
-    route(`/archive?page=${currPageIndex + 1}&scroll=${elementId}`);
+  const onEdit = (elementName, { _id }) => {
+    route(`/archive?page=${currPageIndex + 1}&scroll=${elementName}`);
     route(`/prices/${_id}`);
   };
 
@@ -131,18 +152,36 @@ const Archive = ({ page, scroll: scrollElement }) => {
 
     await trackPromise(fetchArchivePrices());
     notyf.success("Инфлюенсер восстановлен");
-  }
+  };
 
   useEffect(() => {
     if (prices && scrollElement) {
-      const target = document.getElementById(scrollElement);
-      target?.scrollIntoView({ block: 'nearest', }); // behavior: 'smooth', 
+      const targets = document.getElementsByName(`${scrollElement}`);
+      const target = targets[gridShortened ? 1 : 0];
+      const scrollY =
+        target?.getBoundingClientRect().top -
+        (window.innerHeight - target?.clientHeight) / 2;
+
+      setTimeout(() => {
+        window.scrollTo(0, scrollY);
+      }, 100);
+    } else {
+      window.scrollTo(0, 0);
     }
   }, [prices, scrollElement]);
 
   useEffect(() => {
-    if (currentUser && (`${window.location.pathname}${window.location.search}` !== "/archive?page=1" || currPageIndex !== 0)) {
-      route(`/archive?page=${currPageIndex + 1}${scrollElement ? `&scroll=${scrollElement}` : ""}`);
+    if (
+      currentUser &&
+      (`${window.location.pathname}${window.location.search}` !==
+        "/archive?page=1" ||
+        currPageIndex !== 0)
+    ) {
+      route(
+        `/archive?page=${currPageIndex + 1}${
+          scrollElement ? `&scroll=${scrollElement}` : ""
+        }`
+      );
     }
   }, [currentUser, currPageIndex, scrollElement]);
 
@@ -154,7 +193,7 @@ const Archive = ({ page, scroll: scrollElement }) => {
 
   const onSubmit = (data) => {
     setParams(formatFilterParams(currPageIndex + 1, usersPerPage, data));
-  }
+  };
 
   return (
     <>
@@ -182,7 +221,15 @@ const Archive = ({ page, scroll: scrollElement }) => {
             watch={watch}
             setValue={setValue}
           />
-          {influencersCount ? <MarketPages currPage={currPageIndex} setCurrPage={setCurrPageIndex} setTotalNumOfPages={setTotalNumOfPages} usersPerPage={usersPerPage} influencersCount={influencersCount} /> : null}
+          {influencersCount ? (
+            <MarketPages
+              currPage={currPageIndex}
+              setCurrPage={setCurrPageIndex}
+              setTotalNumOfPages={setTotalNumOfPages}
+              usersPerPage={usersPerPage}
+              influencersCount={influencersCount}
+            />
+          ) : null}
         </>
       )}
     </>

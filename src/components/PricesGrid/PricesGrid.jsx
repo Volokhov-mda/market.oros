@@ -79,7 +79,7 @@ const PricesGrid = ({ prices, onEdit, onDelete, onArchive, ...props }) => {
           (user.role <= rolesConfig.manager) ? (
             <PriceCardAdmin
               {...price}
-              id={i}
+              name={i}
               key={i}
               onEdit={onEdit}
               onDelete={onDelete}

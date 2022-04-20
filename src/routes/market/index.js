@@ -18,7 +18,7 @@ import {
   fetchFeedSummary,
 } from "../../api/actions";
 
-import { userAtom } from "../../data/atoms";
+import { gridShortened, userAtom } from "../../data/atoms";
 import NotyfContext from "../../contexts/notyf";
 
 import rolesConfig from "../../data/rolesConfig";
@@ -188,8 +188,8 @@ const Market = ({ page, scroll: scrollElement }) => {
     notyf.success("Инфлюенсер удалён");
   };
 
-  const onEdit = (elementId, { _id }) => {
-    route(`/market?page=${currPageIndex + 1}&scroll=${elementId}`);
+  const onEdit = (elementName, { _id }) => {
+    route(`/market?page=${currPageIndex + 1}&scroll=${elementName}`);
     route(`/prices/${_id}`);
   };
 
@@ -203,12 +203,15 @@ const Market = ({ page, scroll: scrollElement }) => {
 
   useEffect(() => {
     if (prices && scrollElement) {
-      const target = document.getElementById(scrollElement);
-      window.scrollTo(
-        0,
-        target?.getBoundingClientRect().top - (window.innerHeight - target?.clientHeight) / 2
-      );
-      // target?.scrollIntoView({ block: "end" }); // behavior: 'smooth',
+      const targets = document.getElementsByName(`${scrollElement}`);
+      const target = targets[gridShortened ? 1 : 0];
+      const scrollY =
+        target?.getBoundingClientRect().top -
+        (window.innerHeight - target?.clientHeight) / 2;
+
+      setTimeout(() => {
+        window.scrollTo(0, scrollY);
+      }, 100);
     } else {
       window.scrollTo(0, 0);
     }

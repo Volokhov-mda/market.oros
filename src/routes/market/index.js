@@ -45,7 +45,7 @@ const Market = ({ page, scroll: scrollElement }) => {
 
   const [currentUser] = useAtom(userAtom);
 
-  const [currPageIndex, setCurrPageIndex] = useState(null);
+  const [currPageIndex, setCurrPageIndex] = useState(page && page > 0 ? page - 1 : 0);
   const [totalNumOfPages, setTotalNumOfPages] = useState(undefined);
   const [prices, setPrices] = useState(null);
   const [filterValues, setFilterValues] = useState(null);
@@ -121,7 +121,7 @@ const Market = ({ page, scroll: scrollElement }) => {
 
   useEffect(() => {
     if (currentUser && !params) {
-      usersPerPage.current = currentUser.role === rolesConfig.admin ? 29 : 30;
+      usersPerPage.current = currentUser.role !== rolesConfig.client ? 29 : 30;
 
       setParams({
         page: currPageIndex + 1,
@@ -140,10 +140,6 @@ const Market = ({ page, scroll: scrollElement }) => {
       }
     }
   }, [currentUser]);
-
-  useEffect(() => {
-    setCurrPageIndex(page && page > 0 ? page - 1 : 0);
-  }, [page]);
 
   useEffect(() => {
     currentUser &&

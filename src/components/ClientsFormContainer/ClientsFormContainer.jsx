@@ -35,6 +35,43 @@ const ClientsFormContainer = ({ defaultValues }) => {
 
   const onSubmit = async ({ client, influencers }) => {
     const isNewClient = !client._id;
+
+    let errorPriceEmpty;
+
+    const influencersMapped = influencers.map((influencer) => {
+      if (!!influencer.price && !!influencer.price.amount) {
+        influencer.price.amount = influencer.price.amount
+          .toString()
+          .replace(/[^0-9]/g, "");
+      }
+
+      if (
+        influencer.isVisible &&
+        client.showPrices &&
+        !influencer?.price?.amount &&
+        !errorPriceEmpty
+      ) {
+        errorPriceEmpty = true;
+      }
+
+      return {
+        _id: influencer._id || undefined,
+        isVisible: influencer.isVisible,
+        influencer: influencer.influencer,
+        user: client._id,
+        price: influencer.price?.amount ? influencer.price : undefined,
+      };
+    });
+
+    if (errorPriceEmpty) {
+      notyf.error(
+        `У всех активных ${
+          user.role === rolesConfig.admin ? "влиятелей" : "блогеров"
+        } должна быть указана цена`
+      );
+      return;
+    }
+
     if (user.role === rolesConfig.admin) {
       client.role = 2;
       const { payload: newClient, error } = client._id
@@ -45,39 +82,23 @@ const ClientsFormContainer = ({ defaultValues }) => {
       client._id = newClient._id;
     }
 
-    let errorPriceEmpty;
-
-    const influencersMapped = influencers
-      .map((influencer) => {
-        if (!!influencer.price && !!influencer.price.amount) {
-          influencer.price.amount = influencer.price.amount.toString().replace(/[^0-9]/g, "");
-        }
-
-        if (influencer.isVisible && client.showPrices && !influencer.price.amount && !errorPriceEmpty) {
-          errorPriceEmpty = true;
-        }
-
-        return {
-          _id: influencer._id || undefined,
-          isVisible: influencer.isVisible,
-          influencer: influencer.influencer,
-          user: client._id,
-          price: influencer.price?.amount ? influencer.price : undefined,
-        }
-      });
-
-    if (errorPriceEmpty) {
-      notyf.error(`У всех активных ${user.role === rolesConfig.admin ? "влиятелей" : "блогеров"} должна быть указана цена`);
-      return;
-    }
-
     if (isNewClient) {
       const { error } = await trackPromise(addSubscription(influencersMapped));
       if (error) return;
     } else {
       const influencersToEdit = influencersMapped
-        .filter((influencer, i) => (!influencer._id || influencer.isVisible !== defaultValues.influencers[i].isVisible) || influencer.price && (influencer.price.amount != defaultValues.influencers[i].price.amount))
-        .map((influencer) => ({ ...influencer, price: influencer.price || null }));
+        .filter(
+          (influencer, i) =>
+            !influencer._id ||
+            influencer.isVisible !== defaultValues.influencers[i].isVisible ||
+            (influencer.price &&
+              influencer.price.amount !=
+                defaultValues.influencers[i].price.amount)
+        )
+        .map((influencer) => ({
+          ...influencer,
+          price: influencer.price || null,
+        }));
 
       for (const influencer of influencersToEdit) {
         const { error } = influencer._id
@@ -98,13 +119,21 @@ const ClientsFormContainer = ({ defaultValues }) => {
     if (error) setCategories([]);
 
     setCategories(payload);
-  }
+  };
 
-  useEffect(() => { trackPromise(fetchCategories()); }, [])
+  useEffect(() => {
+    trackPromise(fetchCategories());
+  }, []);
 
   return (
     <CardFlat className={styles.card}>
-      {categories && <ClientsForm categories={categories} onSubmit={onSubmit} defaultValues={defaultValues} />}
+      {categories && (
+        <ClientsForm
+          categories={categories}
+          onSubmit={onSubmit}
+          defaultValues={defaultValues}
+        />
+      )}
     </CardFlat>
   );
 };

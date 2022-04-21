@@ -45,7 +45,7 @@ const Market = ({ page, scroll: scrollElement }) => {
 
   const [currentUser] = useAtom(userAtom);
 
-  const [currPageIndex, setCurrPageIndex] = useState(page && page > 0 ? page - 1 : 0);
+  const [currPageIndex, setCurrPageIndex] = useState(null);
   const [totalNumOfPages, setTotalNumOfPages] = useState(undefined);
   const [prices, setPrices] = useState(null);
   const [filterValues, setFilterValues] = useState(null);
@@ -118,6 +118,12 @@ const Market = ({ page, scroll: scrollElement }) => {
 
     setPrices(prices);
   };
+
+  useEffect(() => {
+    if (page - 1 !== currPageIndex) {
+      setCurrPageIndex(page && page > 0 ? page - 1 : 0);
+    }
+  }, [page]);
 
   useEffect(() => {
     if (currentUser && !params) {
@@ -214,21 +220,6 @@ const Market = ({ page, scroll: scrollElement }) => {
   }, [prices, scrollElement]);
 
   useEffect(() => {
-    if (
-      currentUser &&
-      (`${window.location.pathname}${window.location.search}` !==
-        "/market?page=1" ||
-        currPageIndex !== 0)
-    ) {
-      route(
-        `/market?page=${currPageIndex + 1}${
-          scrollElement ? `&scroll=${scrollElement}` : ""
-        }`
-      );
-    }
-  }, [currentUser, currPageIndex, scrollElement]);
-
-  useEffect(() => {
     if (totalNumOfPages < currPageIndex + 1) {
       setCurrPageIndex(0);
     }
@@ -278,7 +269,10 @@ const Market = ({ page, scroll: scrollElement }) => {
           {influencersCount ? (
             <MarketPages
               currPage={currPageIndex}
-              setCurrPage={setCurrPageIndex}
+              onRedirect={(newPageNum) => {
+                setCurrPageIndex(newPageNum);
+                route(`/market?page=${newPageNum + 1}`);
+              }}
               setTotalNumOfPages={setTotalNumOfPages}
               usersPerPage={usersPerPage.current}
               influencersCount={influencersCount}

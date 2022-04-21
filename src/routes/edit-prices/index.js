@@ -49,8 +49,6 @@ const EditPrices = ({ id }) => {
     return <>Во время загрузки пользователей произошла ошибка.</>;
 
   const defaultValues = useMemo(() => {
-    console.log(subscriptions.filter((price) => price.influencer._id === id));
-
     const users = [...usersActive, ...usersArchive];
     const clients = users.filter((user) => user.role === rolesConfig.client);
     const subscriptionsFiltered = subscriptions

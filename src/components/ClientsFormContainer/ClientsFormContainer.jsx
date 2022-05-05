@@ -38,6 +38,25 @@ const ClientsFormContainer = ({ defaultValues }) => {
 
     let errorPriceEmpty;
 
+    if (errorPriceEmpty) {
+      notyf.error(
+        `У всех активных ${
+          user.role === rolesConfig.admin ? "влиятелей" : "блогеров"
+        } должна быть указана цена`
+      );
+      return;
+    }
+
+    if (user.role === rolesConfig.admin) {
+      client.role = 2;
+      const { payload: newClient, error } = client._id
+        ? await trackPromise(editUser(client._id, client))
+        : await trackPromise(createUser({ ...client, _id: undefined }));
+
+      if (error) return;
+      client._id = newClient._id;
+    }
+
     const influencersMapped = influencers.map((influencer) => {
       if (!!influencer.price && !!influencer.price.amount) {
         influencer.price.amount = influencer.price.amount
@@ -62,25 +81,6 @@ const ClientsFormContainer = ({ defaultValues }) => {
         price: influencer.price?.amount ? influencer.price : undefined,
       };
     });
-
-    if (errorPriceEmpty) {
-      notyf.error(
-        `У всех активных ${
-          user.role === rolesConfig.admin ? "влиятелей" : "блогеров"
-        } должна быть указана цена`
-      );
-      return;
-    }
-
-    if (user.role === rolesConfig.admin) {
-      client.role = 2;
-      const { payload: newClient, error } = client._id
-        ? await trackPromise(editUser(client._id, client))
-        : await trackPromise(createUser({ ...client, _id: undefined }));
-
-      if (error) return;
-      client._id = newClient._id;
-    }
 
     if (isNewClient) {
       const { error } = await trackPromise(addSubscription(influencersMapped));
